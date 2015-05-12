@@ -9,14 +9,13 @@ public:
 	void setColor(COLORREF rgb);
 	COLORREF getColor();
 
-	void setThick(int thick);
-	int getThick();
+	void setThick(double thick);
+	double getThick();
 
 	void setPattern(int pattern);
 	int getPattern();
 
-	void moveAll();
-	void movePoint();
+	void move(Point p, int x, int y);	//p: 클릭한 점, x : 변화한 x, y : 변화한 y
 
 	void draw();
 
@@ -30,7 +29,7 @@ public:
 	int getEnd_y();
 	void setStart_y(int y);
 	void setEnd_y(int y);
-
+	~Line();
 
 private:
 	int start_x;		// 점 관련 변수
@@ -42,7 +41,7 @@ private:
 
 	COLORREF color_l;
 
-	int thick;
+	double thick;
 
 	int pattern;
 };
