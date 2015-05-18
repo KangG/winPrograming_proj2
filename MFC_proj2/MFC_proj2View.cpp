@@ -26,6 +26,10 @@ BEGIN_MESSAGE_MAP(CMFC_proj2View, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 	ON_WM_PAINT()
+	ON_COMMAND(ID_BLine, &CMFC_proj2View::OnBline)
+	ON_COMMAND(ID_BRect, &CMFC_proj2View::OnBrect)
+	ON_COMMAND(ID_BEllipse, &CMFC_proj2View::OnBellipse)
+	ON_COMMAND(ID_BText, &CMFC_proj2View::OnBtext)
 END_MESSAGE_MAP()
 
 // CMFC_proj2View 생성/소멸
@@ -104,4 +108,32 @@ void CMFC_proj2View::OnPaint()
 	// 그리기 메시지에 대해서는 CView::OnPaint()을(를) 호출하지 마십시오.
 
 	Line *l = new Line();
+}
+
+
+void CMFC_proj2View::OnBline()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	mode = 1;
+}
+
+
+void CMFC_proj2View::OnBrect()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	mode = 2;
+}
+
+
+void CMFC_proj2View::OnBellipse()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	mode = 3;
+}
+
+
+void CMFC_proj2View::OnBtext()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	mode = 4;
 }

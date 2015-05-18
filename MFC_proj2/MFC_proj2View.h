@@ -17,6 +17,7 @@ public:
 
 	// 작업입니다.
 public:
+	int mode;
 
 	// 재정의입니다.
 public:
@@ -42,6 +43,10 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnPaint();
+	afx_msg void OnBline();
+	afx_msg void OnBrect();
+	afx_msg void OnBellipse();
+	afx_msg void OnBtext();
 };
 
 #ifndef _DEBUG  // MFC_proj2View.cpp의 디버그 버전
