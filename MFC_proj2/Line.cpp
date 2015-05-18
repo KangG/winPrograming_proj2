@@ -1,5 +1,6 @@
 # include "stdafx.h"
 # include "Line.h"
+#include "MFC_proj2View.h"
 
 Line::Line(){
 	this->start_x = 0;
@@ -66,7 +67,7 @@ void Line::move(Point p, int x, int y){
 }
 
 void Line::draw(){
-
+	
 }
 
 void Line::erase(){

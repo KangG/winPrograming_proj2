@@ -3,6 +3,7 @@
 //
 
 #include "stdafx.h"
+#include "Line.h"
 // SHARED_HANDLERS는 미리 보기, 축소판 그림 및 검색 필터 처리기를 구현하는 ATL 프로젝트에서 정의할 수 있으며
 // 해당 프로젝트와 문서 코드를 공유하도록 해 줍니다.
 #ifndef SHARED_HANDLERS
@@ -24,6 +25,7 @@ IMPLEMENT_DYNCREATE(CMFC_proj2View, CView)
 BEGIN_MESSAGE_MAP(CMFC_proj2View, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 // CMFC_proj2View 생성/소멸
@@ -48,13 +50,13 @@ BOOL CMFC_proj2View::PreCreateWindow(CREATESTRUCT& cs)
 
 // CMFC_proj2View 그리기
 
-void CMFC_proj2View::OnDraw(CDC* /*pDC*/)
+void CMFC_proj2View::OnDraw(CDC* pDC)
 {
 	CMFC_proj2Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
+	CPaintDC dc(this);
 	if (!pDoc)
 		return;
-
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 }
 
@@ -94,3 +96,11 @@ CMFC_proj2Doc* CMFC_proj2View::GetDocument() const // 디버그되지 않은 버전은 인�
 
 
 // CMFC_proj2View 메시지 처리기
+
+
+void CMFC_proj2View::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+	// 그리기 메시지에 대해서는 CView::OnPaint()을(를) 호출하지 마십시오.
+}
