@@ -30,11 +30,15 @@ BEGIN_MESSAGE_MAP(CMFC_proj2View, CView)
 	ON_COMMAND(ID_BRect, &CMFC_proj2View::OnBrect)
 	ON_COMMAND(ID_BEllipse, &CMFC_proj2View::OnBellipse)
 	ON_COMMAND(ID_BText, &CMFC_proj2View::OnBtext)
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONUP()
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 // CMFC_proj2View 생성/소멸
 
 CMFC_proj2View::CMFC_proj2View()
+: m_ptPrev(0)
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
 }
@@ -136,4 +140,36 @@ void CMFC_proj2View::OnBtext()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = 4;
+}
+
+
+void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	SetCapture();
+	m_ptPrev = point;
+	CView::OnLButtonDown(nFlags, point);
+}
+
+
+void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	ReleaseCapture();
+	CView::OnLButtonUp(nFlags, point);
+}
+
+
+void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	if (GetCapture() != this)
+		return;
+
+	CClientDC dc(this);
+	dc.MoveTo(m_ptPrev);
+	dc.LineTo(point);
+
+	m_ptPrev = point;
+	CView::OnMouseMove(nFlags, point);
 }
