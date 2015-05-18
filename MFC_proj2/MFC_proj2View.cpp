@@ -33,7 +33,6 @@ END_MESSAGE_MAP()
 CMFC_proj2View::CMFC_proj2View()
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
-
 }
 
 CMFC_proj2View::~CMFC_proj2View()
@@ -103,4 +102,6 @@ void CMFC_proj2View::OnPaint()
 	CPaintDC dc(this); // device context for painting
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
 	// 그리기 메시지에 대해서는 CView::OnPaint()을(를) 호출하지 마십시오.
+
+	Line *l = new Line();
 }

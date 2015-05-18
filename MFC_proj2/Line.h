@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Point.h"
 
+
 class Line : public Point{
 public:
 	Line();

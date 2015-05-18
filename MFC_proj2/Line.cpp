@@ -1,6 +1,5 @@
 # include "stdafx.h"
 # include "Line.h"
-#include "MFC_proj2View.h"
 
 Line::Line(){
 	this->start_x = 0;
@@ -14,6 +13,7 @@ Line::Line(){
 
 	this->thick=0.5;
 	this->pattern=0;
+	
 }
 
 void Line::setColor(COLORREF rgb){
