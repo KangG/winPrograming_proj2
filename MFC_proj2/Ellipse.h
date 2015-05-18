@@ -6,4 +6,6 @@ public:
 	Ellipse();
 
 	int GetX();
+
+	void setX();
 };
