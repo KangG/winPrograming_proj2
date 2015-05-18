@@ -12,7 +12,6 @@ public:
 
 // 특성입니다.
 public:
-
 // 작업입니다.
 public:
 
@@ -47,6 +46,7 @@ protected:
 
 public:
 	afx_msg void OnLineNew();
+//	afx_msg void OnBline();
 };
 
 

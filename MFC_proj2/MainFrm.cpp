@@ -26,7 +26,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
-	ON_COMMAND(ID_LINE_NEW, &CMainFrame::OnLineNew)
+
+//	ON_COMMAND(ID_BLine, &CMainFrame::OnBline)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -53,6 +54,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CMDIFrameWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
+
 
 	BOOL bNameValid;
 
@@ -159,6 +161,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	lstBasicCommands.AddTail(ID_VIEW_APPLOOK_WINDOWS_7);
 
 	CMFCToolBar::SetBasicCommands(lstBasicCommands);
+
+	
+
+
 
 	// 창 제목 표시줄에서 문서 이름 및 응용 프로그램 이름의 순서를 전환합니다.
 	// 문서 이름이 축소판 그림과 함께 표시되므로 작업 표시줄의 기능성이 개선됩니다.
@@ -328,11 +334,4 @@ BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParent
 	}
 
 	return TRUE;
-}
-
-
-
-void CMainFrame::OnLineNew()
-{
-	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }

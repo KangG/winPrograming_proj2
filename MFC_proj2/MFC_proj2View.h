@@ -15,7 +15,17 @@ protected: // serialization에서만 만들어집니다.
 	// 특성입니다.
 public:
 	CMFC_proj2Doc* GetDocument() const;
-
+	///////////////////////////////bline 리스트
+	BOOL bline_status = false;
+	///////////////////////////////
+	///////////////////////////////brect 리스트
+	BOOL brect_status = false;
+	CArray<CRect, CRect&> boxes; 
+	int current;
+	bool move;
+	int startx;
+	int starty;
+	///////////////////////////////
 	// 작업입니다.
 public:
 	int mode;
@@ -52,6 +62,7 @@ public:
 	afx_msg void OnBrect();
 	afx_msg void OnBellipse();
 	afx_msg void OnBtext();
+	afx_msg void OnUpdateAfxIdpAskToUpdate(CCmdUI *pCmdUI);
 };
 
 #ifndef _DEBUG  // MFC_proj2View.cpp의 디버그 버전
