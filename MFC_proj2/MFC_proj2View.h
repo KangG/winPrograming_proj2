@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "atltypes.h"
 
 
 class CMFC_proj2View : public CView
@@ -42,6 +43,10 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnPaint();
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	CPoint m_ptPrev;
 };
 
 #ifndef _DEBUG  // MFC_proj2View.cpp의 디버그 버전
