@@ -526,3 +526,4 @@ void CMFC_proj2View::OnUpdateAfxIdpAskToUpdate(CCmdUI *pCmdUI)
 	}
 
 }
+
