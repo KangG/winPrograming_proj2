@@ -26,6 +26,8 @@ public:
 	int startx;
 	int starty;
 	///////////////////////////////
+	BOOL bellipse_status = false;
+	BOOL btext_status = false;
 	// 작업입니다.
 public:
 	int mode;

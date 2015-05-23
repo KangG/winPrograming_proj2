@@ -131,16 +131,20 @@ void CMFC_proj2View::OnBline()
 
 	mode = DL;
 	if (!bline_status)
+	{
 		bline_status = true;
+		brect_status = false;
+		bellipse_status = false;
+		btext_status = false;
+	}
 	else
 	{
-		bline_status = false;
-		mode = 0;
+		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
 	}
 	/*
 		모드를 끌때는 다시한번 툴바를 눌러주어서 끄는데,
 		이때 모드를 다시 0으로 초기화 해준다.
-	
+		->다른 버튼 클릭시 자동으로 꺼지도록 변경
 	*/
 }
 
@@ -150,15 +154,20 @@ void CMFC_proj2View::OnBrect()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DR;
 	if (!brect_status)
+	{
+		bline_status = false;
 		brect_status = true;
+		bellipse_status = false;
+		btext_status = false;
+	}
 	else
 	{
-		brect_status = false;
-		mode = 0;
+		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
 	}
 	/*
 	모드를 끌때는 다시한번 툴바를 눌러주어서 끄는데,
 	이때 모드를 다시 0으로 초기화 해준다.
+	->다른 버튼 클릭시 자동으로 꺼지도록 변경
 	*/
 }
 
@@ -167,6 +176,17 @@ void CMFC_proj2View::OnBellipse()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DE;
+	if (!bellipse_status)
+	{
+		bline_status = false;
+		brect_status = false;
+		bellipse_status = true;
+		btext_status = false;
+	}
+	else
+	{
+		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
+	}
 }
 
 
@@ -174,6 +194,18 @@ void CMFC_proj2View::OnBtext()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DT;
+	if (!btext_status)
+	{
+		bline_status = false;
+		brect_status = false;
+		bellipse_status = false;
+		btext_status = true;
+	}
+	else
+	{
+		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
+	}
+	
 }
 
 
@@ -396,6 +428,7 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
 			}
 		}
+		break;
 	}
 	case DE:
 	{
@@ -434,6 +467,7 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 				dc.Ellipse(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
 			}
 		}
+		break;
 	}
 	case DT:
 	{
@@ -472,6 +506,7 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
 			}
 		}
+		break;
 	}
 	}
 }
