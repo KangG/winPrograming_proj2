@@ -17,6 +17,12 @@
 #define new DEBUG_NEW
 #endif
 
+//mode 번호
+#define DL 1		//line 그리기
+#define DR 2		//rect 그리기
+#define DE 3		//ellipse 그리기
+#define DT 4		//text 그리기
+#define DP 5		//polyline 그리기
 
 // CMFC_proj2View
 
@@ -123,7 +129,7 @@ void CMFC_proj2View::OnBline()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 
-	mode = 1;
+	mode = DL;
 	if (!bline_status)
 		bline_status = true;
 	else
@@ -142,7 +148,7 @@ void CMFC_proj2View::OnBline()
 void CMFC_proj2View::OnBrect()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	mode = 2;
+	mode = DR;
 	if (!brect_status)
 		brect_status = true;
 	else
@@ -160,14 +166,14 @@ void CMFC_proj2View::OnBrect()
 void CMFC_proj2View::OnBellipse()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	mode = 3;
+	mode = DE;
 }
 
 
 void CMFC_proj2View::OnBtext()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	mode = 4;
+	mode = DT;
 }
 
 
@@ -178,44 +184,102 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 	switch (mode)
 	{
 		/////////////////////////////bline 부분이다.
-	case(1) :
+	case DL:
 	{
-				SetCapture();
-				m_ptPrev = point;
-				CView::OnLButtonDown(nFlags, point);
-				break;
+		SetCapture();
+		m_ptPrev = point;
+		CView::OnLButtonDown(nFlags, point);
+		break;
 	}
-		/////////////////////////////rect 부분이다.
-	case(2) :
+	/////////////////////////////rect 부분이다.
+	case DR:
 	{
-				startx = point.x;
-				starty = point.y;
+		startx = point.x;
+		starty = point.y;
 
-				// 컨트롤키를 누르고 마우스 클릭
-				if (nFlags & MK_CONTROL) {
-					current = -1;
-					for (int i = 0; i<boxes.GetCount(); i++) {
-						if (boxes[i].left <= point.x && point.x <= boxes[i].right ||
-							boxes[i].right <= point.x && point.x <= boxes[i].left) {
+		// 컨트롤키를 누르고 마우스 클릭
+		if (nFlags & MK_CONTROL) {
+			current = -1;
+			for (int i = 0; i < boxes.GetCount(); i++) {
+				if (boxes[i].left <= point.x && point.x <= boxes[i].right ||
+					boxes[i].right <= point.x && point.x <= boxes[i].left) {
 
-							if (boxes[i].top <= point.y && point.y <= boxes[i].bottom ||
-								boxes[i].bottom <= point.y && point.y <= boxes[i].top) {
+					if (boxes[i].top <= point.y && point.y <= boxes[i].bottom ||
+						boxes[i].bottom <= point.y && point.y <= boxes[i].top) {
 
-								current = i;
-								move = true;
-								break;
-							}
-
-						}
-
+						current = i;
+						move = true;
+						break;
 					}
 				}
-				else {
-					CRect* box = new CRect(point.x, point.y, point.x, point.y);
-					boxes.Add(*box);
-					current = boxes.GetCount() - 1;
-				}
+			}
 		}
+		else {
+			CRect* box = new CRect(point.x, point.y, point.x, point.y);
+			boxes.Add(*box);
+			current = boxes.GetCount() - 1;
+		}
+	}
+	case DE:
+	{
+		startx = point.x;
+		starty = point.y;
+
+		// 컨트롤키를 누르고 마우스 클릭
+		if (nFlags & MK_CONTROL) {
+			current = -1;
+			for (int i = 0; i < boxes.GetCount(); i++) {
+				if (boxes[i].left <= point.x && point.x <= boxes[i].right ||
+					boxes[i].right <= point.x && point.x <= boxes[i].left) {
+
+					if (boxes[i].top <= point.y && point.y <= boxes[i].bottom ||
+						boxes[i].bottom <= point.y && point.y <= boxes[i].top) {
+
+						current = i;
+						move = true;
+						break;
+					}
+
+				}
+
+			}
+		}
+		else {
+			CRect* box = new CRect(point.x, point.y, point.x, point.y);
+			boxes.Add(*box);
+			current = boxes.GetCount() - 1;
+		}
+	}
+	case DT:
+	{
+		startx = point.x;
+		starty = point.y;
+
+		// 컨트롤키를 누르고 마우스 클릭
+		if (nFlags & MK_CONTROL) {
+			current = -1;
+			for (int i = 0; i < boxes.GetCount(); i++) {
+				if (boxes[i].left <= point.x && point.x <= boxes[i].right ||
+					boxes[i].right <= point.x && point.x <= boxes[i].left) {
+
+					if (boxes[i].top <= point.y && point.y <= boxes[i].bottom ||
+						boxes[i].bottom <= point.y && point.y <= boxes[i].top) {
+
+						current = i;
+						move = true;
+						break;
+					}
+
+				}
+
+			}
+		}
+		else {
+			CRect* box = new CRect(point.x, point.y, point.x, point.y);
+			boxes.Add(*box);
+			current = boxes.GetCount() - 1;
+		}
+	}
 	}
 }
 
@@ -225,25 +289,53 @@ void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	switch (mode)
 	{
-	case(1) :
+	case DL:
 	{
-				ReleaseCapture();
-				CView::OnLButtonUp(nFlags, point);
-				break;
+		ReleaseCapture();
+		CView::OnLButtonUp(nFlags, point);
+		break;
 	}
-	case(2):
+	case DR:
 	{
-			   if (current != -1) {
+		if (current != -1) {
 
-				   CClientDC dc(this);
-				   dc.SelectStockObject(NULL_BRUSH);
-				   dc.SetROP2(R2_COPYPEN);
+			CClientDC dc(this);
+			dc.SelectStockObject(NULL_BRUSH);
+			dc.SetROP2(R2_COPYPEN);
 
-				   dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+			dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
 
-				   current = -1;
-				   move = false;
-			   }
+			current = -1;
+			move = false;
+		}
+	}
+	case DE:
+	{
+		if (current != -1) {
+
+			CClientDC dc(this);
+			dc.SelectStockObject(NULL_BRUSH);
+			dc.SetROP2(R2_COPYPEN);
+
+			dc.Ellipse(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+
+			current = -1;
+			move = false;
+		}
+	}
+	case DT:
+	{
+		if (current != -1) {
+
+			CClientDC dc(this);
+			dc.SelectStockObject(NULL_BRUSH);
+			dc.SetROP2(R2_COPYPEN);
+
+			dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+
+			current = -1;
+			move = false;
+		}
 	}
 	}
 }
@@ -254,56 +346,132 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	switch (mode)
 	{
-	case(1) :
+	case DL:
 	{
-				if (GetCapture() != this)
-					return;
+		if (GetCapture() != this)
+			return;
+
+		CClientDC dc(this);
+		dc.MoveTo(m_ptPrev);
+		dc.LineTo(point);
+
+		m_ptPrev = point;
+		CView::OnMouseMove(nFlags, point);
+		break;
+	}
+	case DR:
+	{
+		if (nFlags & MK_LBUTTON == 1 && current != -1) {
+			if (move == false) {
 
 				CClientDC dc(this);
-				dc.MoveTo(m_ptPrev);
-				dc.LineTo(point);
+				dc.SelectStockObject(NULL_BRUSH);
+				dc.SetROP2(R2_NOT);
 
-				m_ptPrev = point;
-				CView::OnMouseMove(nFlags, point);
-				break;
+				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+
+				// 크기 변경
+				boxes[current].right = point.x;
+				boxes[current].bottom = point.y;
+
+				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+
+			}
+			else  {
+				CClientDC dc(this);
+				dc.SelectStockObject(NULL_BRUSH);
+				dc.SetROP2(R2_NOT);
+
+				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+
+				// 이동
+				boxes[current].left += point.x - startx;
+				boxes[current].top += point.y - starty;
+				boxes[current].right += point.x - startx;
+				boxes[current].bottom += point.y - starty;
+
+				startx = point.x;
+				starty = point.y;
+
+				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+			}
+		}
 	}
-	case(2):
+	case DE:
 	{
-			   if (nFlags & MK_LBUTTON == 1 && current != -1) {
-				   if (move == false) {
+		if (nFlags & MK_LBUTTON == 1 && current != -1) {
+			if (move == false) {
 
-					   CClientDC dc(this);
-					   dc.SelectStockObject(NULL_BRUSH);
-					   dc.SetROP2(R2_NOT);
+				CClientDC dc(this);
+				dc.SelectStockObject(NULL_BRUSH);
+				dc.SetROP2(R2_NOT);
 
-					   dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+				dc.Ellipse(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
 
-					   // 크기 변경
-					   boxes[current].right = point.x;
-					   boxes[current].bottom = point.y;
+				// 크기 변경
+				boxes[current].right = point.x;
+				boxes[current].bottom = point.y;
 
-					   dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+				dc.Ellipse(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
 
-				   }
-				   else  {
-					   CClientDC dc(this);
-					   dc.SelectStockObject(NULL_BRUSH);
-					   dc.SetROP2(R2_NOT);
+			}
+			else  {
+				CClientDC dc(this);
+				dc.SelectStockObject(NULL_BRUSH);
+				dc.SetROP2(R2_NOT);
 
-					   dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+				dc.Ellipse(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
 
-					   // 이동
-					   boxes[current].left += point.x - startx;
-					   boxes[current].top += point.y - starty;
-					   boxes[current].right += point.x - startx;
-					   boxes[current].bottom += point.y - starty;
+				// 이동
+				boxes[current].left += point.x - startx;
+				boxes[current].top += point.y - starty;
+				boxes[current].right += point.x - startx;
+				boxes[current].bottom += point.y - starty;
 
-					   startx = point.x;
-					   starty = point.y;
+				startx = point.x;
+				starty = point.y;
 
-					   dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-				   }
-			   }
+				dc.Ellipse(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+			}
+		}
+	}
+	case DT:
+	{
+		if (nFlags & MK_LBUTTON == 1 && current != -1) {
+			if (move == false) {
+
+				CClientDC dc(this);
+				dc.SelectStockObject(NULL_BRUSH);
+				dc.SetROP2(R2_NOT);
+
+				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+
+				// 크기 변경
+				boxes[current].right = point.x;
+				boxes[current].bottom = point.y;
+
+				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+
+			}
+			else  {
+				CClientDC dc(this);
+				dc.SelectStockObject(NULL_BRUSH);
+				dc.SetROP2(R2_NOT);
+
+				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+
+				// 이동
+				boxes[current].left += point.x - startx;
+				boxes[current].top += point.y - starty;
+				boxes[current].right += point.x - startx;
+				boxes[current].bottom += point.y - starty;
+
+				startx = point.x;
+				starty = point.y;
+
+				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+			}
+		}
 	}
 	}
 }
