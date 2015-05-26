@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Rectangle.h"
 
-
 Rectangle::Rectangle()
 {
 	this->start_x = 0;
@@ -9,10 +8,10 @@ Rectangle::Rectangle()
 	this->end_x = 0;
 	this->end_y = 0;
 
-	this->start_p = new Point(this->start_x, this->start_y);
-	this->end_p = new Point(this->end_x, this->end_y);
+	Point start_p(this->start_x, this->start_y);
+	Point end_p(this->end_x, this->end_y);
 
-	this->color_r = new COLORREF(RGB(0, 0, 0));
+	this->color_r = *(new COLORREF(RGB(0, 0, 0)));
 	this->thick = 0.5;
 	this->pattern = 0;
 }
