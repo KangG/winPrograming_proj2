@@ -19,6 +19,7 @@ public:
 	///////////////////////////////bline 리스트
 	BOOL bline_status = false;
 	///////////////////////////////
+
 	///////////////////////////////brect 리스트
 	BOOL brect_status = false;
 	CArray<CRect, CRect&> boxes; 
@@ -26,9 +27,6 @@ public:
 	bool move;
 	int startx;
 	int starty;
-	///////////////////////////////
-	///////////////////////////////bellipse 리스트
-	
 	///////////////////////////////
 	// 작업입니다.
 public:
@@ -67,6 +65,7 @@ public:
 	afx_msg void OnBellipse();
 	afx_msg void OnBtext();
 	afx_msg void OnUpdateAfxIdpAskToUpdate(CCmdUI *pCmdUI);
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // MFC_proj2View.cpp의 디버그 버전
