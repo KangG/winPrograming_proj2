@@ -2,18 +2,6 @@
 # include "Line.h"
 
 Line::Line(){
-	this->start_x = 0;
-	this->start_y = 0;
-	this->end_x = 0;
-	this->end_y=0;
-	Point start_p(int start_x, int start_y);
-	Point end_p(int end_x, int end_y);
-
-	this->color_l=*(new COLORREF(RGB(0,0,0)));
-
-	this->thick=0.5;
-	this->pattern=0;
-	
 }
 
 void Line::setColor(COLORREF rgb){
@@ -66,8 +54,11 @@ void Line::move(Point p, int x, int y){
 	}
 }
 
-void Line::draw(){
-	
+void Line::draw(CDC* dc, int x, int y){
+	dc->MoveTo(start_x, start_y);
+	end_x = x;
+	end_y = y;
+	dc->LineTo(x, y);
 }
 
 void Line::erase(){

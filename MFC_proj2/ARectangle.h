@@ -1,10 +1,10 @@
 #pragma once
 #include "Line.h"
 
-class Rectangle : public Line
+class ARectangle : public Line
 {
 public:
-	Rectangle();
+	ARectangle();
 
 	void setColor(COLORREF rgb);
 	COLORREF getColor();
@@ -17,7 +17,7 @@ public:
 
 	void move(Point p, int x, int y);
 
-	void draw();
+	void draw(CDC* dc, int x, int y);
 
 	void erase();
 
@@ -31,7 +31,7 @@ public:
 	void setEnd_x(int x);
 	void setEnd_y(int y);
 
-	~Rectangle();
+	~ARectangle();
 
 public:
 	int start_x;

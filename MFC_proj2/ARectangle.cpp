@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "Rectangle.h"
+#include "ARectangle.h"
 
-Rectangle::Rectangle()
+ARectangle::ARectangle()
 {
 	this->start_x = 0;
 	this->start_y = 0;
@@ -16,27 +16,27 @@ Rectangle::Rectangle()
 	this->pattern = 0;
 }
 
-void Rectangle::setColor(COLORREF rgb)
+void ARectangle::setColor(COLORREF rgb)
 {
 	this->color_r = rgb;
 }
 
-COLORREF Rectangle::getColor()
+COLORREF ARectangle::getColor()
 {
 	return this->color_r;
 }
 
-void Rectangle::setThick(double thick)
+void ARectangle::setThick(double thick)
 {
 	this->thick = thick;
 }
 
-double Rectangle::getThick()
+double ARectangle::getThick()
 {
 	return this->thick;
 }
 
-void Rectangle::move(Point p, int x, int y){
+void ARectangle::move(Point p, int x, int y){
 	int buf_x, buf_y;
 	if ((p.getX() == this->getStart_x()) && (p.getY() == this->getStart_y())){		// start만 옮기는 경우
 		buf_x = this->getStart_x();
@@ -65,41 +65,43 @@ void Rectangle::move(Point p, int x, int y){
 	}
 }
 
-void Rectangle::draw()
+void ARectangle::draw(CDC* dc, int x, int y)
+{
+	setEnd_x(x);
+	setEnd_y(y);
+	dc->Rectangle(getStart_x(),getStart_y(),getEnd_x(),getEnd_y());
+}
+
+void ARectangle::erase()
 {
 
 }
 
-void Rectangle::erase()
-{
-
-}
-
-int Rectangle::getStart_x(){
+int ARectangle::getStart_x(){
 	return this->start_x;
 }
-int Rectangle::getEnd_x(){
+int ARectangle::getEnd_x(){
 	return this->end_x;
 }
-void Rectangle::setStart_x(int x){
+void ARectangle::setStart_x(int x){
 	this->start_x = x;
 }
-void Rectangle::setEnd_x(int x){
+void ARectangle::setEnd_x(int x){
 	this->end_x = x;
 }
-int Rectangle::getStart_y(){
+int ARectangle::getStart_y(){
 	return this->start_y;
 }
-int Rectangle::getEnd_y(){
+int ARectangle::getEnd_y(){
 	return this->end_y;
 }
-void Rectangle::setStart_y(int y){
+void ARectangle::setStart_y(int y){
 	this->start_y = y;
 }
-void Rectangle::setEnd_y(int y){
+void ARectangle::setEnd_y(int y){
 	this->end_y = y;
 }
 
-Rectangle::~Rectangle()
+ARectangle::~ARectangle()
 {
 }

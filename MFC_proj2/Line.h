@@ -1,3 +1,4 @@
+#pragma once
 #include "stdafx.h"
 #include "Point.h"
 
@@ -17,7 +18,7 @@ public:
 
 	void move(Point p, int x, int y);	//p: 클릭한 점, x : 변화한 x, y : 변화한 y
 
-	void draw();
+	void draw(CDC* dc, int x, int y);
 
 	void erase();
 

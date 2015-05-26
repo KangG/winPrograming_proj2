@@ -1,4 +1,7 @@
-class Point{
+#pragma once
+#include "stdafx.h"
+
+class Point {
 public:
 	Point();
 	Point(int x, int y);

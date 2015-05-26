@@ -3,7 +3,6 @@
 //
 
 #include "stdafx.h"
-#include "Line.h"
 // SHARED_HANDLERS는 미리 보기, 축소판 그림 및 검색 필터 처리기를 구현하는 ATL 프로젝트에서 정의할 수 있으며
 // 해당 프로젝트와 문서 코드를 공유하도록 해 줍니다.
 #ifndef SHARED_HANDLERS
@@ -12,7 +11,6 @@
 
 #include "MFC_proj2Doc.h"
 #include "MFC_proj2View.h"
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -45,9 +43,9 @@ END_MESSAGE_MAP()
 // CMFC_proj2View 생성/소멸
 
 CMFC_proj2View::CMFC_proj2View()
-: m_ptPrev(0)
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
+	m_ptPrev = 0;
 	current = -1;
 	move = false;
 
@@ -121,7 +119,6 @@ void CMFC_proj2View::OnPaint()
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
 	// 그리기 메시지에 대해서는 CView::OnPaint()을(를) 호출하지 마십시오.
 
-	Line *l = new Line();
 }
 
 
@@ -134,8 +131,6 @@ void CMFC_proj2View::OnBline()
 	{
 		bline_status = true;
 		brect_status = false;
-		bellipse_status = false;
-		btext_status = false;
 	}
 	else
 	{
@@ -211,7 +206,9 @@ void CMFC_proj2View::OnBtext()
 
 void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 {
-
+	CClientDC dc(this);
+	ell.setStart_x(point.x);
+	ell.setStart_y(point.y);
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	switch (mode)
 	{
@@ -318,7 +315,9 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CClientDC dc(this);
+	ell.draw(&dc, point.x, point.y);
+	//// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	switch (mode)
 	{
 	case DL:
@@ -330,8 +329,6 @@ void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 	case DR:
 	{
 		if (current != -1) {
-
-			CClientDC dc(this);
 			dc.SelectStockObject(NULL_BRUSH);
 			dc.SetROP2(R2_COPYPEN);
 
@@ -344,8 +341,6 @@ void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 	case DE:
 	{
 		if (current != -1) {
-
-			CClientDC dc(this);
 			dc.SelectStockObject(NULL_BRUSH);
 			dc.SetROP2(R2_COPYPEN);
 
@@ -359,7 +354,6 @@ void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 		if (current != -1) {
 
-			CClientDC dc(this);
 			dc.SelectStockObject(NULL_BRUSH);
 			dc.SetROP2(R2_COPYPEN);
 

@@ -5,7 +5,9 @@
 #pragma once
 #include "atltypes.h"
 #include "stdafx.h"
-
+#include "Line.h"
+#include "ARectangle.h"
+#include "AEllipse.h"
 
 class CMFC_proj2View : public CView
 {
@@ -22,11 +24,16 @@ public:
 
 	///////////////////////////////brect 리스트
 	BOOL brect_status = false;
+	BOOL bellipse_status=false;
+	BOOL btext_status = false;
 	CArray<CRect, CRect&> boxes; 
 	int current;
 	bool move;
 	int startx;
 	int starty;
+	Line line;
+	ARectangle rect;
+	AEllipse ell;
 	///////////////////////////////
 	// 작업입니다.
 public:
