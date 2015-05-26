@@ -184,12 +184,6 @@ void CMFC_proj2View::OnBellipse()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = 3;
 }
-	else
-	{
-		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
-	}
-}
-
 
 void CMFC_proj2View::OnBtext()
 {

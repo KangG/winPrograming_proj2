@@ -99,6 +99,7 @@ void Rectangle::setStart_y(int y){
 void Rectangle::setEnd_y(int y){
 	this->end_y = y;
 }
+
 Rectangle::~Rectangle()
 {
 }
