@@ -4,6 +4,7 @@
 
 #pragma once
 #include "atltypes.h"
+#include "stdafx.h"
 
 
 class CMFC_proj2View : public CView
@@ -25,6 +26,9 @@ public:
 	bool move;
 	int startx;
 	int starty;
+	///////////////////////////////
+	///////////////////////////////bellipse 리스트
+	
 	///////////////////////////////
 	// 작업입니다.
 public:

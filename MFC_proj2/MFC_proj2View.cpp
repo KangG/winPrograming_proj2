@@ -42,6 +42,7 @@ CMFC_proj2View::CMFC_proj2View()
 : m_ptPrev(0)
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
+	mode = 0;
 	current = -1;
 	move = false;
 
@@ -160,7 +161,7 @@ void CMFC_proj2View::OnBrect()
 void CMFC_proj2View::OnBellipse()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	mode = 3;
+	
 }
 
 
@@ -214,6 +215,7 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 					CRect* box = new CRect(point.x, point.y, point.x, point.y);
 					boxes.Add(*box);
 					current = boxes.GetCount() - 1;
+					break;
 				}
 		}
 	}
@@ -243,7 +245,9 @@ void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 
 				   current = -1;
 				   move = false;
+				   break;
 			   }
+			   break;
 	}
 	}
 }
@@ -283,7 +287,7 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 					   boxes[current].bottom = point.y;
 
 					   dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-
+					   break;
 				   }
 				   else  {
 					   CClientDC dc(this);
@@ -302,8 +306,16 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 					   starty = point.y;
 
 					   dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
+					   break;
 				   }
 			   }
+			   break;
+	}
+	case(3):
+	{
+
+
+
 	}
 	}
 }
@@ -320,6 +332,9 @@ void CMFC_proj2View::OnUpdateAfxIdpAskToUpdate(CCmdUI *pCmdUI)
 	else if (mode == 2)
 	{
 		pCmdUI->Enable(brect_status);
+	}
+	else if (mode == 3)
+	{
 	}
 
 }
