@@ -72,6 +72,27 @@ void ARectangle::draw(CDC* dc, int x, int y)
 	dc->Rectangle(getStart_x(),getStart_y(),getEnd_x(),getEnd_y());
 }
 
+void ARectangle::mouse_move(CDC* dc, int x, int y, int sx, int sy)
+{
+	dc->SelectStockObject(NULL_BRUSH);
+	dc->SetROP2(R2_NOT);
+
+	setEnd_x(x);
+	setEnd_y(y);
+	dc->Rectangle(getStart_x(), getStart_y(), getEnd_x(), getEnd_y());
+
+	// ÀÌµ¿
+	setStart_x(getStart_x() + x - sx);
+	setStart_y(getStart_y() + y - sy);
+	setEnd_x(getEnd_x() + x - sx);
+	setEnd_y(getEnd_y() + y - sy);
+
+	sx = x;
+	sy = y;
+
+	dc->Rectangle(getStart_x(), getStart_y(), getEnd_x(), getEnd_y());
+}
+
 void ARectangle::erase()
 {
 
