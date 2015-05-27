@@ -207,107 +207,44 @@ void CMFC_proj2View::OnBtext()
 void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	CClientDC dc(this);
-	ell.setStart_x(point.x);
-	ell.setStart_y(point.y);
+	
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	switch (mode)
 	{
 		/////////////////////////////bline 부분이다.
 	case DL:
 	{
-		SetCapture();
+		line.setStart_x(point.x);
+		line.setStart_y(point.y);
+
+		/*SetCapture();
 		m_ptPrev = point;
 		CView::OnLButtonDown(nFlags, point);
+		break;*/
+
 		break;
 	}
 	/////////////////////////////rect 부분이다.
 	case DR:
 	{
-		startx = point.x;
-		starty = point.y;
+	   rect.setStart_x(point.x);
+	   rect.setStart_y(point.y);
 
-		// 컨트롤키를 누르고 마우스 클릭
-		if (nFlags & MK_CONTROL) {
-			current = -1;
-			for (int i = 0; i < boxes.GetCount(); i++) {
-				if (boxes[i].left <= point.x && point.x <= boxes[i].right ||
-					boxes[i].right <= point.x && point.x <= boxes[i].left) {
-
-					if (boxes[i].top <= point.y && point.y <= boxes[i].bottom ||
-						boxes[i].bottom <= point.y && point.y <= boxes[i].top) {
-
-						current = i;
-						move = true;
-						break;
-					}
-				}
-			}
-		}
-		else {
-			CRect* box = new CRect(point.x, point.y, point.x, point.y);
-			boxes.Add(*box);
-			current = boxes.GetCount() - 1;
-		}
+	   break;
 	}
 	case DE:
 	{
-		startx = point.x;
-		starty = point.y;
+		ell.setStart_x(point.x);
+		ell.setStart_y(point.y);
 
-		// 컨트롤키를 누르고 마우스 클릭
-		if (nFlags & MK_CONTROL) {
-			current = -1;
-			for (int i = 0; i < boxes.GetCount(); i++) {
-				if (boxes[i].left <= point.x && point.x <= boxes[i].right ||
-					boxes[i].right <= point.x && point.x <= boxes[i].left) {
-
-					if (boxes[i].top <= point.y && point.y <= boxes[i].bottom ||
-						boxes[i].bottom <= point.y && point.y <= boxes[i].top) {
-
-						current = i;
-						move = true;
-						break;
-					}
-
-				}
-
-			}
-		}
-		else {
-			CRect* box = new CRect(point.x, point.y, point.x, point.y);
-			boxes.Add(*box);
-			current = boxes.GetCount() - 1;
-		}
+		break;
 	}
 	case DT:
 	{
-		startx = point.x;
-		starty = point.y;
+		rect.setStart_x(point.x);
+		rect.setStart_y(point.y);
 
-		// 컨트롤키를 누르고 마우스 클릭
-		if (nFlags & MK_CONTROL) {
-			current = -1;
-			for (int i = 0; i < boxes.GetCount(); i++) {
-				if (boxes[i].left <= point.x && point.x <= boxes[i].right ||
-					boxes[i].right <= point.x && point.x <= boxes[i].left) {
-
-					if (boxes[i].top <= point.y && point.y <= boxes[i].bottom ||
-						boxes[i].bottom <= point.y && point.y <= boxes[i].top) {
-
-						current = i;
-						move = true;
-						break;
-					}
-
-				}
-
-			}
-		}
-		else {
-			CRect* box = new CRect(point.x, point.y, point.x, point.y);
-			boxes.Add(*box);
-			current = boxes.GetCount() - 1;
-		}
+		break;
 	}
 	}
 }
@@ -316,52 +253,31 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	CClientDC dc(this);
-	ell.draw(&dc, point.x, point.y);
+	
 	//// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	switch (mode)
 	{
 	case DL:
 	{
-		ReleaseCapture();
-		CView::OnLButtonUp(nFlags, point);
+		/*ReleaseCapture();
+		CView::OnLButtonUp(nFlags, point);*/
+			   line.draw(&dc, point.x, point.y);
 		break;
 	}
 	case DR:
 	{
-		if (current != -1) {
-			dc.SelectStockObject(NULL_BRUSH);
-			dc.SetROP2(R2_COPYPEN);
-
-			dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-
-			current = -1;
-			move = false;
-		}
+			   rect.draw(&dc, point.x, point.y);
+		break;
 	}
 	case DE:
 	{
-		if (current != -1) {
-			dc.SelectStockObject(NULL_BRUSH);
-			dc.SetROP2(R2_COPYPEN);
-
-			dc.Ellipse(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-
-			current = -1;
-			move = false;
-		}
+		ell.draw(&dc, point.x, point.y);
+		break;
 	}
 	case DT:
 	{
-		if (current != -1) {
-
-			dc.SelectStockObject(NULL_BRUSH);
-			dc.SetROP2(R2_COPYPEN);
-
-			dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-
-			current = -1;
-			move = false;
-		}
+			   rect.draw(&dc, point.x, point.y);
+			   break;
 	}
 	}
 }
@@ -374,7 +290,7 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 	{
 	case DL:
 	{
-		if (GetCapture() != this)
+		/*if (GetCapture() != this)
 			return;
 
 		CClientDC dc(this);
@@ -382,28 +298,12 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 		dc.LineTo(point);
 
 		m_ptPrev = point;
-		CView::OnMouseMove(nFlags, point);
+		CView::OnMouseMove(nFlags, point);*/
 		break;
 	}
 	case DR:
 	{
 		if (nFlags & MK_LBUTTON == 1 && current != -1) {
-			if (move == false) {
-
-				CClientDC dc(this);
-				dc.SelectStockObject(NULL_BRUSH);
-				dc.SetROP2(R2_NOT);
-
-				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-
-				// 크기 변경
-				boxes[current].right = point.x;
-				boxes[current].bottom = point.y;
-
-				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-
-			}
-			else  {
 				CClientDC dc(this);
 				dc.SelectStockObject(NULL_BRUSH);
 				dc.SetROP2(R2_NOT);
@@ -420,29 +320,13 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 				starty = point.y;
 
 				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-			}
+			
 		}
 		break;
 	}
 	case DE:
 	{
 		if (nFlags & MK_LBUTTON == 1 && current != -1) {
-			if (move == false) {
-
-				CClientDC dc(this);
-				dc.SelectStockObject(NULL_BRUSH);
-				dc.SetROP2(R2_NOT);
-
-				dc.Ellipse(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-
-				// 크기 변경
-				boxes[current].right = point.x;
-				boxes[current].bottom = point.y;
-
-				dc.Ellipse(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-
-			}
-			else  {
 				CClientDC dc(this);
 				dc.SelectStockObject(NULL_BRUSH);
 				dc.SetROP2(R2_NOT);
@@ -459,29 +343,14 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 				starty = point.y;
 
 				dc.Ellipse(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-			}
+			
 		}
 		break;
 	}
 	case DT:
 	{
 		if (nFlags & MK_LBUTTON == 1 && current != -1) {
-			if (move == false) {
-
-				CClientDC dc(this);
-				dc.SelectStockObject(NULL_BRUSH);
-				dc.SetROP2(R2_NOT);
-
-				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-
-				// 크기 변경
-				boxes[current].right = point.x;
-				boxes[current].bottom = point.y;
-
-				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-
-			}
-			else  {
+		
 				CClientDC dc(this);
 				dc.SelectStockObject(NULL_BRUSH);
 				dc.SetROP2(R2_NOT);
@@ -498,7 +367,7 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 				starty = point.y;
 
 				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-			}
+			
 		}
 		break;
 	}
