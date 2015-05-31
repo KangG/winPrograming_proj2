@@ -38,6 +38,8 @@ BEGIN_MESSAGE_MAP(CMFC_proj2View, CView)
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
 	ON_UPDATE_COMMAND_UI(AFX_IDP_ASK_TO_UPDATE, &CMFC_proj2View::OnUpdateAfxIdpAskToUpdate)
+	ON_COMMAND(ID_BPolyline, &CMFC_proj2View::OnBpolyline)
+//	ON_UPDATE_COMMAND_UI(ID_BPolyline, &CMFC_proj2View::OnUpdateBpolyline)
 END_MESSAGE_MAP()
 
 // CMFC_proj2View 생성/소멸
@@ -131,6 +133,9 @@ void CMFC_proj2View::OnBline()
 	{
 		bline_status = true;
 		brect_status = false;
+		bellipse_status = false;
+		btext_status = false;
+		bpoly_status = false;
 	}
 	else
 	{
@@ -154,6 +159,7 @@ void CMFC_proj2View::OnBrect()
 		brect_status = true;
 		bellipse_status = false;
 		btext_status = false;
+		bpoly_status = false;
 	}
 	else
 	{
@@ -177,6 +183,7 @@ void CMFC_proj2View::OnBellipse()
 		brect_status = false;
 		bellipse_status = true;
 		btext_status = false;
+		bpoly_status = false;
 	}
 	else
 	{
@@ -195,6 +202,7 @@ void CMFC_proj2View::OnBtext()
 		brect_status = false;
 		bellipse_status = false;
 		btext_status = true;
+		bpoly_status = false;
 	}
 	else
 	{
@@ -279,6 +287,24 @@ void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 		rect.draw(&dc, point.x, point.y);
 		break;
+	}
+	case DP:
+	{
+			   Point temp;
+			   temp.setX(point.x);
+			   temp.setY(point.y);
+			   if (poly.get_index() == 0)
+			   {
+				   poly.temp.setStart_x(temp.getX());
+				   poly.temp.setStart_y(temp.getY());
+				   break;
+			   }
+			   else
+			   {
+				   poly.next(temp);
+				   poly.draw(&dc);
+				   break;
+			   }
 	}
 	}
 }
@@ -374,5 +400,34 @@ void CMFC_proj2View::OnUpdateAfxIdpAskToUpdate(CCmdUI *pCmdUI)
 	{
 		pCmdUI->Enable(brect_status);
 	}
-
+	else if (mode == DP)
+	{
+		pCmdUI->Enable(bpoly_status);
+	}
 }
+
+
+void CMFC_proj2View::OnBpolyline()
+{
+	mode = DP;
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	if (!bpoly_status)
+	{
+		bline_status = false;
+		brect_status = false;
+		bellipse_status = false;
+		btext_status = false;
+		bpoly_status = true;
+	}
+	else
+	{
+		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
+	}
+}
+
+
+//void CMFC_proj2View::OnUpdateBpolyline(CCmdUI *pCmdUI)
+//{
+//	pCmdUI->Enable(bpoly_status);
+//	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+//}

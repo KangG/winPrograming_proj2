@@ -8,6 +8,7 @@
 #include "Line.h"
 #include "ARectangle.h"
 #include "AEllipse.h"
+#include "APolyline.h"
 
 class CMFC_proj2View : public CView
 {
@@ -26,6 +27,8 @@ public:
 	BOOL brect_status = false;
 	BOOL bellipse_status=false;
 	BOOL btext_status = false;
+	BOOL bpoly_status = true;
+
 	CArray<CRect, CRect&> boxes; 
 	int current;
 	bool move;
@@ -34,6 +37,8 @@ public:
 	Line line;
 	ARectangle rect;
 	AEllipse ell;
+	APolyline poly;
+	CArray<APolyline, APolyline&> APolyline_array;
 	///////////////////////////////
 	// 작업입니다.
 public:
@@ -73,6 +78,8 @@ public:
 	afx_msg void OnBtext();
 	afx_msg void OnUpdateAfxIdpAskToUpdate(CCmdUI *pCmdUI);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnBpolyline();
+//	afx_msg void OnUpdateBpolyline(CCmdUI *pCmdUI);
 };
 
 #ifndef _DEBUG  // MFC_proj2View.cpp의 디버그 버전

@@ -18,13 +18,10 @@ public:
 	void moveAll();
 	void eraseAt(int index, Point point);
 	void eraseAll();
-
-	int get_x(Point point);
-	int get_y(Point point);
+	void draw(CDC* dc);
+	int get_index();
 
 public:
-	int start_x;
-	int start_y;
 	CArray <Line, Line&> poly_array;
 	Line temp;
 	COLORREF color_p;

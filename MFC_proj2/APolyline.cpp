@@ -4,11 +4,7 @@
 
 APolyline::APolyline()
 {
-	this->start_x = 0;
-	this->start_y = 0;
-	this->temp.setStart_x(this->start_x);
-	this->temp.setStart_y(this->start_y);
-	this->poly_array.Add(this->temp);
+
 	//여기서 temp의 역할은
 	//폴리라인의 특성상 라인의 끝점을 찍어냄으로써
 	//생성하는 것인데 점을 찍엇을때 앞의 라인의 끝점으로 
@@ -51,12 +47,10 @@ int APolyline::getPattern()
 
 void APolyline::next(Point point)
 {
-	if (this->poly_array.GetSize() == 0)
+	if (this->index == 0)
 	{
-		this->poly_array[0].setEnd_x(point.getX());
-		this->poly_array[0].setEnd_y(point.getY());
-		this->temp.setStart_x(point.getX());
-		this->temp.setStart_y(point.getY());
+		this->temp.setEnd_x(point.getX());
+		this->temp.setEnd_y(point.getY());
 		this->poly_array.Add(temp);
 		this->index = this->poly_array.GetSize();
 	}
@@ -88,4 +82,18 @@ void APolyline::eraseAll()
 
 APolyline::~APolyline()
 {
+
+}
+
+int APolyline::get_index()
+{
+	return this->index;
+}
+
+void APolyline::draw(CDC* dc)
+{
+	dc->MoveTo(this->poly_array[index-1].getStart_x(),
+		this->poly_array[index-1].getStart_y());
+	dc->LineTo(this->poly_array[index-1].getEnd_x(),
+		this->poly_array[index-1].getEnd_y());
 }
