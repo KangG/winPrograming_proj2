@@ -277,8 +277,8 @@ void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	case DT:
 	{
-			   rect.draw(&dc, point.x, point.y);
-			   break;
+		rect.draw(&dc, point.x, point.y);
+		break;
 	}
 	}
 }

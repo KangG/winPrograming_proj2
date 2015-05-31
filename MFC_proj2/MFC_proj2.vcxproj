@@ -99,6 +99,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="APolyline.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="AEllipse.h" />
     <ClInclude Include="Line.h" />
@@ -114,6 +115,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="APolyline.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="AEllipse.cpp" />
     <ClCompile Include="Line.cpp" />
