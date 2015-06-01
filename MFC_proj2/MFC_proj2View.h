@@ -19,26 +19,28 @@ protected: // serialization에서만 만들어집니다.
 	// 특성입니다.
 public:
 	CMFC_proj2Doc* GetDocument() const;
-	///////////////////////////////bline 리스트
-	BOOL bline_status = false;
 	///////////////////////////////
-
-	///////////////////////////////brect 리스트
+	BOOL bline_status = false;
 	BOOL brect_status = false;
 	BOOL bellipse_status=false;
 	BOOL btext_status = false;
 	BOOL bpoly_status = true;
 
-	CArray<CRect, CRect&> boxes; 
 	int current;
 	bool move;
 	int startx;
 	int starty;
+
 	Line line;
 	ARectangle rect;
 	AEllipse ell;
 	APolyline poly;
-	CArray<APolyline, APolyline&> APolyline_array;
+
+	CArray<Line, Line&> figure;							//모든 객체를 저장할 배열 
+	CArray<Line, Line&> Line_array;						//Line 객체를 저장할배열
+	CArray<ARectangle, ARectangle&> ARect_array;		//Rect 객체를 저장할배열
+	CArray<AEllipse, AEllipse&> AEll_array;				//Ellipse 객체를 저장할배열
+	CArray<APolyline, APolyline&> APolyline_array;		//PolyLine 객체를 저장할배열
 	///////////////////////////////
 	// 작업입니다.
 public:
