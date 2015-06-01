@@ -47,7 +47,9 @@ CMFC_proj2View::CMFC_proj2View()
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
 	m_ptPrev = 0;
-	current = -1;
+	current_l = -1;
+	current_r = -1;
+	current_e = -1;
 	move = false;
 
 }
@@ -122,11 +124,15 @@ void CMFC_proj2View::OnPaint()
 	dc.SelectStockObject(NULL_BRUSH);
 	//dc.SetROP2(R2_COPYPEN);
 
-	for (int i = 0; i < figure.GetCount(); i++) {
-		//dc.Rectangle(figure[i].getStart_x(), figure[i].getStart_y(), figure[i].getEnd_x(), figure[i].getEnd_y());
-		figure[i].draw(&dc, figure[i].getEnd_x(), figure[i].getEnd_y());
+	for (int i = 0; i < Line_array.GetCount(); i++) {										//저장된 Line 그리기
+		Line_array[i].draw(&dc, Line_array[i].getEnd_x(), Line_array[i].getEnd_y());
 	}
-
+	for (int i = 0; i < ARect_array.GetCount(); i++) {										//저장된 Rect 그리기
+		ARect_array[i].draw(&dc, ARect_array[i].getEnd_x(), ARect_array[i].getEnd_y());
+	}
+	for (int i = 0; i < AEll_array.GetCount(); i++) {										//저장된 Ellipse 그리기
+		AEll_array[i].draw(&dc, AEll_array[i].getEnd_x(), AEll_array[i].getEnd_y());
+	}
 	// 그리기 메시지에 대해서는 CView::OnPaint()을(를) 호출하지 마십시오.
 
 }
@@ -230,12 +236,12 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 	case DL:
 	{
 			   Line* l = new Line();
-			   figure.Add(*l);
 			   Line_array.Add(*l);
-			   current = figure.GetCount() - 1;
+			   current_l = Line_array.GetCount() - 1;
 
-			   figure[current].setStart_x(point.x);
-			   figure[current].setStart_y(point.y);
+			   Line_array[current_l].setStart_x(point.x);
+			   Line_array[current_l].setStart_y(point.y);
+			   Line_array[current_l].setFlag(1);
 
 			   move = true;
 			   break;
@@ -243,14 +249,11 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 	case DR:
 	{
 			   ARectangle* r = new ARectangle();
-			   figure.Add(*r);
 			   ARect_array.Add(*r);
-			   current = figure.GetCount() - 1;
-			   figure[current].setStart_x(point.x);
-			   figure[current].setStart_y(point.y);
-
-			   startx = point.x;
-			   starty = point.y;
+			   current_r = ARect_array.GetCount() - 1;
+			   ARect_array[current_r].setStart_x(point.x);
+			   ARect_array[current_r].setStart_y(point.y);
+			   ARect_array[current_r].setFlag(2);
 
 			   move = true;
 			   break;
@@ -258,11 +261,11 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 	case DE:
 	{
 			   AEllipse* e = new AEllipse();
-			   figure.Add(*e);
 			   AEll_array.Add(*e);
-			   current = figure.GetCount() - 1;
-			   figure[current].setStart_x(point.x);
-			   figure[current].setStart_y(point.y);
+			   current_e = AEll_array.GetCount() - 1;
+			   AEll_array[current_e].setStart_x(point.x);
+			   AEll_array[current_e].setStart_y(point.y);
+			   AEll_array[current_e].setFlag(3);
 
 			   move = true;
 			   break;
@@ -270,11 +273,10 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 	case DT:
 	{
 			   Line* t = new Line;
-			   figure.Add(*t);
 			   Line_array.Add(*t);
-			   current = figure.GetCount() - 1;
+			   /*current_t = figure.GetCount() - 1;
 			   figure[current].setStart_x(point.x);
-			   figure[current].setStart_y(point.y);
+			   figure[current].setStart_y(point.y);*/
 
 			   move = true;
 			   break;
@@ -295,9 +297,6 @@ void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 	case DE:
 	case DT:
 	{
-			   if (move == true) {
-				   figure[current].draw(&dc, point.x, point.y);
-			   }
 			   move = false;
 			   break;
 	}
@@ -331,12 +330,33 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 	switch (mode)
 	{
 	case DL:
+	{
+		if (move == true){
+			Line_array[current_l].draw(&dc, point.x, point.y);
+		}
+		Invalidate();
+		break;
+	}
 	case DR:
+	{
+		if (move == true){
+			ARect_array[current_r].draw(&dc, point.x, point.y);
+		}
+		Invalidate();
+		break;
+	}
 	case DE:
+	{
+		if (move == true){
+			AEll_array[current_e].draw(&dc, point.x, point.y);
+		}
+		Invalidate();
+		break;
+	}
 	case DT:
 	{
 			   if (move == true){
-				   figure[current].draw(&dc, point.x, point.y);
+				  // figure[current].draw(&dc, point.x, point.y);
 			   }
 			   Invalidate();
 			   break;
