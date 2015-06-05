@@ -9,6 +9,7 @@
 #include "ARectangle.h"
 #include "AEllipse.h"
 #include "APolyline.h"
+#include "Text.h"
 
 class CMFC_proj2View : public CView
 {
@@ -29,6 +30,7 @@ public:
 	int current_l;		//Line 현재 배열번호
 	int current_r;		//Rect 현재 배열번호
 	int current_e;		//Ellipse 현재 배열번호
+	int current_t;		//Text 현재 배열번호
 	bool move;
 
 	Line line;
@@ -41,6 +43,8 @@ public:
 	CArray<ARectangle, ARectangle&> ARect_array;		//Rect 객체를 저장할배열
 	CArray<AEllipse, AEllipse&> AEll_array;				//Ellipse 객체를 저장할배열
 	CArray<APolyline, APolyline&> APolyline_array;		//PolyLine 객체를 저장할배열
+	CArray<Text, Text&> Text_array;		//Text 객체를 저장할배열
+
 	///////////////////////////////
 	// 작업입니다.
 public:

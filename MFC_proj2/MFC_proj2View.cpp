@@ -50,8 +50,8 @@ CMFC_proj2View::CMFC_proj2View()
 	current_l = -1;
 	current_r = -1;
 	current_e = -1;
+	current_t = -1;
 	move = false;
-
 }
 
 CMFC_proj2View::~CMFC_proj2View()
@@ -272,11 +272,11 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	case DT:
 	{
-			   Line* t = new Line;
-			   Line_array.Add(*t);
-			   /*current_t = figure.GetCount() - 1;
-			   figure[current].setStart_x(point.x);
-			   figure[current].setStart_y(point.y);*/
+			   Text* t = new Text;
+			   Text_array.Add(*t);
+			   current_t = Text_array.GetCount() - 1;
+			   Text_array[current_t].setStart_x(point.x);
+			   Text_array[current_t].setStart_y(point.y);
 
 			   move = true;
 			   break;
@@ -355,11 +355,11 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	case DT:
 	{
-			   if (move == true){
-				  // figure[current].draw(&dc, point.x, point.y);
-			   }
-			   Invalidate();
-			   break;
+		if (move == true){
+			Text_array[current_t].makeRect(&dc, point.x, point.y);
+		}
+	//	Invalidate();
+		break;
 	}
 	}
 }
