@@ -49,17 +49,19 @@ void APolyline::next(Point point)
 {
 	if (this->index == 0)
 	{
-		this->temp.setEnd_x(point.getX());
-		this->temp.setEnd_y(point.getY());
+		this->temp.setStart_x(point.getX());
+		this->temp.setStart_y(point.getY());
 		this->poly_array.Add(temp);
 		this->index = this->poly_array.GetSize();
 	}
 	else
 	{
-		this->poly_array[index - 1].setEnd_x(point.getX());
-		this->poly_array[index - 1].setEnd_y(point.getY());
+		this->poly_array[index-1].setEnd_x(point.getX());
+		this->poly_array[index-1].setEnd_y(point.getY());
 		this->temp.setStart_x(point.getX());
 		this->temp.setStart_y(point.getY());
+		this->temp.setEnd_x(point.getX());
+		this->temp.setEnd_y(point.getY());
 		this->poly_array.Add(temp);
 		this->index = this->poly_array.GetSize();
 	}
@@ -92,8 +94,6 @@ int APolyline::get_index()
 
 void APolyline::draw(CDC* dc)
 {
-	dc->MoveTo(this->poly_array[index-1].getStart_x(),
-		this->poly_array[index-1].getStart_y());
-	dc->LineTo(this->poly_array[index-1].getEnd_x(),
-		this->poly_array[index-1].getEnd_y());
+	for (int i=0; i < this->poly_array.GetSize(); i++)
+		this->poly_array[i].draw(dc, this->poly_array[i].getEnd_x(), this->poly_array[i].getEnd_y());
 }

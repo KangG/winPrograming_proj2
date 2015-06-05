@@ -24,9 +24,9 @@ public:
 	///////////////////////////////
 
 	///////////////////////////////brect 리스트
-	BOOL brect_status = false;
-	BOOL bellipse_status=false;
-	BOOL btext_status = false;
+	BOOL brect_status = true;
+	BOOL bellipse_status= true;
+	BOOL btext_status = true;
 	BOOL bpoly_status = true;
 
 	CArray<CRect, CRect&> boxes; 
@@ -38,6 +38,7 @@ public:
 	ARectangle rect;
 	AEllipse ell;
 	APolyline poly;
+	Point temp;
 	CArray<APolyline, APolyline&> APolyline_array;
 	///////////////////////////////
 	// 작업입니다.

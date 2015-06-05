@@ -255,6 +255,9 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 
 		break;
 	}
+	case DP:
+	{
+	}
 	}
 }
 
@@ -290,21 +293,11 @@ void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	case DP:
 	{
-			   Point temp;
 			   temp.setX(point.x);
 			   temp.setY(point.y);
-			   if (poly.get_index() == 0)
-			   {
-				   poly.temp.setStart_x(temp.getX());
-				   poly.temp.setStart_y(temp.getY());
-				   break;
-			   }
-			   else
-			   {
-				   poly.next(temp);
-				   poly.draw(&dc);
-				   break;
-			   }
+			   poly.next(temp);
+			   poly.draw(&dc);
+			   break;
 	}
 	}
 }
