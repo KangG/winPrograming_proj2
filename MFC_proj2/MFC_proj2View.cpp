@@ -16,6 +16,7 @@
 #endif
 
 //mode 번호
+#define DN 0		//normal 상태
 #define DL 1		//line 그리기
 #define DR 2		//rect 그리기
 #define DE 3		//ellipse 그리기
@@ -39,6 +40,10 @@ BEGIN_MESSAGE_MAP(CMFC_proj2View, CView)
 	ON_WM_MOUSEMOVE()
 	ON_UPDATE_COMMAND_UI(AFX_IDP_ASK_TO_UPDATE, &CMFC_proj2View::OnUpdateAfxIdpAskToUpdate)
 	ON_COMMAND(ID_BPolyline, &CMFC_proj2View::OnBpolyline)
+//	ON_WM_NCLBUTTONDBLCLK()
+	ON_WM_LBUTTONDBLCLK()
+	ON_COMMAND(ID_BSelect, &CMFC_proj2View::OnBselect)
+	ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 // CMFC_proj2View 생성/소멸
@@ -198,9 +203,11 @@ void CMFC_proj2View::OnBellipse()
 		bellipse_status = true;
 		btext_status = false;
 		bpoly_status = false;
+		
 	}
 	else
 	{
+		bellipse_status = false;
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
 	}
 }
@@ -281,7 +288,10 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 			   move = true;
 			   break;
 	}
+	case DP:
+	{
 	}
+}
 }
 
 
@@ -302,24 +312,14 @@ void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	case DP:
 	{
-			   Point temp;
-			   temp.setX(point.x);
-			   temp.setY(point.y);
-			   if (poly.get_index() == 0)
-			   {
-				   poly.temp.setStart_x(temp.getX());
-				   poly.temp.setStart_y(temp.getY());
-				   break;
-			   }
-			   else
-			   {
-				   poly.next(temp);
+			   temp_point.setX(point.x);
+			   temp_point.setY(point.y);
+			   poly.next(temp_point);
 				   poly.draw(&dc);
 				   break;
 			   }
 	}
 	}
-}
 
 
 void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
@@ -355,11 +355,11 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	case DT:
 	{
-		if (move == true){
+			   if (move == true){
 			Text_array[current_t].makeRect(&dc, point.x, point.y);
-		}
+			   }
 	//	Invalidate();
-		break;
+			   break;
 	}
 	}
 }
@@ -381,26 +381,23 @@ void CMFC_proj2View::OnUpdateAfxIdpAskToUpdate(CCmdUI *pCmdUI)
 	{
 		pCmdUI->Enable(bpoly_status);
 	}
+	else if (mode == DN)
+	{
+		pCmdUI->Enable(bselect_status);
+}
 }
 
 
 void CMFC_proj2View::OnBpolyline()
 {
+	if (mode == DP)
+		mode = DN;
+	else
 	mode = DP;
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	if (!bpoly_status)
-	{
-		bline_status = false;
-		brect_status = false;
-		bellipse_status = false;
-		btext_status = false;
-		bpoly_status = true;
-	}
-	else
-	{
+	
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
 	}
-}
 
 
 //void CMFC_proj2View::OnUpdateBpolyline(CCmdUI *pCmdUI)
@@ -408,3 +405,38 @@ void CMFC_proj2View::OnBpolyline()
 //	pCmdUI->Enable(bpoly_status);
 //	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 //}
+
+
+//void CMFC_proj2View::OnNcLButtonDblClk(UINT nHitTest, CPoint point)
+//{
+//	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+//	bellipse_status = false;
+//	APolyline* temp = new APolyline();
+//	temp->copy_this(poly);
+//	APoly_array.Add(*temp);
+//	CView::OnNcLButtonDblClk(nHitTest, point);
+//}
+
+
+
+
+
+void CMFC_proj2View::OnBselect()
+{
+	mode = DN;
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CMFC_proj2View::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	APolyline* temp = new APolyline();
+	poly.poly_array[poly.index].setEnd_x(point.x);
+	poly.poly_array[poly.index].setEnd_y(point.y);
+	temp->copy_this(poly);
+	APoly_array.Add(*temp);
+	mode = DN;
+	CView::OnLButtonDblClk(nFlags, point);
+	CView::OnLButtonDblClk(nFlags, point);
+}

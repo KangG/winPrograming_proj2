@@ -21,6 +21,9 @@ protected: // serialization에서만 만들어집니다.
 public:
 	CMFC_proj2Doc* GetDocument() const;
 	///////////////////////////////
+
+	///////////////////////////////brect 리스트
+	BOOL bselect_status = true;
 	BOOL bline_status = false;
 	BOOL brect_status = false;
 	BOOL bellipse_status=false;
@@ -33,18 +36,21 @@ public:
 	int current_t;		//Text 현재 배열번호
 	bool move;
 
+	Point temp_point;
 	Line line;
 	ARectangle rect;
 	AEllipse ell;
 	APolyline poly;
+	CArray<Line, Line&> Line_array;
+	CArray<ARectangle, ARectangle&> ARect_array;
+	CArray<APolyline, APolyline&> APoly_array;
+	CArray<AEllipse, AEllipse&> AEll_array;
 
 	CArray<Line, Line&> figure;							//모든 객체를 저장할 배열 
 	CArray<Line, Line&> Line_array;						//Line 객체를 저장할배열
 	CArray<ARectangle, ARectangle&> ARect_array;		//Rect 객체를 저장할배열
 	CArray<AEllipse, AEllipse&> AEll_array;				//Ellipse 객체를 저장할배열
 	CArray<APolyline, APolyline&> APolyline_array;		//PolyLine 객체를 저장할배열
-	CArray<Text, Text&> Text_array;		//Text 객체를 저장할배열
-
 	///////////////////////////////
 	// 작업입니다.
 public:
@@ -85,6 +91,8 @@ public:
 	afx_msg void OnUpdateAfxIdpAskToUpdate(CCmdUI *pCmdUI);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnBpolyline();
+	afx_msg void OnBselect();
+	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // MFC_proj2View.cpp의 디버그 버전
