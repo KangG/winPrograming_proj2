@@ -42,8 +42,6 @@ BEGIN_MESSAGE_MAP(CMFC_proj2View, CView)
 	ON_COMMAND(ID_BPolyline, &CMFC_proj2View::OnBpolyline)
 //	ON_WM_NCLBUTTONDBLCLK()
 	ON_WM_LBUTTONDBLCLK()
-	ON_COMMAND(ID_BSelect, &CMFC_proj2View::OnBselect)
-	ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 // CMFC_proj2View 생성/소멸
@@ -55,8 +53,8 @@ CMFC_proj2View::CMFC_proj2View()
 	current_l = -1;
 	current_r = -1;
 	current_e = -1;
-	current_t = -1;
 	move = false;
+
 }
 
 CMFC_proj2View::~CMFC_proj2View()
@@ -279,11 +277,11 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	case DT:
 	{
-			   Text* t = new Text;
-			   Text_array.Add(*t);
-			   current_t = Text_array.GetCount() - 1;
-			   Text_array[current_t].setStart_x(point.x);
-			   Text_array[current_t].setStart_y(point.y);
+			   Line* t = new Line;
+			   Line_array.Add(*t);
+			   /*current_t = figure.GetCount() - 1;
+			   figure[current].setStart_x(point.x);
+			   figure[current].setStart_y(point.y);*/
 
 			   move = true;
 			   break;
@@ -291,7 +289,7 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 	case DP:
 	{
 	}
-}
+	}
 }
 
 
@@ -312,14 +310,14 @@ void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	case DP:
 	{
-			   temp_point.setX(point.x);
-			   temp_point.setY(point.y);
-			   poly.next(temp_point);
-				   poly.draw(&dc);
-				   break;
-			   }
+			   temp.setX(point.x);
+			   temp.setY(point.y);
+			   poly.next(temp);
+			   poly.draw(&dc);
+			   break;
 	}
 	}
+}
 
 
 void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
@@ -356,9 +354,9 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 	case DT:
 	{
 			   if (move == true){
-			Text_array[current_t].makeRect(&dc, point.x, point.y);
+				  // figure[current].draw(&dc, point.x, point.y);
 			   }
-	//	Invalidate();
+			   Invalidate();
 			   break;
 	}
 	}
@@ -381,10 +379,6 @@ void CMFC_proj2View::OnUpdateAfxIdpAskToUpdate(CCmdUI *pCmdUI)
 	{
 		pCmdUI->Enable(bpoly_status);
 	}
-	else if (mode == DN)
-	{
-		pCmdUI->Enable(bselect_status);
-}
 }
 
 
@@ -393,11 +387,11 @@ void CMFC_proj2View::OnBpolyline()
 	if (mode == DP)
 		mode = DN;
 	else
-	mode = DP;
+		mode = DP;
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
-	}
+}
 
 
 //void CMFC_proj2View::OnUpdateBpolyline(CCmdUI *pCmdUI)
@@ -418,25 +412,14 @@ void CMFC_proj2View::OnBpolyline()
 //}
 
 
-
-
-
-void CMFC_proj2View::OnBselect()
-{
-	mode = DN;
-	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-}
-
-
 void CMFC_proj2View::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	APolyline* temp = new APolyline();
-	poly.poly_array[poly.index].setEnd_x(point.x);
-	poly.poly_array[poly.index].setEnd_y(point.y);
-	temp->copy_this(poly);
-	APoly_array.Add(*temp);
-	mode = DN;
-	CView::OnLButtonDblClk(nFlags, point);
-	CView::OnLButtonDblClk(nFlags, point);
+			   APolyline* temp = new APolyline();
+			   poly.poly_array[poly.index].setEnd_x(point.x);
+			   poly.poly_array[poly.index].setEnd_y(point.y);
+			   temp->copy_this(poly);
+			   APoly_array.Add(*temp);
+			   mode = DN;
+			   CView::OnLButtonDblClk(nFlags, point);
 }
