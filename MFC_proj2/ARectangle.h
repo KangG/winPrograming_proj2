@@ -18,7 +18,6 @@ public:
 	void move(Point p, int x, int y);
 
 	void draw(CDC* dc, int x, int y);
-	void mouse_move(CDC* dc, int x, int y, int sx, int sy);
 
 	void erase();
 

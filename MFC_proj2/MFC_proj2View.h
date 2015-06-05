@@ -19,26 +19,23 @@ protected: // serialization에서만 만들어집니다.
 	// 특성입니다.
 public:
 	CMFC_proj2Doc* GetDocument() const;
-	///////////////////////////////bline 리스트
-	BOOL bline_status = false;
 	///////////////////////////////
 
 	///////////////////////////////brect 리스트
-	BOOL brect_status = true;
-	BOOL bellipse_status= true;
-	BOOL btext_status = true;
+	BOOL brect_status = false;
+	BOOL bellipse_status=false;
+	BOOL btext_status = false;
 	BOOL bpoly_status = true;
 
-	CArray<CRect, CRect&> boxes; 
-	int current;
+	int current_l;		//Line 현재 배열번호
+	int current_r;		//Rect 현재 배열번호
+	int current_e;		//Ellipse 현재 배열번호
 	bool move;
-	int startx;
-	int starty;
+
 	Line line;
 	ARectangle rect;
 	AEllipse ell;
 	APolyline poly;
-	Point temp;
 	CArray<APolyline, APolyline&> APolyline_array;
 	///////////////////////////////
 	// 작업입니다.
@@ -80,7 +77,6 @@ public:
 	afx_msg void OnUpdateAfxIdpAskToUpdate(CCmdUI *pCmdUI);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnBpolyline();
-//	afx_msg void OnUpdateBpolyline(CCmdUI *pCmdUI);
 };
 
 #ifndef _DEBUG  // MFC_proj2View.cpp의 디버그 버전
