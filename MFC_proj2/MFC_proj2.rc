@@ -119,6 +119,7 @@ BEGIN
     BUTTON      ID_BEllipse
     BUTTON      ID_BText
     BUTTON      ID_BPolyline
+    BUTTON      ID_BSelect
 END
 
 

@@ -42,6 +42,8 @@ BEGIN_MESSAGE_MAP(CMFC_proj2View, CView)
 	ON_COMMAND(ID_BPolyline, &CMFC_proj2View::OnBpolyline)
 //	ON_WM_NCLBUTTONDBLCLK()
 	ON_WM_LBUTTONDBLCLK()
+	ON_COMMAND(ID_BSelect, &CMFC_proj2View::OnBselect)
+	ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 // CMFC_proj2View 생성/소멸
@@ -310,9 +312,9 @@ void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	case DP:
 	{
-			   temp.setX(point.x);
-			   temp.setY(point.y);
-			   poly.next(temp);
+			   temp_point.setX(point.x);
+			   temp_point.setY(point.y);
+			   poly.next(temp_point);
 			   poly.draw(&dc);
 			   break;
 	}
@@ -379,6 +381,10 @@ void CMFC_proj2View::OnUpdateAfxIdpAskToUpdate(CCmdUI *pCmdUI)
 	{
 		pCmdUI->Enable(bpoly_status);
 	}
+	else if (mode == DN)
+	{
+		pCmdUI->Enable(bselect_status);
+	}
 }
 
 
@@ -412,14 +418,25 @@ void CMFC_proj2View::OnBpolyline()
 //}
 
 
+
+
+
+void CMFC_proj2View::OnBselect()
+{
+	mode = DN;
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
 void CMFC_proj2View::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-			   APolyline* temp = new APolyline();
-			   poly.poly_array[poly.index].setEnd_x(point.x);
-			   poly.poly_array[poly.index].setEnd_y(point.y);
-			   temp->copy_this(poly);
-			   APoly_array.Add(*temp);
-			   mode = DN;
-			   CView::OnLButtonDblClk(nFlags, point);
+	APolyline* temp = new APolyline();
+	poly.poly_array[poly.index].setEnd_x(point.x);
+	poly.poly_array[poly.index].setEnd_y(point.y);
+	temp->copy_this(poly);
+	APoly_array.Add(*temp);
+	mode = DN;
+	CView::OnLButtonDblClk(nFlags, point);
+	CView::OnLButtonDblClk(nFlags, point);
 }
