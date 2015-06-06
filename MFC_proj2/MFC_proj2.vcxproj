@@ -108,7 +108,9 @@
     <ClInclude Include="MFC_proj2Doc.h" />
     <ClInclude Include="MFC_proj2View.h" />
     <ClInclude Include="Point.h" />
-    <ClInclude Include="Polyline.h" />
+    <ClInclude Include="Polyline.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="ARectangle.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -125,7 +127,9 @@
     <ClCompile Include="MFC_proj2Doc.cpp" />
     <ClCompile Include="MFC_proj2View.cpp" />
     <ClCompile Include="Point.cpp" />
-    <ClCompile Include="Polyline.cpp" />
+    <ClCompile Include="Polyline.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="ARectangle.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
