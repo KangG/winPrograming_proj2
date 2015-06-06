@@ -76,6 +76,11 @@ public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnDline();
+	afx_msg void OnDrect();
+	afx_msg void OnDell();
+	afx_msg void OnDpoly();
+	afx_msg void OnDtext();
 };
 
 #ifndef _DEBUG  // MFCApplication1View.cpp의 디버그 버전

@@ -39,6 +39,11 @@ BEGIN_MESSAGE_MAP(CMFCApplication1View, CView)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
+	ON_COMMAND(ID_DL, &CMFCApplication1View::OnDline)
+	ON_COMMAND(ID_DR, &CMFCApplication1View::OnDrect)
+	ON_COMMAND(ID_DE, &CMFCApplication1View::OnDell)
+	ON_COMMAND(ID_DP, &CMFCApplication1View::OnDpoly)
+	ON_COMMAND(ID_DT, &CMFCApplication1View::OnDtext)
 END_MESSAGE_MAP()
 
 // CMFCApplication1View 생성/소멸
@@ -311,4 +316,99 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	}
 	CView::OnMouseMove(nFlags, point);
+}
+
+
+void CMFCApplication1View::OnDline()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	mode = DL; 
+	if (!bline_status)
+	{
+		bline_status = true;
+		brect_status = false;
+		bellipse_status = false;
+		btext_status = false;
+		bpoly_status = false;
+	}
+	else
+	{
+		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
+	}
+}
+
+
+void CMFCApplication1View::OnDrect()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	mode = DR;
+	if (!bline_status)
+	{
+		bline_status = false;
+		brect_status = true;
+		bellipse_status = false;
+		btext_status = false;
+		bpoly_status = false;
+	}
+	else
+	{
+		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
+	}
+}
+
+
+void CMFCApplication1View::OnDell()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	mode = DE;
+	if (!bline_status)
+	{
+		bline_status = false;
+		brect_status = false;
+		bellipse_status = true;
+		btext_status = false;
+		bpoly_status = false;
+	}
+	else
+	{
+		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
+	}
+}
+
+
+void CMFCApplication1View::OnDpoly()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	mode = DP;
+	if (!bline_status)
+	{
+		bline_status = false;
+		brect_status = false;
+		bellipse_status = false;
+		btext_status = false;
+		bpoly_status = true;
+	}
+	else
+	{
+		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
+	}
+}
+
+
+void CMFCApplication1View::OnDtext()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	mode = DT;
+	if (!bline_status)
+	{
+		bline_status = false;
+		brect_status = false;
+		bellipse_status = false;
+		btext_status = true;
+		bpoly_status = false;
+	}
+	else
+	{
+		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
+	}
 }
