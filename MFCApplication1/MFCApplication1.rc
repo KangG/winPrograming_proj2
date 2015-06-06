@@ -123,7 +123,15 @@ BEGIN
     BUTTON      ID_DR
     BUTTON      ID_DE
     BUTTON      ID_DP
+    SEPARATOR
+    BUTTON      ID_BUTTON32779
+    BUTTON      ID_BUTTON32780
+    SEPARATOR
     BUTTON      ID_DT
+    BUTTON      ID_BUTTON32781
+    SEPARATOR
+    BUTTON      ID_BUTTON32782
+    BUTTON      ID_BUTTON32783
 END
 
 
@@ -506,6 +514,15 @@ END
 STRINGTABLE
 BEGIN
     ID_DL                   "선을 그립니다."
+    ID_DR                   "사각형을 그립니다."
+    ID_DE                   "원을 그립니다."
+    ID_DP                   "polyline을 그립니다."
+    ID_DT                   "text상자를 그립니다."
+    ID_BUTTON32779          "선색을 변경합니다."
+    ID_BUTTON32780          "면색을 변경합니다."
+    ID_BUTTON32781          "글자색을 변경합니다."
+    ID_BUTTON32782          "선굵기"
+    ID_BUTTON32783          "선 패턴"
 END
 
 #endif    // 한국어(대한민국) resources
