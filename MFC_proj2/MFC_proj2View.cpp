@@ -39,7 +39,6 @@ BEGIN_MESSAGE_MAP(CMFC_proj2View, CView)
 	ON_WM_MOUSEMOVE()
 	ON_UPDATE_COMMAND_UI(AFX_IDP_ASK_TO_UPDATE, &CMFC_proj2View::OnUpdateAfxIdpAskToUpdate)
 	ON_COMMAND(ID_BPolyline, &CMFC_proj2View::OnBpolyline)
-//	ON_UPDATE_COMMAND_UI(ID_BPolyline, &CMFC_proj2View::OnUpdateBpolyline)
 END_MESSAGE_MAP()
 
 // CMFC_proj2View 생성/소멸
@@ -119,6 +118,19 @@ void CMFC_proj2View::OnPaint()
 {
 	CPaintDC dc(this); // device context for painting
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+
+	dc.SelectStockObject(NULL_BRUSH);
+	//dc.SetROP2(R2_COPYPEN);
+
+	for (int i = 0; i < Line_array.GetCount(); i++) {										//저장된 Line 그리기
+		Line_array[i].draw(&dc, Line_array[i].getEnd_x(), Line_array[i].getEnd_y());
+	}
+	for (int i = 0; i < ARect_array.GetCount(); i++) {										//저장된 Rect 그리기
+		ARect_array[i].draw(&dc, ARect_array[i].getEnd_x(), ARect_array[i].getEnd_y());
+	}
+	for (int i = 0; i < AEll_array.GetCount(); i++) {										//저장된 Ellipse 그리기
+		AEll_array[i].draw(&dc, AEll_array[i].getEnd_x(), AEll_array[i].getEnd_y());
+	}
 	// 그리기 메시지에 대해서는 CView::OnPaint()을(를) 호출하지 마십시오.
 
 }
@@ -145,7 +157,7 @@ void CMFC_proj2View::OnBline()
 		모드를 끌때는 다시한번 툴바를 눌러주어서 끄는데,
 		이때 모드를 다시 0으로 초기화 해준다.
 		->다른 버튼 클릭시 자동으로 꺼지도록 변경
-	*/
+		*/
 }
 
 
@@ -208,52 +220,61 @@ void CMFC_proj2View::OnBtext()
 	{
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
 	}
-	
+
 }
 
 
 void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	CClientDC dc(this);
-	
+
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	switch (mode)
 	{
 	case DL:
 	{
-		line.setStart_x(point.x);
-		line.setStart_y(point.y);
+			   Line* l = new Line();
+			   Line_array.Add(*l);
+			   current_l = Line_array.GetCount() - 1;
 
-		/*SetCapture();
-		m_ptPrev = point;
-		CView::OnLButtonDown(nFlags, point);
-		break;*/
+			   Line_array[current_l].setStart_x(point.x);
+			   Line_array[current_l].setStart_y(point.y);
+			   Line_array[current_l].setFlag(1);
 
-		break;
+			   break;
 	}
 	case DR:
 	{
-	   rect.setStart_x(point.x);
-	   rect.setStart_y(point.y);
+			   ARectangle* r = new ARectangle();
+			   ARect_array.Add(*r);
+			   current_r = ARect_array.GetCount() - 1;
+			   ARect_array[current_r].setStart_x(point.x);
+			   ARect_array[current_r].setStart_y(point.y);
+			   ARect_array[current_r].setFlag(2);
 
-	   startx = point.x;
-	   starty = point.y;
-
-	   break;
+			   move = true;
+			   break;
 	}
 	case DE:
 	{
-		ell.setStart_x(point.x);
-		ell.setStart_y(point.y);
+			   AEllipse* e = new AEllipse();
+			   AEll_array.Add(*e);
+			   current_e = AEll_array.GetCount() - 1;
+			   AEll_array[current_e].setStart_x(point.x);
+			   AEll_array[current_e].setStart_y(point.y);
+			   AEll_array[current_e].setFlag(3);
 
-		break;
+			   break;
 	}
 	case DT:
 	{
-		rect.setStart_x(point.x);
-		rect.setStart_y(point.y);
+			   Line* t = new Line;
+			   Line_array.Add(*t);
+			   /*current_t = figure.GetCount() - 1;
+			   figure[current].setStart_x(point.x);
+			   figure[current].setStart_y(point.y);*/
 
-		break;
+			   break;
 	}
 	}
 }
@@ -262,7 +283,7 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	CClientDC dc(this);
-	
+
 	//// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	switch (mode)
 	{
@@ -285,8 +306,8 @@ void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	case DT:
 	{
-		rect.draw(&dc, point.x, point.y);
-		break;
+			   move = false;
+			   break;
 	}
 	case DP:
 	{
@@ -319,70 +340,34 @@ void CMFC_proj2View::OnMouseMove(UINT nFlags, CPoint point)
 	{
 	case DL:
 	{
-		/*if (GetCapture() != this)
-			return;
-
-		CClientDC dc(this);
-		dc.MoveTo(m_ptPrev);
-		dc.LineTo(point);
-
-		m_ptPrev = point;
-		CView::OnMouseMove(nFlags, point);*/
+		if (move == true){
+			Line_array[current_l].draw(&dc, point.x, point.y);
+		}
+		Invalidate();
 		break;
 	}
 	case DR:
 	{
-		if (nFlags & MK_LBUTTON == 1 && current != -1) {
-			rect.mouse_move(&dc, point.x, point.y, startx, starty);
+		if (move == true){
+			ARect_array[current_r].draw(&dc, point.x, point.y);
 		}
+		Invalidate();
 		break;
 	}
 	case DE:
 	{
-		if (nFlags & MK_LBUTTON == 1 && current != -1) {
-				CClientDC dc(this);
-				dc.SelectStockObject(NULL_BRUSH);
-				dc.SetROP2(R2_NOT);
-
-				dc.Ellipse(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-
-				// 이동
-				boxes[current].left += point.x - startx;
-				boxes[current].top += point.y - starty;
-				boxes[current].right += point.x - startx;
-				boxes[current].bottom += point.y - starty;
-
-				startx = point.x;
-				starty = point.y;
-
-				dc.Ellipse(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-			
+		if (move == true){
+			AEll_array[current_e].draw(&dc, point.x, point.y);
 		}
+		Invalidate();
 		break;
 	}
 	case DT:
 	{
-		if (nFlags & MK_LBUTTON == 1 && current != -1) {
-		
-				CClientDC dc(this);
-				dc.SelectStockObject(NULL_BRUSH);
-				dc.SetROP2(R2_NOT);
-
-				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-
-				// 이동
-				boxes[current].left += point.x - startx;
-				boxes[current].top += point.y - starty;
-				boxes[current].right += point.x - startx;
-				boxes[current].bottom += point.y - starty;
-
-				startx = point.x;
-				starty = point.y;
-
-				dc.Rectangle(boxes[current].left, boxes[current].top, boxes[current].right, boxes[current].bottom);
-			
-		}
-		break;
+			   if (move == true){
+				  // figure[current].draw(&dc, point.x, point.y);
+			   }
+			   break;
 	}
 	}
 }

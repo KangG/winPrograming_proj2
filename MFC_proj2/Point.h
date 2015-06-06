@@ -9,11 +9,8 @@ public:
 	int getY();
 	void setX(int x);
 	void setY(int y);
-	int getFlag();
-	void setFlag(int flag);
 
 private:
 	int x;
 	int y;
-	int flag;
 };
