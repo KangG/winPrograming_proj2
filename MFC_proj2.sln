@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFC_proj2", "MFC_proj2\MFC_proj2.vcxproj", "{1EE15BEB-8D9C-4146-ABD5-6CC0EBA2DB49}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCApplication1", "MFCApplication1\MFCApplication1.vcxproj", "{AAF0DF3A-86C9-41FC-B50E-93DD565D1228}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -15,6 +17,10 @@ Global
 		{1EE15BEB-8D9C-4146-ABD5-6CC0EBA2DB49}.Debug|Win32.Build.0 = Debug|Win32
 		{1EE15BEB-8D9C-4146-ABD5-6CC0EBA2DB49}.Release|Win32.ActiveCfg = Release|Win32
 		{1EE15BEB-8D9C-4146-ABD5-6CC0EBA2DB49}.Release|Win32.Build.0 = Release|Win32
+		{AAF0DF3A-86C9-41FC-B50E-93DD565D1228}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AAF0DF3A-86C9-41FC-B50E-93DD565D1228}.Debug|Win32.Build.0 = Debug|Win32
+		{AAF0DF3A-86C9-41FC-B50E-93DD565D1228}.Release|Win32.ActiveCfg = Release|Win32
+		{AAF0DF3A-86C9-41FC-B50E-93DD565D1228}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
