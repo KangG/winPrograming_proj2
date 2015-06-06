@@ -264,6 +264,7 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 			   AEll_array[current_e].setStart_y(point.y);
 			   AEll_array[current_e].setFlag(3);
 
+			   move = true;
 			   break;
 	}
 	case DT:
@@ -274,6 +275,7 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 			   figure[current].setStart_x(point.x);
 			   figure[current].setStart_y(point.y);*/
 
+			   move = true;
 			   break;
 	}
 	}
@@ -288,22 +290,8 @@ void CMFC_proj2View::OnLButtonUp(UINT nFlags, CPoint point)
 	switch (mode)
 	{
 	case DL:
-	{
-		/*ReleaseCapture();
-		CView::OnLButtonUp(nFlags, point);*/
-			   line.draw(&dc, point.x, point.y);
-		break;
-	}
 	case DR:
-	{
-			   rect.draw(&dc, point.x, point.y);
-		break;
-	}
 	case DE:
-	{
-		ell.draw(&dc, point.x, point.y);
-		break;
-	}
 	case DT:
 	{
 			   move = false;

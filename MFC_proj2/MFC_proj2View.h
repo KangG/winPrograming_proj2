@@ -19,20 +19,17 @@ protected: // serialization에서만 만들어집니다.
 	// 특성입니다.
 public:
 	CMFC_proj2Doc* GetDocument() const;
-	///////////////////////////////bline 리스트
-	BOOL bline_status = false;
 	///////////////////////////////
-
-	///////////////////////////////brect 리스트
+	BOOL bline_status = false;
 	BOOL brect_status = false;
 	BOOL bellipse_status=false;
 	BOOL btext_status = false;
-	BOOL bpoly_status = true;
+	BOOL bpoly_status = false;
 
-	int current;
+	int current_l;		//Line 현재 배열번호
+	int current_r;		//Rect 현재 배열번호
+	int current_e;		//Ellipse 현재 배열번호
 	bool move;
-	int startx;
-	int starty;
 
 	Line line;
 	ARectangle rect;
