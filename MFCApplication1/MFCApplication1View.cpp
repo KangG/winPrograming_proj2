@@ -46,6 +46,7 @@ BEGIN_MESSAGE_MAP(CMFCApplication1View, CView)
 	ON_COMMAND(ID_DP, &CMFCApplication1View::OnDpoly)
 	ON_COMMAND(ID_DT, &CMFCApplication1View::OnDtext)
 	ON_COMMAND(ID_Select, &CMFCApplication1View::OnSelect)
+	ON_COMMAND(ID_OC, &CMFCApplication1View::OnOc)
 END_MESSAGE_MAP()
 
 // CMFCApplication1View 생성/소멸
@@ -81,7 +82,6 @@ void CMFCApplication1View::OnDraw(CDC* /*pDC*/)
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
-
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 }
 
@@ -251,7 +251,7 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	CClientDC dc(this);
-
+	dc.SetDCBrushColor(color);
 	//// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	switch (mode)
 	{
@@ -433,5 +433,14 @@ void CMFCApplication1View::OnDtext()
 
 void CMFCApplication1View::OnSelect()
 {
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CMFCApplication1View::OnOc()
+{
+	CColorDialog dlg;
+	dlg.DoModal();
+	color = dlg.GetColor();
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }

@@ -16,6 +16,11 @@ APolyline::APolyline()
 	this->pattern = 0;
 	this->index = 0;
 }
+
+APolyline::APolyline(COLORREF color)
+{
+	color_p = color;
+}
 APolyline::APolyline(const APolyline &p)
 {
 	*this = p;
@@ -100,6 +105,7 @@ int APolyline::get_index()
 
 void APolyline::draw(CDC* dc)
 {
+
 	for (int i = 0; i < poly_array.GetSize()-1; i++){
 		dc->MoveTo(poly_array[i].getStart_x(),
 			poly_array[i].getStart_y());

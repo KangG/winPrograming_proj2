@@ -32,6 +32,8 @@ public:
 	int current_p;		//poly 현재 배열번호
 	bool move;
 
+
+	COLORREF color;
 	Point p_point;
 	Line line;
 	ARectangle rect;
@@ -86,6 +88,7 @@ public:
 	afx_msg void OnDpoly();
 	afx_msg void OnDtext();
 	afx_msg void OnSelect();
+	afx_msg void OnOc();
 };
 
 #ifndef _DEBUG  // MFCApplication1View.cpp의 디버그 버전
