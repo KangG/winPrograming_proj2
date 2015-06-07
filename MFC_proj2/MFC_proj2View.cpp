@@ -47,7 +47,9 @@ CMFC_proj2View::CMFC_proj2View()
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
 	m_ptPrev = 0;
-	current = -1;
+	current_l = -1;
+	current_r = -1;
+	current_e = -1;
 	move = false;
 
 }
@@ -239,7 +241,7 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 
 			   Line_array[current_l].setStart_x(point.x);
 			   Line_array[current_l].setStart_y(point.y);
-			   Line_array[current_l].setFlag(1);
+			   //Line_array[current_l].setFlag(1);
 
 			   break;
 	}
@@ -250,7 +252,7 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 			   current_r = ARect_array.GetCount() - 1;
 			   ARect_array[current_r].setStart_x(point.x);
 			   ARect_array[current_r].setStart_y(point.y);
-			   ARect_array[current_r].setFlag(2);
+			   //ARect_array[current_r].setFlag(2);
 
 			   move = true;
 			   break;
@@ -262,7 +264,7 @@ void CMFC_proj2View::OnLButtonDown(UINT nFlags, CPoint point)
 			   current_e = AEll_array.GetCount() - 1;
 			   AEll_array[current_e].setStart_x(point.x);
 			   AEll_array[current_e].setStart_y(point.y);
-			   AEll_array[current_e].setFlag(3);
+			   //AEll_array[current_e].setFlag(3);
 
 			   move = true;
 			   break;
