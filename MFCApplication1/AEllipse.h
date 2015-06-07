@@ -4,8 +4,10 @@ class AEllipse : public Line{
 public:
 	AEllipse();
 
-	void setColor(COLORREF rgb);
-	COLORREF getColor();
+	void setColor_l(COLORREF rgb);
+	COLORREF getColor_l ();
+	void setColor_s(COLORREF rgb);
+	COLORREF getColor_s();
 
 	void setThick(double thick);
 	double getThick();
@@ -39,7 +41,8 @@ public:
 	Point start_p(int start_x, int start_y);
 	Point end_p(int end_x, int end_y);
 
-	COLORREF color_r;
+	COLORREF color_l;
+	COLORREF color_s;
 	double thick;
 	int pattern;
 };

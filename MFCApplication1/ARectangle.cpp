@@ -11,19 +11,30 @@ ARectangle::ARectangle()
 	Point start_p(this->start_x, this->start_y);
 	Point end_p(this->end_x, this->end_y);
 
-	this->color_r = *(new COLORREF(RGB(0, 0, 0)));
+	this->color_l = *(new COLORREF(RGB(0, 0, 0)));
+	this->color_s = *(new COLORREF(RGB(255,255,255)));
 	this->thick = 0.5;
 	this->pattern = 0;
 }
 
-void ARectangle::setColor(COLORREF rgb)
+void ARectangle::setColor_l(COLORREF rgb)
 {
-	this->color_r = rgb;
+	this->color_l = rgb;
 }
 
-COLORREF ARectangle::getColor()
+COLORREF ARectangle::getColor_l()
 {
-	return this->color_r;
+	return this->color_l;
+}
+
+void ARectangle::setColor_s(COLORREF rgb)
+{
+	this->color_s = rgb;
+}
+
+COLORREF ARectangle::getColor_s()
+{
+	return this->color_s;
 }
 
 void ARectangle::setThick(double thick)
@@ -69,7 +80,20 @@ void ARectangle::draw(CDC* dc, int x, int y)
 {
 	setEnd_x(x);
 	setEnd_y(y);
+
+	CPen pen;
+	pen.CreatePen(PS_DOT, 3, color_l);
+	CPen* oldPen = dc->SelectObject(&pen);
+	CBrush brush;
+	brush.CreateSolidBrush(color_s);
+	CBrush* oldBrush = dc->SelectObject(&brush);
+
 	dc->Rectangle(getStart_x(), getStart_y(), getEnd_x(), getEnd_y());
+	dc->SelectObject(oldBrush);
+
+	dc->Rectangle(getStart_x(), getStart_y(), getEnd_x(), getEnd_y());
+	dc->SelectObject(oldPen);     // Ω√Ω∫≈€ ∆Ê ∞¥√º∏¶ µπ∑¡¡‹
+	dc->SelectObject(oldBrush);    // Ω√Ω∫≈€ ∫Í∑ØΩ√ ∞¥√º∏¶ µπ∑¡¡‹
 }
 
 void ARectangle::erase()

@@ -17,7 +17,7 @@
 #endif
 
 //mode 번호
-#define DS 0
+#define S 0
 #define DL 1		//line 그리기
 #define DR 2		//rect 그리기
 #define DE 3		//ellipse 그리기
@@ -177,7 +177,7 @@ void CMFCApplication1View::OnLButtonDblClk(UINT nFlags, CPoint point)
 	{
 	case DP:
 	{
-			   mode = DS;
+			   mode = S;
 			   bpoly_new = false;
 			   bpoly_status = false;
 	}
@@ -243,6 +243,66 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 		move = true;
 		break;
 	}
+	case S:
+	{
+		// 선택된 개체 찾기
+		{
+			// 선택된 것이 있으면 지금 클릭 한 점이 그 개체를 찍었는지 확인함
+			if (Line_array.GetCount() != 0)
+			{
+				for (int i = 0; i < Line_array.GetCount(); i++)
+				{
+					// 하나라도 범위 안에 있으면 선택으로 인정
+					//Line_array[i].getStart_x;
+
+				}
+			}
+			if (ARect_array.GetCount() != 0)
+			{
+				int x1, x2, y1, y2;
+				for (int i = 0; i < ARect_array.GetCount(); i++)
+				{
+					x1 = ARect_array[i].getStart_x();
+					x2 = ARect_array[i].getEnd_x();
+					y1 = ARect_array[i].getStart_y();
+					y2 = ARect_array[i].getEnd_y();
+
+					// 하나라도 범위 안에 있으면 선택으로 인정
+					if ((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5)
+						&& (point.y >= y1 - 5 && point.y <= y2 + 5) || (point.y >= y2 - 5 && point.y <= y1 + 5))
+					{
+						ARect_array[i].setColor_s(RGB(255, 0, 0));
+						return;
+					}
+
+				}
+			}
+			if (AEll_array.GetCount() != 0)
+			{
+				for (int i = 0; i < AEll_array.GetCount(); i++)
+				{
+					int x1, x2, y1, y2;
+					for (int i = 0; i < AEll_array.GetCount(); i++)
+					{
+						x1 = AEll_array[i].getStart_x();
+						x2 = AEll_array[i].getEnd_x();
+						y1 = AEll_array[i].getStart_y();
+						y2 = AEll_array[i].getEnd_y();
+
+						// 하나라도 범위 안에 있으면 선택으로 인정
+						if ((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5)
+							&& (point.y >= y1 - 5 && point.y <= y2 + 5) || (point.y >= y2 - 5 && point.y <= y1 + 5))
+						{
+							AEll_array[i].setColor_s(RGB(255, 0, 0));
+							return;
+						}
+
+					}
+
+				}
+			}
+		}
+	}
 	}
 }
 
@@ -255,6 +315,11 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 	//// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	switch (mode)
 	{
+	case S:
+	{
+		Invalidate();
+		break;
+	}
 	case DL:
 	case DR:
 	case DE:
@@ -434,6 +499,7 @@ void CMFCApplication1View::OnDtext()
 void CMFCApplication1View::OnSelect()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	mode = S;
 }
 
 
