@@ -19,6 +19,7 @@ public:
 	void eraseAt(int index, Point point);
 	void eraseAll();
 	void draw(CDC* dc);
+
 	int get_index();
 
 public:

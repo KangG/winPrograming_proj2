@@ -328,6 +328,7 @@ void CMFCApplication1View::OnDline()
 	{
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
 		bline_status = false;
+		mode = 100;
 	}
 }
 
@@ -336,7 +337,7 @@ void CMFCApplication1View::OnDrect()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DR;
-	if (!bline_status)
+	if (!brect_status)
 	{
 		bline_status = false;
 		brect_status = true;
@@ -348,6 +349,7 @@ void CMFCApplication1View::OnDrect()
 	{
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
 		brect_status = false;
+		mode = 100;
 	}
 }
 
@@ -356,7 +358,7 @@ void CMFCApplication1View::OnDell()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DE;
-	if (!bline_status)
+	if (!bellipse_status)
 	{
 		bline_status = false;
 		brect_status = false;
@@ -368,6 +370,7 @@ void CMFCApplication1View::OnDell()
 	{
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
 		bellipse_status = false;
+		mode = 100;
 	}
 }
 
@@ -376,7 +379,7 @@ void CMFCApplication1View::OnDpoly()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DP;
-	if (!bline_status)
+	if (!bpoly_status)
 	{
 		bline_status = false;
 		brect_status = false;
@@ -388,6 +391,7 @@ void CMFCApplication1View::OnDpoly()
 	{
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
 		bpoly_status = false;
+		mode = 100;
 	}
 }
 
@@ -396,7 +400,7 @@ void CMFCApplication1View::OnDtext()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DT;
-	if (!bline_status)
+	if (!btext_status)
 	{
 		bline_status = false;
 		brect_status = false;
@@ -408,5 +412,6 @@ void CMFCApplication1View::OnDtext()
 	{
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
 		btext_status = false;
+		mode = 100;
 	}
 }
