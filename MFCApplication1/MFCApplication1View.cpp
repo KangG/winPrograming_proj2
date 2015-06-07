@@ -179,6 +179,7 @@ void CMFCApplication1View::OnLButtonDblClk(UINT nFlags, CPoint point)
 	{
 			   mode = DS;
 			   bpoly_new = false;
+			   bpoly_status = false;
 	}
 	}
 	CView::OnLButtonDblClk(nFlags, point);
