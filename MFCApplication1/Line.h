@@ -6,7 +6,7 @@
 class Line : public Point{
 public:
 	Line();
-
+	Line(int a, int b, int c, int d);
 	void setColor(COLORREF rgb);
 	COLORREF getColor();
 

@@ -55,6 +55,7 @@ CMFCApplication1View::CMFCApplication1View()
 	current_l = -1;
 	current_r = -1;
 	current_e = -1;
+	current_p = -1;
 	move = false;
 }
 
@@ -254,21 +255,13 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	case DP:
 	{
-	/*	Point temp;
-		temp.setX(point.x);
-		temp.setY(point.y);
-		if (poly.get_index() == 0)
-		{
-			poly.temp.setStart_x(temp.getX());
-			poly.temp.setStart_y(temp.getY());
+
+			   TRACE("%d", poly.poly_array.GetSize());
+		p_point.setX(point.x);
+		p_point.setY(point.y);
+		poly.next(p_point);
+		poly.draw(&dc);
 			break;
-		}
-		else
-		{
-			poly.next(temp);
-			poly.draw(&dc);
-			break;
-		}*/
 	}
 	}
 	CView::OnLButtonUp(nFlags, point);

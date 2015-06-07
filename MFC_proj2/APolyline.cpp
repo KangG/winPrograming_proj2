@@ -92,28 +92,8 @@ int APolyline::get_index()
 
 void APolyline::draw(CDC* dc)
 {
-	dc->MoveTo(this->poly_array[index-1].getStart_x(),
-		this->poly_array[index-1].getStart_y());
-	dc->LineTo(this->poly_array[index-1].getEnd_x(),
-		this->poly_array[index-1].getEnd_y());
-}
-
-APolyline APolyline::copy_this(APolyline poly)
-{
-	APolyline temp;
-
-	for (int i = 0; i < poly.poly_array.GetSize(); i++)
-	{
-
-		temp.color_p = poly.color_p;
-		temp.thick = poly.thick;
-		temp.pattern = poly.pattern;
-		temp.index = poly.index;
-		temp.poly_array[i].setStart_x(poly.poly_array[i].getStart_x());
-		temp.poly_array[i].setStart_y(poly.poly_array[i].getStart_y());
-		temp.poly_array[i].setEnd_x(poly.poly_array[i].getEnd_x());
-		temp.poly_array[i].setEnd_y(poly.poly_array[i].getEnd_y());
-	}
-
-	return temp;
+	dc->MoveTo(this->poly_array[this->index-1].getStart_x(),
+		this->poly_array[this->index-1].getStart_y());
+	dc->LineTo(this->poly_array[this->index-1].getEnd_x(),
+		this->poly_array[this->index-1].getEnd_y());
 }

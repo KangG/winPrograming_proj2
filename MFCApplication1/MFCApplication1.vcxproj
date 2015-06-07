@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEllipse.h" />
+    <ClInclude Include="APolyline.h" />
     <ClInclude Include="ARectangle.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="Line.h" />
@@ -115,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AEllipse.cpp" />
+    <ClCompile Include="APolyline.cpp" />
     <ClCompile Include="ARectangle.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="Line.cpp" />

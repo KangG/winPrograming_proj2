@@ -7,6 +7,7 @@
 #include "Line.h"
 #include "AEllipse.h"
 #include "ARectangle.h"
+#include "APolyline.h"
 #include "Text.h"
 
 class CMFCApplication1View : public CView
@@ -27,18 +28,20 @@ public:
 	int current_l;		//Line 현재 배열번호
 	int current_r;		//Rect 현재 배열번호
 	int current_e;		//Ellipse 현재 배열번호
+	int current_p;
 	bool move;
 
+	Point p_point;
 	Line line;
 	ARectangle rect;
 	AEllipse ell;
-	//APolyline poly;
+	APolyline poly;
 
 	CArray<Line, Line&> figure;							//모든 객체를 저장할 배열 
 	CArray<Line, Line&> Line_array;						//Line 객체를 저장할배열
 	CArray<ARectangle, ARectangle&> ARect_array;		//Rect 객체를 저장할배열
 	CArray<AEllipse, AEllipse&> AEll_array;				//Ellipse 객체를 저장할배열
-	//CArray<APolyline, APolyline&> APolyline_array;		//PolyLine 객체를 저장할배열
+	CArray<APolyline, APolyline&> APolyline_array;		//PolyLine 객체를 저장할배열
 
 // 작업입니다.
 public:

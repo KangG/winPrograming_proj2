@@ -20,7 +20,6 @@ public:
 	void eraseAll();
 	void draw(CDC* dc);
 	
-	APolyline copy_this(APolyline poly);
 	int get_index();
 
 public:

@@ -4,6 +4,14 @@
 Line::Line(){
 }
 
+Line::Line(int a, int b, int c, int d)
+{
+	start_x = a;
+	start_y = b;
+	end_x = c;
+	end_y = d;
+}
+
 void Line::setColor(COLORREF rgb){
 	this->color_l = rgb;
 }
