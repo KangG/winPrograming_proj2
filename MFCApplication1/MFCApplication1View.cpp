@@ -44,6 +44,7 @@ BEGIN_MESSAGE_MAP(CMFCApplication1View, CView)
 	ON_COMMAND(ID_DE, &CMFCApplication1View::OnDell)
 	ON_COMMAND(ID_DP, &CMFCApplication1View::OnDpoly)
 	ON_COMMAND(ID_DT, &CMFCApplication1View::OnDtext)
+	ON_COMMAND(ID_Select, &CMFCApplication1View::OnSelect)
 END_MESSAGE_MAP()
 
 // CMFCApplication1View 생성/소멸
@@ -414,4 +415,10 @@ void CMFCApplication1View::OnDtext()
 		btext_status = false;
 		mode = 100;
 	}
+}
+
+
+void CMFCApplication1View::OnSelect()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }

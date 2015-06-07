@@ -119,6 +119,7 @@ END
 
 IDR_TOOLBAR1 TOOLBAR 16, 15
 BEGIN
+    BUTTON      ID_Select
     BUTTON      ID_DL
     BUTTON      ID_DR
     BUTTON      ID_DE
