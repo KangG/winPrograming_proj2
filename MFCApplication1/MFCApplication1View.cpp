@@ -327,6 +327,7 @@ void CMFCApplication1View::OnDline()
 	else
 	{
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
+		bline_status = false;
 	}
 }
 
@@ -346,6 +347,7 @@ void CMFCApplication1View::OnDrect()
 	else
 	{
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
+		brect_status = false;
 	}
 }
 
@@ -365,6 +367,7 @@ void CMFCApplication1View::OnDell()
 	else
 	{
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
+		bellipse_status = false;
 	}
 }
 
@@ -384,6 +387,7 @@ void CMFCApplication1View::OnDpoly()
 	else
 	{
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
+		bpoly_status = false;
 	}
 }
 
@@ -403,5 +407,6 @@ void CMFCApplication1View::OnDtext()
 	else
 	{
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
+		btext_status = false;
 	}
 }
