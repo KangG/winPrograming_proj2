@@ -18,7 +18,8 @@ public:
 	int getStart_y();
 	int getEnd_x();
 	int getEnd_y();
-
+	void setString(CString str);
+	CString getString();
 
 	void setColor(COLORREF rgb);
 	COLORREF getColor();
@@ -33,13 +34,19 @@ public:
 	void erase();
 
 	ARectangle rect;
+
 private:
+	CString s;
+	CRect r;
 	BOOL isInsert;
 	COLORREF color_t;
+	CFont font;
 	double thick;
 	int pattern;
 	int start_x;
 	int start_y;
 	int end_x;
 	int end_y;
+
+
 };
