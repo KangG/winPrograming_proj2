@@ -5,6 +5,8 @@ class APolyline
 {
 public:
 	APolyline();
+	APolyline(const APolyline &p);
+	APolyline& operator=(const APolyline &p);
 	void setColor(COLORREF rgb);
 	COLORREF getColor();
 

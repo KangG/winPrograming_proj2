@@ -17,6 +17,7 @@
 #endif
 
 //mode 번호
+#define DS 0
 #define DL 1		//line 그리기
 #define DR 2		//rect 그리기
 #define DE 3		//ellipse 그리기
@@ -171,7 +172,14 @@ void CMFCApplication1View::OnPaint()
 void CMFCApplication1View::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-
+	switch (mode)
+	{
+	case DP:
+	{
+			   mode = DS;
+			   bpoly_new = false;
+	}
+	}
 	CView::OnLButtonDblClk(nFlags, point);
 }
 
@@ -255,13 +263,17 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	case DP:
 	{
-
-			   TRACE("%d", poly.poly_array.GetSize());
-		p_point.setX(point.x);
-		p_point.setY(point.y);
-		poly.next(p_point);
-		poly.draw(&dc);
-			break;
+			   if (!bpoly_new){
+				   APolyline* p = new APolyline();
+				   APolyline_array.Add(*p);
+				   current_p = APolyline_array.GetSize() - 1;
+				   bpoly_new = true;
+			   }
+				   p_point.setX(point.x);
+				   p_point.setY(point.y);
+				   APolyline_array[current_p].next(p_point);
+				   APolyline_array[current_p].draw(&dc);
+				   break;
 	}
 	}
 	CView::OnLButtonUp(nFlags, point);

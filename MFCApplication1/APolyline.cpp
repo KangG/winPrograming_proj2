@@ -16,6 +16,15 @@ APolyline::APolyline()
 	this->pattern = 0;
 	this->index = 0;
 }
+APolyline::APolyline(const APolyline &p)
+{
+	*this = p;
+}
+
+APolyline& APolyline::operator=(const APolyline &p)
+{
+	return *this;
+}
 
 void APolyline::setColor(COLORREF rgb)
 {

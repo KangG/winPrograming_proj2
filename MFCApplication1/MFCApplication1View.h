@@ -24,11 +24,12 @@ public:
 	BOOL bellipse_status = false;
 	BOOL btext_status = false;
 	BOOL bpoly_status = false;
+	BOOL bpoly_new = false;
 
 	int current_l;		//Line 현재 배열번호
 	int current_r;		//Rect 현재 배열번호
 	int current_e;		//Ellipse 현재 배열번호
-	int current_p;
+	int current_p;		//poly 현재 배열번호
 	bool move;
 
 	Point p_point;
