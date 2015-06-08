@@ -169,7 +169,6 @@ void CMFCApplication1View::OnPaint()
 		if (select_mode == DL)
 		{
 			Line_array[select_num].DrawSelect(&dc);
-			select_mode = 100;
 		}
 		Line_array[i].draw(&dc, Line_array[i].getEnd_x(), Line_array[i].getEnd_y());
 	}
@@ -177,7 +176,6 @@ void CMFCApplication1View::OnPaint()
 		if (select_mode == DR)
 		{
 			ARect_array[select_num].DrawSelect(&dc);
-			select_mode = 100;
 		}
 		ARect_array[i].draw(&dc, ARect_array[i].getEnd_x(), ARect_array[i].getEnd_y());
 	}
@@ -185,7 +183,6 @@ void CMFCApplication1View::OnPaint()
 		if (select_mode == DE)
 		{
 			AEll_array[select_num].DrawSelect(&dc);
-			select_mode = 100;
 		}
 		AEll_array[i].draw(&dc, AEll_array[i].getEnd_x(), AEll_array[i].getEnd_y());
 	}
@@ -193,7 +190,6 @@ void CMFCApplication1View::OnPaint()
 		if (select_mode == DP)
 		{
 			APolyline_array[select_num].DrawSelectLine(&dc);
-			select_mode = 100;
 		}
 		APolyline_array[i].draw(&dc);
 	}
@@ -233,7 +229,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 
 			   Line_array[current_l].setStart_x(point.x);
 			   Line_array[current_l].setStart_y(point.y);
-			   Line_array[current_l].setFlag(1);
+			   Line_array[current_l].setEnd_x(point.x);
+			   Line_array[current_l].setEnd_y(point.y);
 
 			   move = true;
 			   break;
@@ -245,7 +242,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 			   current_r = ARect_array.GetCount() - 1;
 			   ARect_array[current_r].setStart_x(point.x);
 			   ARect_array[current_r].setStart_y(point.y);
-			   ARect_array[current_r].setFlag(2);
+			   ARect_array[current_r].setEnd_x(point.x);
+			   ARect_array[current_r].setEnd_y(point.y);
 
 			   move = true;
 			   break;
@@ -257,7 +255,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 			   current_e = AEll_array.GetCount() - 1;
 			   AEll_array[current_e].setStart_x(point.x);
 			   AEll_array[current_e].setStart_y(point.y);
-			   AEll_array[current_e].setFlag(3);
+			   AEll_array[current_e].setEnd_x(point.x);
+			   AEll_array[current_e].setEnd_y(point.y);
 
 			   move = true;
 			   break;
@@ -649,4 +648,35 @@ void CMFCApplication1View::OnIc()
 	dlg.DoModal();
 	color = dlg.GetColor();
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	if (select_mode != 0)
+	{
+		/*
+		#define DL 1		//line 선택
+		#define DR 2		//rect 선택
+		#define DE 3		//ellipse 선택
+		#define DT 4		//text 선택
+		#define DP 5		//polyline 선택
+		*/
+		switch (select_mode)
+		{
+		case DL:
+		case DP:
+		case DT:
+		{
+			break;
+		}
+		case DR:
+		{
+			ARect_array[select_num].setColor_s(color);
+			Invalidate();
+			break;
+		}
+		case DE:
+		{
+			AEll_array[select_num].setColor_s(color);
+			Invalidate();
+			break;
+		}
+		}
+	}
 }
