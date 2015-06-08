@@ -47,6 +47,7 @@ BEGIN_MESSAGE_MAP(CMFCApplication1View, CView)
 	ON_COMMAND(ID_DT, &CMFCApplication1View::OnDtext)
 	ON_COMMAND(ID_Select, &CMFCApplication1View::OnSelect)
 	ON_COMMAND(ID_OC, &CMFCApplication1View::OnOc)
+	ON_COMMAND(ID_IC, &CMFCApplication1View::OnIc)
 END_MESSAGE_MAP()
 
 // CMFCApplication1View 생성/소멸
@@ -167,6 +168,9 @@ void CMFCApplication1View::OnPaint()
 	for (int i = 0; i < AEll_array.GetCount(); i++) {										//저장된 Ellipse 그리기
 		AEll_array[i].draw(&dc, AEll_array[i].getEnd_x(), AEll_array[i].getEnd_y());
 	}
+	for (int i = 0; i < APolyline_array.GetCount(); i++) {
+		APolyline_array[i].draw(&dc);
+	}
 }
 
 
@@ -241,6 +245,21 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 			   figure[current].setStart_y(point.y);*/
 
 			   move = true;
+			   break;
+	}
+
+	case DP:
+	{
+			   if (!bpoly_new){
+				   APolyline* p = new APolyline();
+				   APolyline_array.Add(*p);
+				   current_p = APolyline_array.GetSize() - 1;
+				   bpoly_new = true;
+			   }
+			   p_point.setX(point.x);
+			   p_point.setY(point.y);
+			   APolyline_array[current_p].next(p_point);
+			   APolyline_array[current_p].draw(&dc);
 			   break;
 	}
 	case S:
@@ -321,6 +340,31 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 
 				}
 			}
+			if (APolyline_array.GetCount() != 0)
+			{
+				for (int i = 0; i < APolyline_array.GetCount(); i++)
+				{
+					for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
+					{
+						double x1, x2, y1, y2;
+						double g;			//greadient 기울기
+
+						x1 = APolyline_array[i].poly_array[j].getStart_x();
+						x2 = APolyline_array[i].poly_array[j].getEnd_x();
+						y1 = APolyline_array[i].poly_array[j].getStart_y();
+						y2 = APolyline_array[i].poly_array[j].getEnd_y();
+						g = (y2 - y1) / (x2 - x1);
+
+						if ((point.x >= x1 - 20 && point.x <= x2 + 20) || (point.x >= x2 - 20 && point.x <= x1 + 20)
+							&& ((point.y >= g*(point.x - x1) + y1 - 20) && (point.y <= g*(point.x - x1) + y1 + 20)))
+						{
+							select_mode = DP;
+							select_num = i;
+							return;
+						}
+					}
+				}
+			}
 		}
 	}
 	}
@@ -350,17 +394,6 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	case DP:
 	{
-			   if (!bpoly_new){
-				   APolyline* p = new APolyline();
-				   APolyline_array.Add(*p);
-				   current_p = APolyline_array.GetSize() - 1;
-				   bpoly_new = true;
-			   }
-			   p_point.setX(point.x);
-			   p_point.setY(point.y);
-			   APolyline_array[current_p].next(p_point);
-			   APolyline_array[current_p].draw(&dc);
-			   break;
 	}
 	}
 	CView::OnLButtonUp(nFlags, point);
@@ -570,8 +603,19 @@ void CMFCApplication1View::OnOc()
 		}
 		case DP:
 		{
+				   APolyline_array[select_num].setColor_l(color);
+				   Invalidate();
 				   break;
 		}
 		}
 	}
+}
+
+
+void CMFCApplication1View::OnIc()
+{
+	CColorDialog dlg;
+	dlg.DoModal();
+	color = dlg.GetColor();
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }

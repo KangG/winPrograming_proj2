@@ -92,6 +92,7 @@ public:
 	afx_msg void OnDtext();
 	afx_msg void OnSelect();
 	afx_msg void OnOc();
+	afx_msg void OnIc();
 };
 
 #ifndef _DEBUG  // MFCApplication1View.cpp의 디버그 버전

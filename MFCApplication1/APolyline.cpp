@@ -31,7 +31,7 @@ APolyline& APolyline::operator=(const APolyline &p)
 	return *this;
 }
 
-void APolyline::setColor(COLORREF rgb)
+void APolyline::setColor_l(COLORREF rgb)
 {
 	this->color_p = rgb;
 }
@@ -105,6 +105,9 @@ int APolyline::get_index()
 
 void APolyline::draw(CDC* dc)
 {
+	CPen pen;
+	pen.CreatePen(PS_DOT, 3, color_p);
+	CPen* oldPen = dc->SelectObject(&pen);
 
 	for (int i = 0; i < poly_array.GetSize()-1; i++){
 		dc->MoveTo(poly_array[i].getStart_x(),

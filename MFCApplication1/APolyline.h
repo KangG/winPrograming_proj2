@@ -8,7 +8,8 @@ public:
 	APolyline(COLORREF color);
 	APolyline(const APolyline &p);
 	APolyline& operator=(const APolyline &p);
-	void setColor(COLORREF rgb);
+	
+	void setColor_l(COLORREF rgb);
 	COLORREF getColor();
 
 	void setThick(double thick);
