@@ -69,10 +69,17 @@ void Line::move(Point p, int x, int y){
 }
 
 void Line::draw(CDC* dc, int x, int y){
+
+	CPen pen;
+	pen.CreatePen(PS_DOT, 3, color_l);
+	CPen* oldPen = dc->SelectObject(&pen);
+
 	dc->MoveTo(start_x, start_y);
 	end_x = x;
 	end_y = y;
 	dc->LineTo(x, y);
+
+	dc->SelectObject(oldPen);     // Ω√Ω∫≈€ ∆Ê ∞¥√º∏¶ µπ∑¡¡‹
 }
 
 void Line::erase(){

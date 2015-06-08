@@ -246,6 +246,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 	case S:
 	{
 			  // 선택된 개체 찾기
+			  //오차 +-5픽셀까지 인정
 		{
 			// 선택된 것이 있으면 지금 클릭 한 점이 그 개체를 찍었는지 확인함
 			//라인 어레이에서 검사
@@ -253,26 +254,23 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 			{
 				for (int i = 0; i < Line_array.GetCount(); i++)
 				{
-					int x1, x2, y1, y2;
-					for (int i = 0; i < ARect_array.GetCount(); i++)
+					double x1, x2, y1, y2;
+					double g;			//greadient 기울기
+
+					x1 = Line_array[i].getStart_x();
+					x2 = Line_array[i].getEnd_x();
+					y1 = Line_array[i].getStart_y();
+					y2 = Line_array[i].getEnd_y();
+					g = (y2 - y1) / (x2 - x1);
+
+					// 하나라도 범위 안에 있으면 선택으로 인정
+					if ((point.x >= x1 - 20 && point.x <= x2 + 20) || (point.x >= x2 - 20 && point.x <= x1 + 20)
+						&& ((point.y >= g*(point.x - x1) + y1 - 20) && (point.y <= g*(point.x - x1) + y1 + 20)))
 					{
-						x1 = Line_array[i].getStart_x();
-						x2 = Line_array[i].getEnd_x();
-						y1 = Line_array[i].getStart_y();
-						y2 = Line_array[i].getEnd_y();
-
-						// 하나라도 범위 안에 있으면 선택으로 인정
-						/*if ((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5)
-							&& (point.y >= y1 - 5 && point.y <= y2 + 5) || (point.y >= y2 - 5 && point.y <= y1 + 5))
-							{
-							//ARect_array[i].setColor_s(RGB(255, 0, 0));
-							select_mode = DR;
-							select_num = i;
-							return;
-							}*/
-
+						select_mode = DL;
+						select_num = i;
+						return;
 					}
-
 				}
 			}
 			//렉트 어레이에서 검사
