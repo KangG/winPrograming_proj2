@@ -55,6 +55,7 @@ BEGIN_MESSAGE_MAP(CMFCApplication1View, CView)
 	ON_COMMAND(ID_OC, &CMFCApplication1View::OnOc)
 	ON_COMMAND(ID_IC, &CMFCApplication1View::OnIc)
 	ON_WM_CHAR()
+	ON_WM_RBUTTONDOWN()
 END_MESSAGE_MAP()
 
 // CMFCApplication1View 생성/소멸
@@ -167,12 +168,12 @@ void CMFCApplication1View::OnPaint()
 	dc.SelectStockObject(NULL_BRUSH);
 	//dc.SetROP2(R2_COPYPEN);
 
-	for (int i = 0; i < Line_array.GetCount(); i++) {										//저장된 Line 그리기
+	for (int i = 0; i < pDoc->Line_array.GetCount(); i++) {										//저장된 Line 그리기
 		if (select_mode == DL)
 		{
-			Line_array[select_num].DrawSelect(&dc);
+			pDoc->Line_array[select_num].DrawSelect(&dc);
 		}
-		Line_array[i].draw(&dc, Line_array[i].getEnd_x(), Line_array[i].getEnd_y());
+		pDoc->Line_array[i].draw(&dc, pDoc->Line_array[i].getEnd_x(), pDoc->Line_array[i].getEnd_y());
 	}
 	for (int i = 0; i < ARect_array.GetCount(); i++) {										//저장된 Rect 그리기
 		if (select_mode == DR)
@@ -195,12 +196,12 @@ void CMFCApplication1View::OnPaint()
 		}
 		APolyline_array[i].draw(&dc);
 	}
-	for (int i = 0; i < Text_array.GetCount(); i++) {
+	for (int i = 0; i < pDoc->Text_array.GetCount(); i++) {
 		if (select_mode == DT)
 		{
 		//	Text_array[select_num].DrawSelectLine(&dc);
 }
-		Text_array[i].makeRect(&dc,&(pDoc->m_str));
+		pDoc->Text_array[i].makeRect(&dc, &(pDoc->m_str));
 	}
 }
 
@@ -227,19 +228,20 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 
 	CView::OnLButtonDown(nFlags, point); CClientDC dc(this);
 
+		CMFCApplication1Doc* pDoc = GetDocument();
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	switch (mode)
 	{
 	case DL:
 	{
 			   Line* l = new Line();
-			   Line_array.Add(*l);
-			   current_l = Line_array.GetCount() - 1;
+			   pDoc->Line_array.Add(*l);
+			   current_l = pDoc->Line_array.GetCount() - 1;
 
-			   Line_array[current_l].setStart_x(point.x);
-			   Line_array[current_l].setStart_y(point.y);
-			   Line_array[current_l].setEnd_x(point.x);
-			   Line_array[current_l].setEnd_y(point.y);
+			   pDoc->Line_array[current_l].setStart_x(point.x);
+			   pDoc->Line_array[current_l].setStart_y(point.y);
+			   pDoc->Line_array[current_l].setEnd_x(point.x);
+			   pDoc->Line_array[current_l].setEnd_y(point.y);
 
 			   move = true;
 			   break;
@@ -272,15 +274,14 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	case DT:
 	{
-		CMFCApplication1Doc* pDoc = GetDocument();
 		Text* t = new Text();
-		Text_array.Add(*t);
+		pDoc->Text_array.Add(*t);
 		pDoc->m_str.RemoveAll();
-		current_t = Text_array.GetCount() - 1;
-		Text_array[current_t].setStart_x(point.x);
-		Text_array[current_t].setStart_y(point.y);
-		Text_array[current_t].setEnd_x(point.x);
-		Text_array[current_t].setEnd_y(point.y);
+		current_t = pDoc->Text_array.GetCount() - 1;
+		pDoc->Text_array[current_t].setStart_x(point.x);
+		pDoc->Text_array[current_t].setStart_y(point.y);
+		pDoc->Text_array[current_t].setEnd_x(point.x);
+		pDoc->Text_array[current_t].setEnd_y(point.y);
 
 			   move = true;
 			   break;
@@ -312,17 +313,17 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 		{
 			// 선택된 것이 있으면 지금 클릭 한 점이 그 개체를 찍었는지 확인함
 			//라인 어레이에서 검사
-			if (Line_array.GetCount() != 0)
+			if (pDoc->Line_array.GetCount() != 0)
 			{
-				for (int i = 0; i < Line_array.GetCount(); i++)
+				for (int i = 0; i < pDoc->Line_array.GetCount(); i++)
 				{
 					double x1, x2, y1, y2;
 					double g;			//greadient 기울기
 
-					x1 = (double)Line_array[i].getStart_x();
-					x2 = (double)Line_array[i].getEnd_x();
-					y1 = (double)Line_array[i].getStart_y();
-					y2 = (double)Line_array[i].getEnd_y();
+					x1 = (double)pDoc->Line_array[i].getStart_x();
+					x2 = (double)pDoc->Line_array[i].getEnd_x();
+					y1 = (double)pDoc->Line_array[i].getStart_y();
+					y2 = (double)pDoc->Line_array[i].getEnd_y();
 					g = (y2 - y1) / (x2 - x1);
 					// 하나라도 범위 안에 있으면 선택으로 인정
 					if ((((double)point.x >= x1 - 5 && (double)point.x <= x2 + 5) || ((double)point.x >= x2 - 5 && (double)point.x <= x1 + 5))
@@ -354,8 +355,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 					y2 = ARect_array[i].getEnd_y();
 
 					// 하나라도 범위 안에 있으면 선택으로 인정
-					if ((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5)
-						&& (point.y >= y1 - 5 && point.y <= y2 + 5) || (point.y >= y2 - 5 && point.y <= y1 + 5))
+					if ((point.x >= x1 - 5 && point.x <= x2 + 5)
+						&& (point.y >= y1 - 5 && point.y <= y2 + 5))
 					{
 						select_mode = DR;
 						select_num = i;
@@ -378,8 +379,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						y2 = AEll_array[i].getEnd_y();
 
 						// 하나라도 범위 안에 있으면 선택으로 인정
-						if ((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5)
-							&& (point.y >= y1 - 5 && point.y <= y2 + 5) || (point.y >= y2 - 5 && point.y <= y1 + 5))
+						if ((point.x >= x1 - 5 && point.x <= x2 + 5)
+							&& (point.y >= y1 - 5 && point.y <= y2 + 5) )
 						{
 							select_mode = DE;
 							select_num = i;
@@ -415,6 +416,35 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 					}
 				}
 			}
+
+			if (pDoc->Text_array.GetCount() != 0)
+			{
+				for (int i = 0; i < pDoc->Text_array.GetCount(); i++)
+				{
+					int x1, x2, y1, y2;
+					for (int i = 0; i < pDoc->Text_array.GetCount(); i++)
+					{
+						x1 = pDoc->Text_array[i].getStart_x();
+						x2 = pDoc->Text_array[i].getEnd_x();
+						y1 = pDoc->Text_array[i].getStart_y();
+						y2 = pDoc->Text_array[i].getEnd_y();
+
+						// 하나라도 범위 안에 있으면 선택으로 인정
+						if ((point.x >= x1 - 5 && point.x <= x2 + 5)
+							&& (point.y >= y1 - 5 && point.y <= y2 + 5))
+						{
+							select_mode = DT;
+							select_num = i;
+							return;
+						}
+
+					}
+
+				}
+			}
+
+
+
 		}
 	}
 	}
@@ -424,6 +454,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	CMFCApplication1Doc* pDoc = GetDocument();
 	CClientDC dc(this);
 	dc.SetDCBrushColor(color);
 	//// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
@@ -441,8 +473,8 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 		break;
 	case DT:
 	{
-		Text_array[current_t].setEnd_x(point.x);
-		Text_array[current_t].setEnd_y(point.y);
+		pDoc->Text_array[current_t].setEnd_x(point.x);
+		pDoc->Text_array[current_t].setEnd_y(point.y);
 		Invalidate();
 			   move = false;
 			   break;
@@ -460,6 +492,7 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	CClientDC dc(this);
 
+	CMFCApplication1Doc* pDoc = GetDocument();
 	switch (mode)
 	{
 	case S:
@@ -469,7 +502,7 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 	case DL:
 	{
 			   if (move == true){
-				   Line_array[current_l].draw(&dc, point.x, point.y);
+				   pDoc->Line_array[current_l].draw(&dc, point.x, point.y);
 			   }
 			   Invalidate();
 			   break;
@@ -629,6 +662,7 @@ void CMFCApplication1View::OnSelect()
 
 void CMFCApplication1View::OnOc()
 {
+	CMFCApplication1Doc* pDoc = GetDocument();
 	CColorDialog dlg;
 	dlg.DoModal();
 	color = dlg.GetColor();
@@ -646,7 +680,7 @@ void CMFCApplication1View::OnOc()
 		{
 		case DL:
 		{
-				   Line_array[select_num].setColor_l(color);
+			pDoc->Line_array[select_num].setColor_l(color);
 				   Invalidate();
 				   break;
 		}
@@ -735,4 +769,44 @@ void CMFCApplication1View::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	pDoc->UpdateAllViews(NULL);
 
 	CView::OnChar(nChar, nRepCnt, nFlags);
+}
+
+
+void CMFCApplication1View::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	int befer_num;
+	CMFCApplication1Doc* pDoc = GetDocument();
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	if (mode == S){
+		switch (select_mode){
+		case DL:
+			befer_num = pDoc->Line_array.GetSize();
+			pDoc->Line_array.RemoveAt(select_num);
+			current_l = current_l - 1;
+			Invalidate();
+			break;
+
+		case DR:
+			befer_num = ARect_array.GetSize();
+			ARect_array.RemoveAt(select_num);
+			Invalidate();
+			break;
+		case DE:
+			befer_num = AEll_array.GetSize();
+			AEll_array.RemoveAt(select_num);
+			Invalidate();
+			break;
+		case DT:
+			befer_num = pDoc->Text_array.GetSize();
+			pDoc->Text_array.RemoveAt(select_num);
+			Invalidate();
+			break;
+		case DP:
+			befer_num = APolyline_array.GetSize();
+			APolyline_array.RemoveAt(select_num);
+			Invalidate();
+			break;
+		}
+	}
+	CView::OnRButtonDown(nFlags, point);
 }
