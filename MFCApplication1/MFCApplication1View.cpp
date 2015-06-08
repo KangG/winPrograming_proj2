@@ -169,6 +169,11 @@ void CMFCApplication1View::OnPaint()
 		AEll_array[i].draw(&dc, AEll_array[i].getEnd_x(), AEll_array[i].getEnd_y());
 	}
 	for (int i = 0; i < APolyline_array.GetCount(); i++) {
+		if (select_mode == DP)
+		{
+			APolyline_array[select_num].DrawSelectLine(&dc);
+			select_mode = 100;
+		}
 		APolyline_array[i].draw(&dc);
 	}
 }
@@ -256,11 +261,16 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 				   current_p = APolyline_array.GetSize() - 1;
 				   bpoly_new = true;
 			   }
-			   p_point.setX(point.x);
-			   p_point.setY(point.y);
-			   APolyline_array[current_p].next(p_point);
-			   APolyline_array[current_p].draw(&dc);
-			   break;
+			   if (bpoly_status)
+			   {
+				   p_point.setX(point.x);
+				   p_point.setY(point.y);
+				   APolyline_array[current_p].next(p_point);
+				   APolyline_array[current_p].draw(&dc);
+				   break;
+			   }
+			   if (select_mode>0)
+				APolyline_array[select_mode].moveAll(point.x, point.y);
 	}
 	case S:
 	{
@@ -355,8 +365,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						y2 = APolyline_array[i].poly_array[j].getEnd_y();
 						g = (y2 - y1) / (x2 - x1);
 
-						if ((point.x >= x1 - 20 && point.x <= x2 + 20) || (point.x >= x2 - 20 && point.x <= x1 + 20)
-							&& ((point.y >= g*(point.x - x1) + y1 - 20) && (point.y <= g*(point.x - x1) + y1 + 20)))
+						if ((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5)
+							&& ((point.y >= g*(point.x - x1) + y1 - 5) && (point.y <= g*(point.x - x1) + y1 + 5)))
 						{
 							select_mode = DP;
 							select_num = i;

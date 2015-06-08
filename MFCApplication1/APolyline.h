@@ -19,15 +19,17 @@ public:
 	int getPattern();
 
 	void next(Point point);
-	void moveAll();
+	void moveAll(int x, int y);
 	void eraseAt(int index, Point point);
 	void eraseAll();
 	void draw(CDC* dc);
+	void APolyline::DrawSelectLine(CDC *pDC);
 
 	int get_index();
 
 public:
 	CArray <Line, Line&> poly_array;
+	CArray <Point, Point&> point_array;
 	Line temp;
 	COLORREF color_p;
 	double thick;

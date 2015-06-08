@@ -65,6 +65,7 @@ void APolyline::next(Point point)
 	{
 		temp = Line(point.getX(), point.getY(), point.getX(), point.getY());
 		poly_array.Add(temp);
+		point_array.Add(point);
 		index = poly_array.GetSize();
 	}
 	else
@@ -74,13 +75,25 @@ void APolyline::next(Point point)
 		temp.setStart_x(point.getX());
 		temp.setStart_y(point.getY());
 		poly_array.Add(temp);
+		point_array.Add(point);
 		index = poly_array.GetSize();
 	}
 }
 
-void APolyline::moveAll()
+void APolyline::moveAll(int x, int y)
 {
-
+		int nArraySize = poly_array.GetSize(); //좌표 시퀀스의 크기를 구함
+		if (nArraySize > 0) //좌표 시퀀스가 비어있지 않을 경우
+		{
+			for (int i = 0; i<nArraySize; i++) //모든 좌표를 dX, dY만큼 이동
+			{
+				poly_array[i].setStart_x(poly_array[i].getStart_x() + x);
+				poly_array[i].setStart_y(poly_array[i].getStart_y() + y);//dx, dy만큼 이동한 좌표를 다시 배열에 지정
+			}
+			poly_array[nArraySize].setEnd_x(poly_array[nArraySize].getEnd_x() + x);
+			poly_array[nArraySize].setEnd_y(poly_array[nArraySize].getEnd_y() + y);
+		}
+		//FindStartEndPt();
 }
 
 void APolyline::eraseAt(int index, Point point)
@@ -115,4 +128,40 @@ void APolyline::draw(CDC* dc)
 		dc->LineTo(poly_array[i].getEnd_x(),
 			poly_array[i].getEnd_y());
 	}
+}
+
+void APolyline::DrawSelectLine(CDC *pDC)
+{
+	//그리기 속성 설정
+	pDC->SelectStockObject(NULL_BRUSH);
+	CPen pen;
+	pen.CreatePen(PS_DOT, 3, color_p);
+	CPen* oldPen = pDC->SelectObject(&pen);
+
+	//점선으로 라인 모양대로 테두리를 그림
+	for (int i = 0; i<poly_array.GetSize(); i += 4 /* 점 4개씩 사용하므로 */) //라인 하나마다 점선 테두리를 그림
+	{
+		CPoint sPt[4]; //라인하나 당 테두리를 그리려면 4개의 점이 필요
+		for (int j = 0; j < 4; j++)
+		{
+			sPt[j].SetPoint(point_array[i].getX(), point_array[i].getY()); //점 하나씩 sPt에 지정
+		}
+		pDC->Polygon(sPt, 4); //테두리 그리기
+	}
+
+	//그리기 속성 설정
+	CBrush brush(RGB(51, 94, 168)); //브러쉬 생성
+	CBrush* oldBrush = pDC->SelectObject(&brush); //브러쉬 지정
+	pDC->SelectStockObject(NULL_PEN);
+
+	//각 꼭지점마다 점을 그림
+	for (int i = 0; i<point_array.GetSize(); i++) //점 시퀀스의 사이즈만큼 반복
+	{
+		CPoint sPt = CPoint(point_array[i].getX(), point_array[i].getY());
+		pDC->Ellipse(sPt.x - 5, sPt.y - 5, sPt.x + 5, sPt.y + 5); //각 꼭지점 그리기
+	}
+
+	//이전 펜과 브러쉬 속성으로 되돌림
+	pDC->SelectObject(oldPen);
+	pDC->SelectObject(oldBrush);
 }
