@@ -4,24 +4,32 @@
 Text::Text(){
 	isInsert = FALSE;
 
+}Text::Text(const Text &t){
+	*this = t;
+}
+
+Text& Text::operator=(const Text &t){
+	return *this;
 }
 
 void Text::setStart_x(int x){
 	this->start_x = x;
 	rect.setStart_x(x);
-	r.left = x;
+	r.left = x + 3;
 }
 void Text::setStart_y(int y){
 	this->start_y = y;
 	rect.setStart_y(y);
-	r.top = y;
+	r.top = y + 3;
 }
 void Text::setEnd_x(int x){
-	this->end_x = x;
+	this->end_x = x-3;
+	rect.setEnd_x(x);
 	r.right = x;
 }
 void Text::setEnd_y(int y){
-	this->end_y = y;
+	this->end_y = y - 3;
+	rect.setEnd_y(y);
 	r.bottom = y;
 }
 
@@ -46,13 +54,12 @@ CString Text::getString(){
 	return this->s;
 }
 
-void Text::makeRect(CDC* dc, int x, int y){
-	this->rect.draw(dc, x, y);
-	r.bottom = y;
-	r.right = x;
+void Text::makeRect(CDC* dc, CArray<TCHAR, TCHAR>* str){
+	m_str.Copy(*str);
+	this->rect.draw(dc, getEnd_x(), getEnd_y());
 	CFont f;
 	//	f.CreateFontW();
-	dc->DrawText(_T(" "), &r, DT_LEFT);
+	dc->DrawText(m_str.GetData(),m_str.GetCount(), &r, DT_LEFT);
 }
 
 void Text::setRect(ARectangle rect){

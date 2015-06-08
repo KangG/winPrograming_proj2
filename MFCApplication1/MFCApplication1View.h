@@ -30,6 +30,7 @@ public:
 	int current_r;		//Rect 현재 배열번호
 	int current_e;		//Ellipse 현재 배열번호
 	int current_p;		//poly 현재 배열번호
+	int current_t;		//Text 현재 배열번호
 	bool move;
 
 
@@ -45,6 +46,7 @@ public:
 	CArray<ARectangle, ARectangle&> ARect_array;		//Rect 객체를 저장할배열
 	CArray<AEllipse, AEllipse&> AEll_array;				//Ellipse 객체를 저장할배열
 	CArray<APolyline, APolyline&> APolyline_array;		//PolyLine 객체를 저장할배열
+	CArray<Text, Text&> Text_array;		//Text 객체를 저장할배열
 
 	int select_mode;
 	int select_num;
@@ -93,6 +95,7 @@ public:
 	afx_msg void OnSelect();
 	afx_msg void OnOc();
 	afx_msg void OnIc();
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
 #ifndef _DEBUG  // MFCApplication1View.cpp의 디버그 버전

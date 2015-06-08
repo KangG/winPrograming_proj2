@@ -4,8 +4,10 @@
 class Text : public ARectangle{
 public:
 	Text();
+	Text(const Text &t);
+	Text& operator=(const Text &t);
 
-	void makeRect(CDC* dc, int x, int y);
+	void makeRect(CDC* dc,CArray<TCHAR, TCHAR>* str);
 
 	void setRect(ARectangle rect);
 	ARectangle getRect(void);
@@ -36,6 +38,7 @@ public:
 	ARectangle rect;
 
 private:
+	CArray<TCHAR, TCHAR> m_str;
 	CString s;
 	CRect r;
 	BOOL isInsert;
