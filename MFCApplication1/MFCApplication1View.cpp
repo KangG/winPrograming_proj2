@@ -306,15 +306,14 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 					double x1, x2, y1, y2;
 					double g;			//greadient 기울기
 
-					x1 = Line_array[i].getStart_x();
-					x2 = Line_array[i].getEnd_x();
-					y1 = Line_array[i].getStart_y();
-					y2 = Line_array[i].getEnd_y();
+					x1 = (double)Line_array[i].getStart_x();
+					x2 = (double)Line_array[i].getEnd_x();
+					y1 = (double)Line_array[i].getStart_y();
+					y2 = (double)Line_array[i].getEnd_y();
 					g = (y2 - y1) / (x2 - x1);
-
 					// 하나라도 범위 안에 있으면 선택으로 인정
-					if ((point.x >= x1 - 20 && point.x <= x2 + 20) || (point.x >= x2 - 20 && point.x <= x1 + 20)
-						&& ((point.y >= g*(point.x - x1) + y1 - 20) && (point.y <= g*(point.x - x1) + y1 + 20)))
+					if ((((double)point.x >= x1 - 5 && (double)point.x <= x2 + 5) || ((double)point.x >= x2 - 5 && (double)point.x <= x1 + 5))
+						&& (((double)point.y >= g*((double)point.x - x1) + y1 - 5) && ((double)point.y <= g*((double)point.x - x1) + y1 + 5)))
 					{
 						select_mode = DL;
 						select_num = i;
@@ -385,7 +384,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						y2 = APolyline_array[i].poly_array[j].getEnd_y();
 						g = (y2 - y1) / (x2 - x1);
 
-						if ((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5)
+						if (((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5))
 							&& ((point.y >= g*(point.x - x1) + y1 - 5) && (point.y <= g*(point.x - x1) + y1 + 5)))
 						{
 							select_mode = DP;
