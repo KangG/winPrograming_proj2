@@ -12,11 +12,17 @@ Line::Line(int a, int b, int c, int d)
 	end_y = d;
 }
 
-void Line::setColor(COLORREF rgb){
+void Line::setColor_l(COLORREF rgb){
 	this->color_l = rgb;
 }
-COLORREF Line::getColor(){
+COLORREF Line::getColor_l(){
 	return this->color_l;
+}
+void Line::setColor_s(COLORREF rgb){
+	this->color_s = rgb;
+}
+COLORREF Line::getColor_s(){
+	return this->color_s;
 }
 
 void Line::setThick(double thick){

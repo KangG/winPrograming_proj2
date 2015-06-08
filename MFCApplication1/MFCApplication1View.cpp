@@ -197,66 +197,85 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 	case DL:
 	{
-		Line* l = new Line();
-		Line_array.Add(*l);
-		current_l = Line_array.GetCount() - 1;
+			   Line* l = new Line();
+			   Line_array.Add(*l);
+			   current_l = Line_array.GetCount() - 1;
 
-		Line_array[current_l].setStart_x(point.x);
-		Line_array[current_l].setStart_y(point.y);
-		Line_array[current_l].setFlag(1);
+			   Line_array[current_l].setStart_x(point.x);
+			   Line_array[current_l].setStart_y(point.y);
+			   Line_array[current_l].setFlag(1);
 
-		move = true;
-		break;
+			   move = true;
+			   break;
 	}
 	case DR:
 	{
-		ARectangle* r = new ARectangle();
-		ARect_array.Add(*r);
-		current_r = ARect_array.GetCount() - 1;
-		ARect_array[current_r].setStart_x(point.x);
-		ARect_array[current_r].setStart_y(point.y);
-		ARect_array[current_r].setFlag(2);
+			   ARectangle* r = new ARectangle();
+			   ARect_array.Add(*r);
+			   current_r = ARect_array.GetCount() - 1;
+			   ARect_array[current_r].setStart_x(point.x);
+			   ARect_array[current_r].setStart_y(point.y);
+			   ARect_array[current_r].setFlag(2);
 
-		move = true;
-		break;
+			   move = true;
+			   break;
 	}
 	case DE:
 	{
-		AEllipse* e = new AEllipse();
-		AEll_array.Add(*e);
-		current_e = AEll_array.GetCount() - 1;
-		AEll_array[current_e].setStart_x(point.x);
-		AEll_array[current_e].setStart_y(point.y);
-		AEll_array[current_e].setFlag(3);
+			   AEllipse* e = new AEllipse();
+			   AEll_array.Add(*e);
+			   current_e = AEll_array.GetCount() - 1;
+			   AEll_array[current_e].setStart_x(point.x);
+			   AEll_array[current_e].setStart_y(point.y);
+			   AEll_array[current_e].setFlag(3);
 
-		move = true;
-		break;
+			   move = true;
+			   break;
 	}
 	case DT:
 	{
-		Line* t = new Line;
-		Line_array.Add(*t);
-		/*current_t = figure.GetCount() - 1;
-		figure[current].setStart_x(point.x);
-		figure[current].setStart_y(point.y);*/
+			   Line* t = new Line;
+			   Line_array.Add(*t);
+			   /*current_t = figure.GetCount() - 1;
+			   figure[current].setStart_x(point.x);
+			   figure[current].setStart_y(point.y);*/
 
-		move = true;
-		break;
+			   move = true;
+			   break;
 	}
 	case S:
 	{
-		// 선택된 개체 찾기
+			  // 선택된 개체 찾기
 		{
 			// 선택된 것이 있으면 지금 클릭 한 점이 그 개체를 찍었는지 확인함
+			//라인 어레이에서 검사
 			if (Line_array.GetCount() != 0)
 			{
 				for (int i = 0; i < Line_array.GetCount(); i++)
 				{
-					// 하나라도 범위 안에 있으면 선택으로 인정
-					//Line_array[i].getStart_x;
+					int x1, x2, y1, y2;
+					for (int i = 0; i < ARect_array.GetCount(); i++)
+					{
+						x1 = Line_array[i].getStart_x();
+						x2 = Line_array[i].getEnd_x();
+						y1 = Line_array[i].getStart_y();
+						y2 = Line_array[i].getEnd_y();
+
+						// 하나라도 범위 안에 있으면 선택으로 인정
+						/*if ((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5)
+							&& (point.y >= y1 - 5 && point.y <= y2 + 5) || (point.y >= y2 - 5 && point.y <= y1 + 5))
+							{
+							//ARect_array[i].setColor_s(RGB(255, 0, 0));
+							select_mode = DR;
+							select_num = i;
+							return;
+							}*/
+
+					}
 
 				}
 			}
+			//렉트 어레이에서 검사
 			if (ARect_array.GetCount() != 0)
 			{
 				int x1, x2, y1, y2;
@@ -271,12 +290,14 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 					if ((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5)
 						&& (point.y >= y1 - 5 && point.y <= y2 + 5) || (point.y >= y2 - 5 && point.y <= y1 + 5))
 					{
-						ARect_array[i].setColor_s(RGB(255, 0, 0));
+						select_mode = DR;
+						select_num = i;
 						return;
 					}
 
 				}
 			}
+			//이립스 어레이에서 검사
 			if (AEll_array.GetCount() != 0)
 			{
 				for (int i = 0; i < AEll_array.GetCount(); i++)
@@ -293,7 +314,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						if ((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5)
 							&& (point.y >= y1 - 5 && point.y <= y2 + 5) || (point.y >= y2 - 5 && point.y <= y1 + 5))
 						{
-							AEll_array[i].setColor_s(RGB(255, 0, 0));
+							select_mode = DE;
+							select_num = i;
 							return;
 						}
 
@@ -317,16 +339,16 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 	case S:
 	{
-		Invalidate();
-		break;
+			  Invalidate();
+			  break;
 	}
 	case DL:
 	case DR:
 	case DE:
 	case DT:
 	{
-		move = false;
-		break;
+			   move = false;
+			   break;
 	}
 	case DP:
 	{
@@ -336,11 +358,11 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 				   current_p = APolyline_array.GetSize() - 1;
 				   bpoly_new = true;
 			   }
-				   p_point.setX(point.x);
-				   p_point.setY(point.y);
-				   APolyline_array[current_p].next(p_point);
-				   APolyline_array[current_p].draw(&dc);
-				   break;
+			   p_point.setX(point.x);
+			   p_point.setY(point.y);
+			   APolyline_array[current_p].next(p_point);
+			   APolyline_array[current_p].draw(&dc);
+			   break;
 	}
 	}
 	CView::OnLButtonUp(nFlags, point);
@@ -354,37 +376,41 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 
 	switch (mode)
 	{
+	case S:
+	{
+			  break;
+	}
 	case DL:
 	{
-		if (move == true){
-			Line_array[current_l].draw(&dc, point.x, point.y);
-		}
-		Invalidate();
-		break;
+			   if (move == true){
+				   Line_array[current_l].draw(&dc, point.x, point.y);
+			   }
+			   Invalidate();
+			   break;
 	}
 	case DR:
 	{
-		if (move == true){
-			ARect_array[current_r].draw(&dc, point.x, point.y);
-		}
-		Invalidate();
-		break;
+			   if (move == true){
+				   ARect_array[current_r].draw(&dc, point.x, point.y);
+			   }
+			   Invalidate();
+			   break;
 	}
 	case DE:
 	{
-		if (move == true){
-			AEll_array[current_e].draw(&dc, point.x, point.y);
-		}
-		Invalidate();
-		break;
+			   if (move == true){
+				   AEll_array[current_e].draw(&dc, point.x, point.y);
+			   }
+			   Invalidate();
+			   break;
 	}
 	case DT:
 	{
-		if (move == true){
-			// figure[current].draw(&dc, point.x, point.y);
-		}
-		Invalidate();
-		break;
+			   if (move == true){
+				   // figure[current].draw(&dc, point.x, point.y);
+			   }
+			   Invalidate();
+			   break;
 	}
 	}
 	CView::OnMouseMove(nFlags, point);
@@ -394,7 +420,7 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 void CMFCApplication1View::OnDline()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	mode = DL; 
+	mode = DL;
 	if (!bline_status)
 	{
 		bline_status = true;
@@ -500,6 +526,8 @@ void CMFCApplication1View::OnSelect()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = S;
+	select_mode = 0;
+	select_num = -1;
 }
 
 
@@ -509,4 +537,43 @@ void CMFCApplication1View::OnOc()
 	dlg.DoModal();
 	color = dlg.GetColor();
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	if (select_mode != 0)
+	{
+		/*
+		#define DL 1		//line 선택
+		#define DR 2		//rect 선택
+		#define DE 3		//ellipse 선택
+		#define DT 4		//text 선택
+		#define DP 5		//polyline 선택
+		*/
+		switch (select_mode)
+		{
+		case DL:
+		{
+				   Line_array[select_num].setColor_l(color);
+				   Invalidate();
+				   break;
+		}
+		case DR:
+		{
+				   ARect_array[select_num].setColor_l(color);
+				   Invalidate();
+				   break;
+		}
+		case DE:
+		{
+				   AEll_array[select_num].setColor_l(color);
+				   Invalidate();
+				   break;
+		}
+		case DT:
+		{
+				   break;
+		}
+		case DP:
+		{
+				   break;
+		}
+		}
+	}
 }

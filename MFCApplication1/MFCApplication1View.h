@@ -46,6 +46,9 @@ public:
 	CArray<AEllipse, AEllipse&> AEll_array;				//Ellipse 객체를 저장할배열
 	CArray<APolyline, APolyline&> APolyline_array;		//PolyLine 객체를 저장할배열
 
+	int select_mode;
+	int select_num;
+
 // 작업입니다.
 public:
 	int mode;

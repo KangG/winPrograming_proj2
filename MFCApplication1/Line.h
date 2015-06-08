@@ -7,8 +7,10 @@ class Line : public Point{
 public:
 	Line();
 	Line(int a, int b, int c, int d);
-	void setColor(COLORREF rgb);
-	COLORREF getColor();
+	void setColor_l(COLORREF rgb);
+	COLORREF getColor_l();
+	void setColor_s(COLORREF rgb);
+	COLORREF getColor_s();
 
 	void setThick(double thick);
 	double getThick();
@@ -41,6 +43,7 @@ private:
 	Point end_p(int end_x, int end_y);
 
 	COLORREF color_l;
+	COLORREF color_s;
 
 	double thick;
 
