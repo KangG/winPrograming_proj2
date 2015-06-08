@@ -315,9 +315,17 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 					if ((((double)point.x >= x1 - 5 && (double)point.x <= x2 + 5) || ((double)point.x >= x2 - 5 && (double)point.x <= x1 + 5))
 						&& (((double)point.y >= g*((double)point.x - x1) + y1 - 5) && ((double)point.y <= g*((double)point.x - x1) + y1 + 5)))
 					{
-						select_mode = DL;
-						select_num = i;
-						return;
+						if (select_mode == DL && select_num == i)
+						{
+							mode = ML;
+							//뭐선택했는지 판단
+						}
+						else
+						{
+							select_mode = DL;
+							select_num = i;
+							return;
+						}
 					}
 				}
 			}
@@ -481,6 +489,8 @@ void CMFCApplication1View::OnDline()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DL;
+	select_mode = 0;
+	select_num = -1;
 	if (!bline_status)
 	{
 		bline_status = true;
@@ -502,6 +512,8 @@ void CMFCApplication1View::OnDrect()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DR;
+	select_mode = 0;
+	select_num = -1;
 	if (!brect_status)
 	{
 		bline_status = false;
@@ -523,6 +535,8 @@ void CMFCApplication1View::OnDell()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DE;
+	select_mode = 0;
+	select_num = -1;
 	if (!bellipse_status)
 	{
 		bline_status = false;
@@ -544,6 +558,8 @@ void CMFCApplication1View::OnDpoly()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DP;
+	select_mode = 0;
+	select_num = -1;
 	if (!bpoly_status)
 	{
 		bline_status = false;
@@ -565,6 +581,8 @@ void CMFCApplication1View::OnDtext()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DT;
+	select_mode = 0;
+	select_num = -1;
 	if (!btext_status)
 	{
 		bline_status = false;

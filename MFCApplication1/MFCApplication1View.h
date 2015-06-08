@@ -48,6 +48,7 @@ public:
 
 	int select_mode;
 	int select_num;
+	int move_select;
 
 // 작업입니다.
 public:
