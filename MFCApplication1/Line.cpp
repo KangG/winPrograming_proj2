@@ -18,12 +18,6 @@ void Line::setColor_l(COLORREF rgb){
 COLORREF Line::getColor_l(){
 	return this->color_l;
 }
-void Line::setColor_s(COLORREF rgb){
-	this->color_s = rgb;
-}
-COLORREF Line::getColor_s(){
-	return this->color_s;
-}
 
 void Line::setThick(double thick){
 	this->thick = thick;

@@ -199,7 +199,7 @@ void CMFCApplication1View::OnPaint()
 		if (select_mode == DT)
 		{
 		//	Text_array[select_num].DrawSelectLine(&dc);
-		}
+}
 		Text_array[i].makeRect(&dc,&(pDoc->m_str));
 	}
 }
@@ -310,7 +310,40 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 			  // 선택된 개체 찾기
 			  //오차 +-5픽셀까지 인정
 		{
-			// 선택된 것이 있으면 지금 클릭 한 점이 그 개체를 찍었는지 확인함if (ARect_array.GetCount() != 0)
+			// 선택된 것이 있으면 지금 클릭 한 점이 그 개체를 찍었는지 확인함
+			//라인 어레이에서 검사
+			if (Line_array.GetCount() != 0)
+			{
+				for (int i = 0; i < Line_array.GetCount(); i++)
+				{
+					double x1, x2, y1, y2;
+					double g;			//greadient 기울기
+
+					x1 = (double)Line_array[i].getStart_x();
+					x2 = (double)Line_array[i].getEnd_x();
+					y1 = (double)Line_array[i].getStart_y();
+					y2 = (double)Line_array[i].getEnd_y();
+					g = (y2 - y1) / (x2 - x1);
+					// 하나라도 범위 안에 있으면 선택으로 인정
+					if ((((double)point.x >= x1 - 5 && (double)point.x <= x2 + 5) || ((double)point.x >= x2 - 5 && (double)point.x <= x1 + 5))
+						&& (((double)point.y >= g*((double)point.x - x1) + y1 - 5) && ((double)point.y <= g*((double)point.x - x1) + y1 + 5)))
+					{
+						if (select_mode == DL && select_num == i)
+						{
+							mode = ML;
+							//뭐선택했는지 판단
+						}
+						else
+						{
+							select_mode = DL;
+							select_num = i;
+							return;
+						}
+					}
+				}
+			}
+			//렉트 어레이에서 검사
+			if (ARect_array.GetCount() != 0)
 			{
 				int x1, x2, y1, y2;
 				for (int i = 0; i < ARect_array.GetCount(); i++)
@@ -331,9 +364,6 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 
 				}
 			}
-			
-			//렉트 어레이에서 검사
-			
 			//이립스 어레이에서 검사
 			if (AEll_array.GetCount() != 0)
 			{
@@ -375,7 +405,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						y2 = APolyline_array[i].poly_array[j].getEnd_y();
 						g = (y2 - y1) / (x2 - x1);
 
-						if ((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5)
+						if (((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5))
 							&& ((point.y >= g*(point.x - x1) + y1 - 5) && (point.y <= g*(point.x - x1) + y1 + 5)))
 						{
 							select_mode = DP;
@@ -385,33 +415,6 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 					}
 				}
 			}
-
-			//라인 어레이에서 검사
-			if (Line_array.GetCount() != 0)
-			{
-				for (int i = 0; i < Line_array.GetCount(); i++)
-				{
-					double x1, x2, y1, y2;
-					double g;			//greadient 기울기
-
-					x1 = Line_array[i].getStart_x();
-					x2 = Line_array[i].getEnd_x();
-					y1 = Line_array[i].getStart_y();
-					y2 = Line_array[i].getEnd_y();
-					g = (y2 - y1) / (x2 - x1);
-
-					// 하나라도 범위 안에 있으면 선택으로 인정
-					if ((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5)
-						&& ((point.y >= g*(point.x - x1) + y1 - 5) && (point.y <= g*(point.x - x1) + y1 + 5)))
-					{
-						select_mode = DL;
-						select_num = i;
-						return;
-					}
-				}
-			}
-
-
 		}
 	}
 	}
@@ -441,8 +444,8 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 		Text_array[current_t].setEnd_x(point.x);
 		Text_array[current_t].setEnd_y(point.y);
 		Invalidate();
-		move = false;
-		break;
+			   move = false;
+			   break;
 	}
 	case DP:
 	{
@@ -504,6 +507,8 @@ void CMFCApplication1View::OnDline()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DL;
+	select_mode = 0;
+	select_num = -1;
 	if (!bline_status)
 	{
 		bline_status = true;
@@ -525,6 +530,8 @@ void CMFCApplication1View::OnDrect()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DR;
+	select_mode = 0;
+	select_num = -1;
 	if (!brect_status)
 	{
 		bline_status = false;
@@ -546,6 +553,8 @@ void CMFCApplication1View::OnDell()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DE;
+	select_mode = 0;
+	select_num = -1;
 	if (!bellipse_status)
 	{
 		bline_status = false;
@@ -567,6 +576,8 @@ void CMFCApplication1View::OnDpoly()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DP;
+	select_mode = 0;
+	select_num = -1;
 	if (!bpoly_status)
 	{
 		bline_status = false;
@@ -588,6 +599,8 @@ void CMFCApplication1View::OnDtext()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	mode = DT;
+	select_mode = 0;
+	select_num = -1;
 	if (!btext_status)
 	{
 		bline_status = false;
@@ -712,7 +725,7 @@ void CMFCApplication1View::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == _T('\b')){
 		if (pDoc->m_str.GetSize() > 0)
 			pDoc->m_str.RemoveAt(pDoc->m_str.GetSize() - 1);
-	}
+		}
 	else{
 		pDoc->m_str.Add(nChar);
 	}
