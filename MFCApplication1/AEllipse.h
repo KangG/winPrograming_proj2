@@ -33,6 +33,9 @@ public:
 
 	~AEllipse();
 
+
+	void DrawSelect(CDC *pDC);
+
 public:
 	int start_x;
 	int start_y;

@@ -34,6 +34,8 @@ public:
 	void setEnd_y(int y);
 	~Line();
 
+	void DrawSelect(CDC *pDc);
+
 private:
 	int start_x;		// 점 관련 변수
 	int start_y;

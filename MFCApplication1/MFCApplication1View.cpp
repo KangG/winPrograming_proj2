@@ -24,6 +24,12 @@
 #define DT 4		//text 그리기
 #define DP 5		//polyline 그리기
 
+#define ML 6		//line 옮기기
+#define MR 7		//rect 옮기기
+#define ME 8		//ellipse 옮기기
+#define MT 9		//text 옮기기
+#define MP 10		//polyline 옮기기
+
 // CMFCApplication1View
 
 IMPLEMENT_DYNCREATE(CMFCApplication1View, CView)
@@ -160,12 +166,27 @@ void CMFCApplication1View::OnPaint()
 	//dc.SetROP2(R2_COPYPEN);
 
 	for (int i = 0; i < Line_array.GetCount(); i++) {										//저장된 Line 그리기
+		if (select_mode == DL)
+		{
+			Line_array[select_num].DrawSelect(&dc);
+			select_mode = 100;
+		}
 		Line_array[i].draw(&dc, Line_array[i].getEnd_x(), Line_array[i].getEnd_y());
 	}
 	for (int i = 0; i < ARect_array.GetCount(); i++) {										//저장된 Rect 그리기
+		if (select_mode == DR)
+		{
+			ARect_array[select_num].DrawSelect(&dc);
+			select_mode = 100;
+		}
 		ARect_array[i].draw(&dc, ARect_array[i].getEnd_x(), ARect_array[i].getEnd_y());
 	}
 	for (int i = 0; i < AEll_array.GetCount(); i++) {										//저장된 Ellipse 그리기
+		if (select_mode == DE)
+		{
+			AEll_array[select_num].DrawSelect(&dc);
+			select_mode = 100;
+		}
 		AEll_array[i].draw(&dc, AEll_array[i].getEnd_x(), AEll_array[i].getEnd_y());
 	}
 	for (int i = 0; i < APolyline_array.GetCount(); i++) {
