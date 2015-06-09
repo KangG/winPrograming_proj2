@@ -338,7 +338,6 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							move = true;
 							prev.x = point.x;
 							prev.y = point.y;
-							ispoint = true;
 							//뭐선택했는지 판단
 							if (((point.x >= x1 - 5) && (point.x <= x1 + 5)) && ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
 							{
@@ -534,9 +533,6 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 
 				}
 			}
-
-
-
 		}
 		select_mode = 0;
 			select_num = -1;
@@ -570,8 +566,11 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 	case DL:
 	case DR:
 	case DE:
+	case DP:
+	{
 		move = false;
 		break;
+	}
 	case DT:
 	{
 		pDoc->Text_array[current_t].setEnd_x(point.x);
@@ -579,9 +578,6 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 		Invalidate();
 			   move = false;
 			   break;
-	}
-	case DP:
-	{
 	}
 	case ML:
 	case MR:
@@ -608,11 +604,8 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 	{
 	case S:
 	{
-			 
 			  if (ispoint)
 			  {
-				  TRACE("MOUSE MOVE MOUSE MOVE MOUSE MOVE MOUSE MOVE MOUSE MOVE\n");
-				  
 				  if (select_point == 0)
 				  {
 					  APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
@@ -625,7 +618,6 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 						  Invalidate();
 						  return;
 					  }
-
 					  APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
 					  APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
 				  }
@@ -634,9 +626,6 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 			  {
 				  //APolyline_array[select_num].moveAll(point.x, point.y);
 			  }
-
-
-
 			  Invalidate();
 			  return;
 
