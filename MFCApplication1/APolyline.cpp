@@ -146,8 +146,18 @@ int APolyline::get_index()
 
 void APolyline::draw(CDC* dc)
 {
-	CPen pen;
-	pen.CreatePen(pattern, thick, color_p);
+	CPen pen; 
+	if (thick > 1)
+	{
+		LOGBRUSH logBrush;
+		logBrush.lbStyle = BS_SOLID;
+		logBrush.lbColor = color_p;
+		pen.CreatePen(pattern | PS_GEOMETRIC, thick, &logBrush);
+	}
+	else
+	{
+		pen.CreatePen(pattern, thick, color_p);
+	}
 	CPen* oldPen = dc->SelectObject(&pen);
 
 	for (int i = 0; i < poly_array.GetSize()-1; i++){

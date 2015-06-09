@@ -1328,7 +1328,7 @@ void CMFCApplication1View::OnPattern()
 	if (result == IDOK)
 	{
 		pattern1 = dlg.pattern1;
-		pattern2 = dlg.pattern2;
+		pattern2 = dlg.pattern2-1;
 		//선택한 객체의 패턴 변수를 가져와서 pattern1으로 바꿔준다.
 		if (select_mode == DL)
 		{

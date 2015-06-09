@@ -88,7 +88,17 @@ void AEllipse::draw(CDC* dc, int x, int y)
 	setEnd_y(y);
 
 	CPen pen;
-	pen.CreatePen(pattern, thick, color_l);
+	if (thick > 1)
+	{
+		LOGBRUSH logBrush;
+		logBrush.lbStyle = BS_SOLID;
+		logBrush.lbColor = color_l;
+		pen.CreatePen(pattern | PS_GEOMETRIC, thick, &logBrush);
+	}
+	else
+	{
+		pen.CreatePen(pattern, thick, color_l);
+	}
 	CPen* oldPen = dc->SelectObject(&pen);
 	CBrush brush;
 	if (pattern2 != -1)
