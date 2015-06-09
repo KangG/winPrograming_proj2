@@ -104,6 +104,10 @@ public:
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnDelete();
+	afx_msg void OnFont();
+	afx_msg void OnTextcolor();
+	afx_msg void OnPattern();
+	afx_msg void OnThick();
 };
 
 #ifndef _DEBUG  // MFCApplication1View.cpp의 디버그 버전

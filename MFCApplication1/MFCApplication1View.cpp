@@ -57,6 +57,10 @@ BEGIN_MESSAGE_MAP(CMFCApplication1View, CView)
 	ON_WM_CHAR()
 	ON_WM_RBUTTONDOWN()
 	ON_COMMAND(ID_Delete, &CMFCApplication1View::OnDelete)
+	ON_COMMAND(ID_font, &CMFCApplication1View::OnFont)
+	ON_COMMAND(ID_Textcolor, &CMFCApplication1View::OnTextcolor)
+	ON_COMMAND(ID_pattern, &CMFCApplication1View::OnPattern)
+	ON_COMMAND(ID_Thick, &CMFCApplication1View::OnThick)
 END_MESSAGE_MAP()
 
 // CMFCApplication1View 생성/소멸
@@ -1098,4 +1102,37 @@ void CMFCApplication1View::OnDelete()
 			break;
 		}
 	}
+}
+
+
+void CMFCApplication1View::OnFont()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CFontDialog cdlg;
+	cdlg.DoModal();
+
+}
+
+
+void CMFCApplication1View::OnTextcolor()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CColorDialog cdlg;
+	cdlg.DoModal();
+	color = cdlg.GetColor();
+	if (select_mode == DT){
+	
+	}
+}
+
+
+void CMFCApplication1View::OnPattern()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CMFCApplication1View::OnThick()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }

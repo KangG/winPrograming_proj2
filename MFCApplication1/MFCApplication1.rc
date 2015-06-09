@@ -17,7 +17,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Korean (Korea) resources
+// 한국어(대한민국) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
 LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
@@ -129,11 +129,11 @@ BEGIN
     BUTTON      ID_IC
     SEPARATOR
     BUTTON      ID_DT
-    BUTTON      ID_BUTTON32781
-    BUTTON      ID_BUTTON32792
+    BUTTON      ID_Textcolor
+    BUTTON      ID_font
     SEPARATOR
-    BUTTON      ID_BUTTON32782
-    BUTTON      ID_BUTTON32783
+    BUTTON      ID_Thick
+    BUTTON      ID_pattern
 END
 
 
@@ -533,9 +533,11 @@ END
 STRINGTABLE
 BEGIN
     ID_Delete               "도형을 삭제합니다."
+    ID_font                 "텍스트의 폰트 및 요소를 변경합니다."
+    ID_Textcolor            "텍스트의 색을 변경합니다."
 END
 
-#endif    // Korean (Korea) resources
+#endif    // 한국어(대한민국) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
