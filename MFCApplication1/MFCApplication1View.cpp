@@ -11,6 +11,7 @@
 
 #include "MFCApplication1Doc.h"
 #include "MFCApplication1View.h"
+#include "ThickDialog.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -73,6 +74,9 @@ CMFCApplication1View::CMFCApplication1View()
 	current_e = -1;
 	current_p = -1;
 	move = false;
+
+	//Thick 다이얼로그 변수
+	l_size = 1;
 }
 
 CMFCApplication1View::~CMFCApplication1View()
@@ -190,9 +194,6 @@ void CMFCApplication1View::OnPaint()
 		AEll_array[i].draw(&dc, AEll_array[i].getEnd_x(), AEll_array[i].getEnd_y());
 	}
 	for (int i = 0; i < APolyline_array.GetCount(); i++) {
-
-
-		
 		if (select_mode == DP)
 		{
 			APolyline_array[select_num].DrawSelectLine(&dc);
@@ -532,7 +533,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						}
 					}
 
-					
+
 
 					for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
 					{
@@ -662,7 +663,7 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 				TRACE("%d	%d		%d\n", APolyline_array[select_num].point_array[i].getX(), APolyline_array[select_num].point_array[i].getY(), i);
 				prev = temp;
 
-			}
+	}
 
 			isall = false;
 			Invalidate();
@@ -683,121 +684,121 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 	CMFCApplication1Doc* pDoc = GetDocument();
 
 	if (move == true){
-		switch (mode)
-		{
-		case S:
-		{
-				  Invalidate();
-				  return;
+	switch (mode)
+	{
+	case S:
+	{
+		Invalidate();
+		return;
 
-		}
-		case DL:
-		{
-				   pDoc->Line_array[current_l].draw(&dc, point.x, point.y);
-				   Invalidate();
-				   break;
-		}
-		case DR:
-		{
-				   ARect_array[current_r].draw(&dc, point.x, point.y);
-				   Invalidate();
-				   break;
-		}
-		case DE:
-		{
-				   AEll_array[current_e].draw(&dc, point.x, point.y);
-				   Invalidate();
-				   break;
-		}
-		case DP:
-		case DT:
-		{
-				   break;
-		}
-		case ML:
-		{
-				   pDoc->Line_array[select_num].move(move_select, point, prev);
-				   if (move_select == 3)
-				   {
-					   pDoc->Line_array[select_num].draw(&dc, pDoc->Line_array[select_num].getEnd_x(), pDoc->Line_array[select_num].getEnd_y());
-					   Invalidate();
-					   break;
-				   }
-				   else
-				   {
-					   pDoc->Line_array[select_num].draw(&dc, point.x, point.y);
-					   Invalidate();
-					   break;
-				   }
-
-		}
-		case MR:
-		{
-				   ARect_array[select_num].move(move_select, point, prev);
-				   if (move_select == 9)
-				   {
-					   ARect_array[select_num].draw(&dc, ARect_array[select_num].getEnd_x(), ARect_array[select_num].getEnd_y());
-					   Invalidate();
-					   break;
-				   }
-				   else
-				   {
-					   ARect_array[select_num].draw(&dc, point.x, point.y);
-					   Invalidate();
-					   break;
-				   }
-
-		}
-		case ME:
-		{
-				   AEll_array[select_num].move(move_select, point, prev);
-				   if (move_select == 9)
-				   {
-					   AEll_array[select_num].draw(&dc, AEll_array[select_num].getEnd_x(), AEll_array[select_num].getEnd_y());
-					   Invalidate();
-					   break;
-				   }
-				   else
-				   {
-					   AEll_array[select_num].draw(&dc, point.x, point.y);
-					   Invalidate();
-					   break;
-				   }
-		}
-		case MP:
-		{
-				   if (ispoint)
-				   {
-					   if (select_point == 0)
-					   {
-						   APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
-					   }
-					   if (select_point > 0)
-					   {
-						   if (select_point == APolyline_array[select_num].point_array.GetSize() - 1)
-						   {
-							   APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
-							   Invalidate();
-							   return;
-						   }
-						   APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
-						   APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
-					   }
-
-					   Invalidate();
-					   return;
-				   }
-				   else
-				   {
-
-
-
-				   }
-				   return;
-		}
-		}
-		CView::OnMouseMove(nFlags, point);
 	}
+	case DL:
+	{
+				   pDoc->Line_array[current_l].draw(&dc, point.x, point.y);
+			   Invalidate();
+			   break;
+	}
+	case DR:
+	{
+				   ARect_array[current_r].draw(&dc, point.x, point.y);
+			   Invalidate();
+			   break;
+	}
+	case DE:
+	{
+				   AEll_array[current_e].draw(&dc, point.x, point.y);
+			   Invalidate();
+			   break;
+	}
+	case DP:
+	case DT:
+	{
+			   break;
+	}
+	case ML:
+	{
+			pDoc->Line_array[select_num].move(move_select, point, prev);
+			if (move_select == 3)
+			{
+				pDoc->Line_array[select_num].draw(&dc, pDoc->Line_array[select_num].getEnd_x(), pDoc->Line_array[select_num].getEnd_y());
+				Invalidate();
+				break;
+			}
+			else
+			{
+				pDoc->Line_array[select_num].draw(&dc, point.x, point.y);
+				Invalidate();
+				break;
+			}
+
+		}
+	case MR:
+	{
+			ARect_array[select_num].move(move_select, point, prev);
+			if (move_select == 9)
+			{
+				ARect_array[select_num].draw(&dc, ARect_array[select_num].getEnd_x(), ARect_array[select_num].getEnd_y());
+				Invalidate();
+				break;
+			}
+			else
+			{
+				ARect_array[select_num].draw(&dc, point.x, point.y);
+				Invalidate();
+				break;
+			}
+
+	}
+	case ME:
+	{
+			AEll_array[select_num].move(move_select, point, prev);
+			if (move_select == 9)
+			{
+				AEll_array[select_num].draw(&dc, AEll_array[select_num].getEnd_x(), AEll_array[select_num].getEnd_y());
+				Invalidate();
+				break;
+			}
+			else
+			{
+				AEll_array[select_num].draw(&dc, point.x, point.y);
+				Invalidate();
+				break;
+			}
+		}
+	case MP:
+	{
+		if (ispoint)
+		{
+			if (select_point == 0)
+			{
+				APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
+			}
+			if (select_point > 0)
+			{
+				if (select_point == APolyline_array[select_num].point_array.GetSize() - 1)
+				{
+					APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
+					Invalidate();
+					return;
+				}
+				APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
+				APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
+			}
+
+				   Invalidate();
+				   return;
+			   }
+			   else
+			   {
+
+
+			
+		}
+			return;
+		}
+	}
+	CView::OnMouseMove(nFlags, point);
+}
 }
 
 void CMFCApplication1View::OnDline()
@@ -1210,4 +1211,45 @@ void CMFCApplication1View::OnPattern()
 void CMFCApplication1View::OnThick()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CMFCApplication1Doc* pDoc = GetDocument();
+	CThickDialog dlg;
+	//선택한 객체의 원래 선굵기를 가져옴
+	if (select_mode == DL)
+		dlg.l_size = pDoc->Line_array[select_num].getThick();
+	else if (select_mode == DR)
+		ARect_array[select_num].getThick();
+	else if (select_mode == DE)
+		AEll_array[select_num].getThick();
+	else if (select_mode == DT)
+		pDoc->Text_array[select_num].getThick();
+	else if (select_mode == DP)
+		APolyline_array[select_num].getThick();
+	
+	int result = dlg.DoModal();
+	if (result == IDOK)
+	{
+		l_size = dlg.l_size;
+		//선택한 객체의 선굵기 변수를 가져와서 m_str으로 바꿔준다.
+		if (select_mode == DL)
+		{
+			pDoc->Line_array[select_num].setThick(l_size);
+		}
+		else if (select_mode == DR)
+		{
+			ARect_array[select_num].setThick(l_size);
+		}
+		else if (select_mode == DE)
+		{
+			AEll_array[select_num].setThick(l_size);
+		}
+		else if (select_mode == DT)
+		{
+			pDoc->Text_array[select_num].setThick(l_size);
+		}
+		else if (select_mode == DP)
+		{
+			APolyline_array[select_num].setThick(l_size);
+		}
+		Invalidate();
+	}
 }
