@@ -48,24 +48,25 @@ double ARectangle::getThick()
 }
 
 void ARectangle::move(int move_select, CPoint point, CPoint prev){
-	if (move_select == 1)			//start_x, start_y를 클릭
+	if (move_select >=1 || move_select <=4 )			//start_x, start_y를 클릭
 	{
-		start_x = end_x;
 		end_x = point.x;
-		start_y = end_y;
-		point.y;
+		end_y;  point.y;
 	}
-	if (move_select == 2)			//end_x, end_y를 클릭
+	else if (move_select >= 5 || move_select <= 8)			//end_x, end_y를 클릭
 	{
 		end_x = point.x;
 		end_y = point.y;
 	}
-	if (move_select == 3)			//선 위의점 클릭
+	else			//사각형 안의 점 클릭
 	{
 		start_x += point.x - prev.x;
 		start_y += point.y - prev.y;
 		end_x += point.x - prev.x;
 		end_y += point.y - prev.y;
+
+		prev.x = point.x;
+		prev.y = point.y;
 	}
 }
 
