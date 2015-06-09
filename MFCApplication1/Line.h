@@ -16,7 +16,7 @@ public:
 	void setPattern(int pattern);
 	int getPattern();
 
-	void move(Point p, int x, int y);	//p: 클릭한 점, x : 변화한 x, y : 변화한 y
+	void move(int move_select, CPoint point, CPoint prev);
 
 	virtual void draw(CDC* dc, int x, int y);
 	virtual void draw_start(CDC* dc, int x, int y); // 폴리 점이동에서 써먹음

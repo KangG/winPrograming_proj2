@@ -33,32 +33,21 @@ int Line::getPattern(){
 	return this->pattern;
 }
 
-void Line::move(Point p, int x, int y){
-	int buf_x, buf_y;
-	if ((p.getX() == this->getStart_x()) && (p.getY() == this->getStart_y())){		// start만 옮기는 경우
-		buf_x = this->getStart_x();
-		buf_y = this->getStart_y();
-		this->setStart_x(buf_x + x);
-		this->setStart_y(buf_y + y);
-
+void Line::move(int move_select, CPoint point, CPoint prev){
+	if (move_select == 1 || move_select == 2)			//start_x, start_y를 클릭
+	{								//end_x, end_y를 클릭
+		end_x = point.x;
+		end_y = point.y;
 	}
-	else if ((p.getX() == this->getEnd_x()) && (p.getY() == this->getEnd_y())){		//end만 옮기는 경우
-		buf_x = this->getEnd_x();
-		buf_y = this->getEnd_y();
-		this->setEnd_x(buf_x + x);
-		this->setEnd_y(buf_y + y);
-	}
+	if (move_select == 3)			//선 위의점 클릭
+	{
+		start_x += point.x - prev.x;
+		start_y += point.y - prev.y;
+		end_x += point.x - prev.x;
+		end_y += point.y - prev.y;
 
-	else{				//전체 옮기는 경우
-		buf_x = this->getStart_x();
-		buf_y = this->getStart_y();
-		this->setStart_x(buf_x + x);
-		this->setStart_y(buf_y + y);
-
-		buf_x = this->getEnd_x();
-		buf_y = this->getEnd_y();
-		this->setEnd_x(buf_x + x);
-		this->setEnd_y(buf_y + y);
+		prev.x = point.x;
+		prev.y = point.y;
 	}
 }
 
