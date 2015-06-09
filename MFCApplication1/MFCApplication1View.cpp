@@ -545,6 +545,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							isall = true;
 							select_mode = DP;
 							select_num = i;
+							move_select = 3;
 							TRACE("%d\n", select_num);
 							return;
 						}
@@ -666,9 +667,14 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 				APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
 			}
 		}
-		if (isall == true)
+			  else if (!ispoint && isall)
 		{
-			//APolyline_array[select_num].moveAll(point.x, point.y);
+				  TRACE("%d\n", select_num);
+				  for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize(); i++)
+					  APolyline_array[select_num].poly_array[i].move(move_select, point.x, point.y);
+
+				  Invalidate();
+				  
 		}
 		Invalidate();
 		return;
