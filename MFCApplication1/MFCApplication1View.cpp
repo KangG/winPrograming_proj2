@@ -193,7 +193,7 @@ void CMFCApplication1View::OnPaint()
 		}
 		AEll_array[i].draw(&dc, AEll_array[i].getEnd_x(), AEll_array[i].getEnd_y());
 	}
-	for (int i = 0; i < APolyline_array.GetCount(); i++) {		
+	for (int i = 0; i < APolyline_array.GetCount(); i++) {
 		if (select_mode == DP)
 		{
 			APolyline_array[select_num].DrawSelectLine(&dc);
@@ -204,7 +204,7 @@ void CMFCApplication1View::OnPaint()
 		if (select_mode == DT)
 		{
 		//	Text_array[select_num].DrawSelectLine(&dc);
-		}
+}
 		pDoc->Text_array[i].makeRect(&dc);
 	}
 }
@@ -533,6 +533,9 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						}
 					}
 
+					prev.x = point.x;
+					prev.y = point.y;
+
 					for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
 					{
 						double x1, x2, y1, y2;
@@ -551,7 +554,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							isall = true;
 							select_mode = DP;
 							select_num = i;				//선택된 폴리라인의 순번채크용
-							//move_select = 3;			//전체이동의 모드이기때문에
+							move_select = 3;			//전체이동의 모드이기때문에
 							Invalidate();
 							return;
 						}
@@ -768,6 +771,20 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 					APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
 					APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
 				}
+
+				   Invalidate();
+				   return;
+			   }
+			   else
+			   {
+
+				   //TRACE("%d\n", APolyline_array[select_num].poly_array.GetSize());
+				   for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize()-1; i++)
+				   {
+					   TRACE("%d\n", i);
+
+					   APolyline_array[select_num].poly_array[i].move(move_select, point, prev);
+			
 			}
 			Invalidate();
 			return;
