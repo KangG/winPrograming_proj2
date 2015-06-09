@@ -2,6 +2,8 @@
 #include "Line.h"
 
 Line::Line(){
+	this->thick = 1.5;
+	this->pattern = PS_SOLID;
 }
 
 Line::Line(int a, int b, int c, int d)
@@ -10,6 +12,9 @@ Line::Line(int a, int b, int c, int d)
 	start_y = b;
 	end_x = c;
 	end_y = d;
+
+	this->thick = 1.5;
+	this->pattern = PS_SOLID;
 }
 
 void Line::setColor_l(COLORREF rgb){
@@ -54,7 +59,7 @@ void Line::move(int move_select, CPoint point, CPoint &prev){
 void Line::draw(CDC* dc, int x, int y){
 
 	CPen pen;
-	pen.CreatePen(PS_DOT, 3, color_l);
+	pen.CreatePen(pattern, thick, color_l);
 	CPen* oldPen = dc->SelectObject(&pen);
 
 	dc->MoveTo(start_x, start_y);

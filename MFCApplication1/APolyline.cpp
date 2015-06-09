@@ -91,18 +91,17 @@ void APolyline::move(int x, int y, int index)
 
 void APolyline::moveAll(int x, int y)
 {
-		int nArraySize = poly_array.GetSize(); //좌표 시퀀스의 크기를 구함
-		if (nArraySize > 0) //좌표 시퀀스가 비어있지 않을 경우
+		int nArraySize = poly_array.GetSize(); 
+		if (nArraySize > 0)
 		{
-			for (int i = 0; i<nArraySize; i++) //모든 좌표를 dX, dY만큼 이동
+			for (int i = 0; i<nArraySize; i++)
 			{
 				this->poly_array[i].setStart_x(this->poly_array[i].getStart_x() + x);
-				this->poly_array[i].setStart_y(this->poly_array[i].getStart_y() + y);//dx, dy만큼 이동한 좌표를 다시 배열에 지정
+				this->poly_array[i].setStart_y(this->poly_array[i].getStart_y() + y);
 			}
 			this->poly_array[nArraySize].setEnd_x(this->poly_array[nArraySize].getEnd_x() + x);
 			this->poly_array[nArraySize].setEnd_y(this->poly_array[nArraySize].getEnd_y() + y);
 		}
-		//FindStartEndPt();
 }
 
 void APolyline::eraseAt(int index)
@@ -113,16 +112,21 @@ void APolyline::eraseAt(int index)
 	{
 		if ((temp.getX() == poly_array[i].getStart_x()) &&
 			(temp.getY() == poly_array[i].getStart_y()))
-			poly_array.RemoveAt(0);
-		if (i != 0)
 		{
+			if (i == 0)
+			{
+				poly_array.RemoveAt(i);
+				point_array.RemoveAt(i);
+				return;
+			}
+			poly_array.RemoveAt(i);
+			point_array.RemoveAt(i);
 			poly_array[i - 1].setEnd_x(poly_array[i].getStart_x());
 			poly_array[i - 1].setEnd_y(poly_array[i].getStart_y());
+			return;
+
 		}
 	}
-	
-	
-	point_array.RemoveAt(index);
 
 }
 

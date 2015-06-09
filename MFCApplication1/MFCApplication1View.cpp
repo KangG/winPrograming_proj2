@@ -126,12 +126,6 @@ void CMFCApplication1View::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 	// TODO: 인쇄 후 정리 작업을 추가합니다.
 }
 
-void CMFCApplication1View::OnRButtonUp(UINT /* nFlags */, CPoint point)
-{
-	ClientToScreen(&point);
-	OnContextMenu(this, point);
-}
-
 void CMFCApplication1View::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 {
 #ifndef SHARED_HANDLERS
@@ -195,6 +189,9 @@ void CMFCApplication1View::OnPaint()
 		AEll_array[i].draw(&dc, AEll_array[i].getEnd_x(), AEll_array[i].getEnd_y());
 	}
 	for (int i = 0; i < APolyline_array.GetCount(); i++) {
+
+
+		
 		if (select_mode == DP)
 		{
 			APolyline_array[select_num].DrawSelectLine(&dc);
@@ -524,15 +521,18 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						if ((point.x >= x3 - 5 && point.x <= x3 + 5) && (point.y >= y3 - 5 && point.y <= y3 + 5))
 						{
 							mode = MP;
-							ispoint = true;
-							select_point = j;
+							ispoint = true;			//점이라는 것을 표시해줌.
+							select_point = j;		//점의 순번을 표시해줌.
 							move = true;
+							select_mode = DP;
+							
+							Invalidate();
+							return;
 						}
 					}
 
 					for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
 					{
-						int x3, y3;
 						double x1, x2, y1, y2;
 						double g;			//greadient 기울기
 
@@ -542,17 +542,15 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						y2 = APolyline_array[i].poly_array[j].getEnd_y();
 						g = (y2 - y1) / (x2 - x1);
 
-						x3 = APolyline_array[i].point_array[j].getX();
-						y3 = APolyline_array[i].point_array[j].getY();
-
 						if (((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5))
 							&& ((point.y >= g*(point.x - x1) + y1 - 5) && (point.y <= g*(point.x - x1) + y1 + 5)))
 						{
 							mode = MP;
 							isall = true;
 							select_mode = DP;
-							select_num = i;
-							move_select = 3;
+							select_num = i;				//선택된 폴리라인의 순번채크용
+							//move_select = 3;			//전체이동의 모드이기때문에
+							Invalidate();
 							return;
 						}
 					}
@@ -588,6 +586,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 		select_mode = 0;
 		select_num = -1;
+		ispoint = false;
+		isall = false;
 	}
 	}
 }
@@ -613,6 +613,7 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 	case DE:
 	case DP:
 	{
+			   //mode = S;
 		move = false;
 		break;
 	}
@@ -641,7 +642,17 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 			APolyline_array[select_num].point_array[select_point].setY(point.y);
 			select_point = -1;
 			ispoint = false;
+			mode = S;
+			break;
 		}
+		else if (!ispoint && isall)
+		{
+			for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize(); i++)
+				APolyline_array[select_num].poly_array[i].move(move_select, point, prev);
+	}
+		mode = S;
+		break;
+
 	}
 	}
 	CView::OnLButtonUp(nFlags, point);
@@ -774,15 +785,9 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 				APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
 			}
 		}
-		else if (!ispoint && isall)
-		{
-			for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize(); i++)
-				APolyline_array[select_num].poly_array[i].move(move_select, point, prev);
-
 			Invalidate();
 			return;
 		}
-	}
 	}
 	CView::OnMouseMove(nFlags, point);
 }
@@ -1042,9 +1047,87 @@ void CMFCApplication1View::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 }
 
 
+void CMFCApplication1View::OnRButtonUp(UINT /* nFlags */, CPoint point)
+{
+	ClientToScreen(&point);
+	OnContextMenu(this, point);
+	switch (mode)
+	{
+	case DP:
+	{
+
+	}
+	case MP:
+	{
+			   if (ispoint)
+			   {
+				   select_point = -1;
+				   ispoint = false;
+				   mode = S;
+				   break;
+			   }
+	}
+	}
+}
+
 void CMFCApplication1View::OnRButtonDown(UINT nFlags, CPoint point)
 {
+	switch (mode)
+	{
+	case S:
+	{
+			  if (APolyline_array.GetCount() != 0)
+			  {
+				  for (int i = 0; i < APolyline_array.GetCount(); i++)
+				  {
+
+					  for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
+					  {
+						  int x3, y3;
+
+						  x3 = APolyline_array[i].point_array[j].getX();
+						  y3 = APolyline_array[i].point_array[j].getY();
+
+						  if ((point.x >= x3 - 5 && point.x <= x3 + 5) && (point.y >= y3 - 5 && point.y <= y3 + 5))
+						  {
+							  TRACE("checking111111111\n");
+							  mode = S;
+							  ispoint = true;			//점이라는 것을 표시해줌.
+							  select_point = j;		//점의 순번을 표시해줌.
+							  move = true;
+							  select_mode = DP;
+
 	
+							  return;
+						  }
+					  }
+
+					  for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
+					  {
+						  double x1, x2, y1, y2;
+						  double g;			//greadient 기울기
+	
+						  x1 = APolyline_array[i].poly_array[j].getStart_x();
+						  x2 = APolyline_array[i].poly_array[j].getEnd_x();
+						  y1 = APolyline_array[i].poly_array[j].getStart_y();
+						  y2 = APolyline_array[i].poly_array[j].getEnd_y();
+						  g = (y2 - y1) / (x2 - x1);
+
+						  if (((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5))
+							  && ((point.y >= g*(point.x - x1) + y1 - 5) && (point.y <= g*(point.x - x1) + y1 + 5)))
+						  {
+							  mode = S;
+							  isall = true;
+							  select_mode = DP;
+							  select_num = i;				//선택된 폴리라인의 순번채크용
+							  //move_select = 3;			//전체이동의 모드이기때문에
+							  return;
+						  }
+					  }
+				  }
+			  }
+	}
+	}
 	CView::OnRButtonDown(nFlags, point);
 }
 
