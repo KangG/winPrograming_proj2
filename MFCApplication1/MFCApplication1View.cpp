@@ -393,8 +393,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 					y2 = pDoc->ARect_array[i].getEnd_y();
 
 					// 하나라도 범위 안에 있으면 선택으로 인정
-					if ((point.x >= x1 - 5 && point.x <= x2 + 5)
-						&& (point.y >= y1 - 5 && point.y <= y2 + 5))
+					if (((point.x >= x1 - 5 && point.x <= x2 + 5)||(point.x >= x2 - 5 && point.x <= x1 + 5))
+						&& ((point.y >= y1 - 5 && point.y <= y2 + 5) || (point.y >= y2 - 5 && point.y <= y1 + 5)))
 					{
 						if (select_mode == DR && select_num == i)
 						{
@@ -461,8 +461,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						y2 = pDoc->AEll_array[i].getEnd_y();
 
 						// 하나라도 범위 안에 있으면 선택으로 인정
-						if ((point.x >= x1 - 5 && point.x <= x2 + 5)
-							&& (point.y >= y1 - 5 && point.y <= y2 + 5) )
+						if (((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5))
+							&& ((point.y >= y1 - 5 && point.y <= y2 + 5) || (point.y >= y2 - 5 && point.y <= y1 + 5)))
 						{
 							if (select_mode == DE && select_num == i)
 							{

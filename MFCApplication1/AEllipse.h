@@ -41,8 +41,6 @@ public:
 	int start_y;
 	int end_x;
 	int end_y;
-	Point start_p(int start_x, int start_y);
-	Point end_p(int end_x, int end_y);
 
 	COLORREF color_l;
 	COLORREF color_s;

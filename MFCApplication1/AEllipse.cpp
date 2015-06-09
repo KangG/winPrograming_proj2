@@ -8,9 +8,6 @@ AEllipse::AEllipse()
 	this->end_x = 0;
 	this->end_y = 0;
 
-	Point start_p(this->start_x, this->start_y);
-	Point end_p(this->end_x, this->end_y);
-
 	this->color_l = *(new COLORREF(RGB(0, 0, 0)));
 	this->color_s = *(new COLORREF(RGB(255,255,255)));
 
@@ -151,6 +148,11 @@ void AEllipse::DrawSelect(CDC *pDC)
 	pDC->Ellipse(start_x - 5, end_y - 5, start_x + 5, end_y + 5);
 	pDC->Ellipse(end_x - 5, start_y - 5, end_x + 5, start_y + 5);
 
+	//선 중앙에 점을 그림
+	pDC->Ellipse((start_x + end_x) / 2 - 5, start_y - 5, (start_x + end_x) / 2 + 5, start_y + 5);
+	pDC->Ellipse((start_x + end_x) / 2 - 5, end_y - 5, (start_x + end_x) / 2 + 5, end_y + 5);
+	pDC->Ellipse(start_x - 5, (start_y + end_y) / 2 - 5, start_x + 5, (start_y + end_y) / 2 + 5);
+	pDC->Ellipse(end_x - 5, (start_y + end_y) / 2 - 5, end_x + 5, (start_y + end_y) / 2 + 5);
 
 	//이전 펜과 브러쉬 속성으로 되돌림
 	pDC->SelectObject(oldPen);
