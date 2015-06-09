@@ -119,6 +119,12 @@ void APolyline::eraseAt(int index)
 				point_array.RemoveAt(i);
 				return;
 			}
+			else if (i == poly_array.GetSize() - 1)
+			{
+				poly_array.RemoveAt(i);
+				point_array.RemoveAt(i);
+				return;
+			}
 			poly_array.RemoveAt(i);
 			point_array.RemoveAt(i);
 			poly_array[i - 1].setEnd_x(poly_array[i].getStart_x());

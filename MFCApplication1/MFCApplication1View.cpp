@@ -532,8 +532,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						}
 					}
 
-					prev.x = point.x;
-					prev.y = point.y;
+					
 
 					for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
 					{
@@ -549,6 +548,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						if (((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5))
 							&& ((point.y >= g*(point.x - x1) + y1 - 5) && (point.y <= g*(point.x - x1) + y1 + 5)))
 						{
+							prev.x = point.x;
+							prev.y = point.y;
 							mode = MP;
 							isall = true;
 							select_mode = DP;
@@ -647,13 +648,25 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 			select_point = -1;
 			ispoint = false;
 			mode = S;
+
+			Invalidate();
 			break;
 		}
-		else if (!ispoint && isall)
+		else
 		{
+			CPoint temp = prev;
 			for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize(); i++)
+			{
+				APolyline_array[select_num].move(point.x - prev.x, point.y - prev.y, i);
 				APolyline_array[select_num].poly_array[i].move(move_select, point, prev);
-	}
+				TRACE("%d	%d		%d\n", APolyline_array[select_num].point_array[i].getX(), APolyline_array[select_num].point_array[i].getY(), i);
+				prev = temp;
+
+			}
+
+			isall = false;
+			Invalidate();
+		}
 		mode = S;
 		break;
 
@@ -670,129 +683,122 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 	CMFCApplication1Doc* pDoc = GetDocument();
 
 	if (move == true){
-	switch (mode)
-	{
-	case S:
-	{
-		Invalidate();
-		return;
-
-	}
-	case DL:
-	{
-				   pDoc->Line_array[current_l].draw(&dc, point.x, point.y);
-			   Invalidate();
-			   break;
-	}
-	case DR:
-	{
-				   ARect_array[current_r].draw(&dc, point.x, point.y);
-			   Invalidate();
-			   break;
-	}
-	case DE:
-	{
-				   AEll_array[current_e].draw(&dc, point.x, point.y);
-			   Invalidate();
-			   break;
-	}
-	case DP:
-	case DT:
-	{
-			   break;
-	}
-	case ML:
-	{
-			pDoc->Line_array[select_num].move(move_select, point, prev);
-			if (move_select == 3)
-			{
-				pDoc->Line_array[select_num].draw(&dc, pDoc->Line_array[select_num].getEnd_x(), pDoc->Line_array[select_num].getEnd_y());
-				Invalidate();
-				break;
-			}
-			else
-			{
-				pDoc->Line_array[select_num].draw(&dc, point.x, point.y);
-				Invalidate();
-				break;
-			}
-
-		}
-	case MR:
-	{
-			ARect_array[select_num].move(move_select, point, prev);
-			if (move_select == 9)
-			{
-				ARect_array[select_num].draw(&dc, ARect_array[select_num].getEnd_x(), ARect_array[select_num].getEnd_y());
-				Invalidate();
-				break;
-			}
-			else
-			{
-				ARect_array[select_num].draw(&dc, point.x, point.y);
-				Invalidate();
-				break;
-			}
-
-	}
-	case ME:
-	{
-			AEll_array[select_num].move(move_select, point, prev);
-			if (move_select == 9)
-			{
-				AEll_array[select_num].draw(&dc, AEll_array[select_num].getEnd_x(), AEll_array[select_num].getEnd_y());
-				Invalidate();
-				break;
-			}
-			else
-			{
-				AEll_array[select_num].draw(&dc, point.x, point.y);
-				Invalidate();
-				break;
-			}
-		}
-	case MP:
-	{
-		if (ispoint)
+		switch (mode)
 		{
-			if (select_point == 0)
-			{
-				APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
-			}
-			if (select_point > 0)
-			{
-				if (select_point == APolyline_array[select_num].point_array.GetSize() - 1)
-				{
-					APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
-					Invalidate();
-					return;
-				}
-				APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
-				APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
-			}
+		case S:
+		{
+				  Invalidate();
+				  return;
 
+		}
+		case DL:
+		{
+				   pDoc->Line_array[current_l].draw(&dc, point.x, point.y);
 				   Invalidate();
-				   return;
-			   }
-			   else
-			   {
-
-				   //TRACE("%d\n", APolyline_array[select_num].poly_array.GetSize());
-				   for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize()-1; i++)
+				   break;
+		}
+		case DR:
+		{
+				   ARect_array[current_r].draw(&dc, point.x, point.y);
+				   Invalidate();
+				   break;
+		}
+		case DE:
+		{
+				   AEll_array[current_e].draw(&dc, point.x, point.y);
+				   Invalidate();
+				   break;
+		}
+		case DP:
+		case DT:
+		{
+				   break;
+		}
+		case ML:
+		{
+				   pDoc->Line_array[select_num].move(move_select, point, prev);
+				   if (move_select == 3)
 				   {
-					   TRACE("%d\n", i);
+					   pDoc->Line_array[select_num].draw(&dc, pDoc->Line_array[select_num].getEnd_x(), pDoc->Line_array[select_num].getEnd_y());
+					   Invalidate();
+					   break;
+				   }
+				   else
+				   {
+					   pDoc->Line_array[select_num].draw(&dc, point.x, point.y);
+					   Invalidate();
+					   break;
+				   }
 
-					   APolyline_array[select_num].poly_array[i].move(move_select, point, prev);
-			
 		}
-			Invalidate();
-			return;
+		case MR:
+		{
+				   ARect_array[select_num].move(move_select, point, prev);
+				   if (move_select == 9)
+				   {
+					   ARect_array[select_num].draw(&dc, ARect_array[select_num].getEnd_x(), ARect_array[select_num].getEnd_y());
+					   Invalidate();
+					   break;
+				   }
+				   else
+				   {
+					   ARect_array[select_num].draw(&dc, point.x, point.y);
+					   Invalidate();
+					   break;
+				   }
+
 		}
+		case ME:
+		{
+				   AEll_array[select_num].move(move_select, point, prev);
+				   if (move_select == 9)
+				   {
+					   AEll_array[select_num].draw(&dc, AEll_array[select_num].getEnd_x(), AEll_array[select_num].getEnd_y());
+					   Invalidate();
+					   break;
+				   }
+				   else
+				   {
+					   AEll_array[select_num].draw(&dc, point.x, point.y);
+					   Invalidate();
+					   break;
+				   }
+		}
+		case MP:
+		{
+				   if (ispoint)
+				   {
+					   if (select_point == 0)
+					   {
+						   APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
+					   }
+					   if (select_point > 0)
+					   {
+						   if (select_point == APolyline_array[select_num].point_array.GetSize() - 1)
+						   {
+							   APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
+							   Invalidate();
+							   return;
+						   }
+						   APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
+						   APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
+					   }
+
+					   Invalidate();
+					   return;
+				   }
+				   else
+				   {
+
+
+
+				   }
+				   return;
+		}
+		}
+		CView::OnMouseMove(nFlags, point);
 	}
-	}
-	CView::OnMouseMove(nFlags, point);
 }
-
 
 void CMFCApplication1View::OnDline()
 {
@@ -1167,20 +1173,17 @@ void CMFCApplication1View::OnDelete()
 			Invalidate();
 			break;
 		case DP:
-			TRACE("fadfhkasd;klfjf;lasaskjdf\n");
-			TRACE("%d", select_point);
 			if (ispoint)
 			{
-				TRACE("fadfhkasd;klfjf;lasaskjdf\n");
 				APolyline_array[select_num].eraseAt(select_point);
 				select_mode = 100;
+				ispoint = false;
 				Invalidate();
 				return;
 			}
 			TRACE("%d", select_num);
 			befer_num = APolyline_array.GetSize();
 			APolyline_array.RemoveAt(select_num);
-			ispoint = false;
 			select_mode = 100;
 			Invalidate();
 			break;
