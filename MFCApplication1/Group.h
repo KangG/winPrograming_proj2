@@ -30,6 +30,8 @@ public:
 public:
 	CGroup();
 	~CGroup();
+	CGroup(const CGroup &g);
+	CGroup& operator=(const CGroup &g);
 
 	void add_line(Line line);
 	void add_rect(ARectangle rect);

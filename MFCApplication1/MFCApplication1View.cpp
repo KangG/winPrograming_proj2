@@ -32,6 +32,9 @@
 #define MT 9		//text 옮기기
 #define MP 10		//polyline 옮기기
 
+#define GG 11		//그룹화
+
+
 // CMFCApplication1View
 
 IMPLEMENT_DYNCREATE(CMFCApplication1View, CView)
@@ -62,6 +65,7 @@ BEGIN_MESSAGE_MAP(CMFCApplication1View, CView)
 	ON_COMMAND(ID_font, &CMFCApplication1View::OnFont)
 	ON_COMMAND(ID_pattern, &CMFCApplication1View::OnPattern)
 	ON_COMMAND(ID_Thick, &CMFCApplication1View::OnThick)
+	ON_COMMAND(ID_GROUP, &CMFCApplication1View::OnGroup)
 END_MESSAGE_MAP()
 
 // CMFCApplication1View 생성/소멸
@@ -240,6 +244,13 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	switch (mode)
 	{
+	case GG:
+	{
+			   ARectangle* temp_r = new ARectangle();
+			   //temp_r->setStart_x()
+
+
+	}
 	case DL:
 	{
 			   Line* l = new Line();
@@ -569,18 +580,18 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 			//텍스트 어레이에서 검사
 			if (pDoc->Text_array.GetSize() != 0)
 			{
-				int x1, x2, y1, y2;
-				for (int i = 0; i < pDoc->Text_array.GetCount(); i++)
-				{
-					x1 = pDoc->Text_array[i].getStart_x();
-					x2 = pDoc->Text_array[i].getEnd_x();
-					y1 = pDoc->Text_array[i].getStart_y();
-					y2 = pDoc->Text_array[i].getEnd_y();
-
-					// 하나라도 범위 안에 있으면 선택으로 인정
-					if ((point.x >= x1 - 5 && point.x <= x2 + 5)
-						&& (point.y >= y1 - 5 && point.y <= y2 + 5))
+					int x1, x2, y1, y2;
+					for (int i = 0; i < pDoc->Text_array.GetCount(); i++)
 					{
+						x1 = pDoc->Text_array[i].getStart_x();
+						x2 = pDoc->Text_array[i].getEnd_x();
+						y1 = pDoc->Text_array[i].getStart_y();
+						y2 = pDoc->Text_array[i].getEnd_y();
+
+						// 하나라도 범위 안에 있으면 선택으로 인정
+						if ((point.x >= x1 - 5 && point.x <= x2 + 5)
+							&& (point.y >= y1 - 5 && point.y <= y2 + 5))
+						{
 						if (select_mode == DT && select_num == i)
 						{
 							mode = MT;
@@ -761,7 +772,7 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 		{
 			pDoc->Text_array[current_t].draw(&dc, point.x, point.y);
 			Invalidate(); 
-			break;
+				   break;
 		}
 		case ML:
 		{
@@ -848,7 +859,7 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 					   }
 					   return;
 				   }
-			}
+		}
 
 		case MT:{
 			pDoc->Text_array[select_num].move(move_select, point, prev);
@@ -867,9 +878,9 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 		}
 
 		}
-		CView::OnMouseMove(nFlags, point);
+			CView::OnMouseMove(nFlags, point);
+		}
 	}
-}
 
 void CMFCApplication1View::OnDline()
 {
@@ -1338,4 +1349,13 @@ void CMFCApplication1View::OnThick()
 		}
 		Invalidate();
 	}
+}
+
+
+void CMFCApplication1View::OnGroup()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	group_status = true;
+	mode = GG;
+
 }

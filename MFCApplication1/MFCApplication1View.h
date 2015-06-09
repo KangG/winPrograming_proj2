@@ -25,7 +25,10 @@ public:
 	BOOL btext_status = false;
 	BOOL bpoly_status = false;
 	BOOL bpoly_new = false;
-	
+	BOOL group_status = false;
+
+
+
 	BOOL isDel = false;
 	BOOL ispoint = false;
 	BOOL isall = false;	//전체 선택때 사용
@@ -112,6 +115,7 @@ public:
 	afx_msg void OnTextcolor();
 	afx_msg void OnPattern();
 	afx_msg void OnThick();
+	afx_msg void OnGroup();
 };
 
 #ifndef _DEBUG  // MFCApplication1View.cpp의 디버그 버전

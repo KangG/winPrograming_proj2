@@ -135,7 +135,7 @@ BEGIN
     BUTTON      ID_pattern
     SEPARATOR
     BUTTON      ID_Textcolor
-    BUTTON      ID_BUTTON32796
+    BUTTON      ID_GROUP
 END
 
 

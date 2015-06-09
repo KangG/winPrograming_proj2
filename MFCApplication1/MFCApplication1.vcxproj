@@ -138,6 +138,8 @@
     <ClCompile Include="ThickDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="MFCApplication1.reg" />
     <None Include="res\MFCApplication1.rc2" />
   </ItemGroup>

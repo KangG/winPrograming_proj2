@@ -59,6 +59,7 @@
 #define ID_p                            32795
 #define ID_pattern                      32795
 #define ID_BUTTON32796                  32796
+#define ID_GROUP                        32796
 
 // Next default values for new objects
 // 
