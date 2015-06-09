@@ -12,8 +12,8 @@ APolyline::APolyline()
 	//쓰려고 temp를 만들었다.
 
 	this->color_p = *(new COLORREF(RGB(0, 0, 0)));
-	this->thick = 0.5;
-	this->pattern = 0;
+	this->thick = 1.5;
+	this->pattern = PS_SOLID;
 	this->index = 0;
 }
 
@@ -143,7 +143,7 @@ int APolyline::get_index()
 void APolyline::draw(CDC* dc)
 {
 	CPen pen;
-	pen.CreatePen(PS_DOT, 3, color_p);
+	pen.CreatePen(pattern, thick, color_p);
 	CPen* oldPen = dc->SelectObject(&pen);
 
 	for (int i = 0; i < poly_array.GetSize()-1; i++){
@@ -159,19 +159,9 @@ void APolyline::DrawSelectLine(CDC *pDC)
 	//그리기 속성 설정
 	pDC->SelectStockObject(NULL_BRUSH);
 	CPen pen;
-	pen.CreatePen(PS_DOT, 3, color_p);
+	pen.CreatePen(pattern, thick, color_p);
 	CPen* oldPen = pDC->SelectObject(&pen);
 
-	//점선으로 라인 모양대로 테두리를 그림
-	for (int i = 0; i<poly_array.GetSize()-1; i ++) //라인 하나마다 점선 테두리를 그림
-	{
-		CPoint sPt[4]; //라인하나 당 테두리를 그리려면 4개의 점이 필요
-		sPt[0].SetPoint(poly_array[i].getStart_x() - 2, poly_array[i].getStart_y() - 2); //점 하나씩 sPt에 지정
-		sPt[1].SetPoint(poly_array[i].getStart_x() + 2, poly_array[i].getStart_y() + 2);
-		sPt[2].SetPoint(poly_array[i].getEnd_x() - 2, poly_array[i].getEnd_y() - 2);
-		sPt[3].SetPoint(poly_array[i].getEnd_x() - 2, poly_array[i].getEnd_y() - 2);
-		pDC->Polygon(sPt, 4); //테두리 그리기
-	}
 
 	//그리기 속성 설정
 	CBrush brush(RGB(51, 94, 168)); //브러쉬 생성

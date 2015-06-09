@@ -61,6 +61,10 @@ public:
 public:
 	int mode;
 	CPoint m_ptPrev;
+	
+	//Thick 다이얼로그 변수
+	double l_size;
+	
 
 // 재정의입니다.
 public:

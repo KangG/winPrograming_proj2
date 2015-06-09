@@ -113,6 +113,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Text.h" />
+    <ClInclude Include="ThickDialog.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AEllipse.cpp" />
@@ -130,6 +131,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Text.cpp" />
+    <ClCompile Include="ThickDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MFCApplication1.reg" />
