@@ -17,7 +17,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 한국어(대한민국) resources
+// Korean (Korea) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
 LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
@@ -128,12 +128,14 @@ BEGIN
     BUTTON      ID_OC
     BUTTON      ID_IC
     SEPARATOR
-    BUTTON      ID_DT
-    BUTTON      ID_Textcolor
     BUTTON      ID_font
+    BUTTON      ID_DT
     SEPARATOR
     BUTTON      ID_Thick
     BUTTON      ID_pattern
+    SEPARATOR
+    BUTTON      ID_Textcolor
+    BUTTON      ID_BUTTON32796
 END
 
 
@@ -537,7 +539,7 @@ BEGIN
     ID_Textcolor            "텍스트의 색을 변경합니다."
 END
 
-#endif    // 한국어(대한민국) resources
+#endif    // Korean (Korea) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

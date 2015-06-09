@@ -58,7 +58,6 @@ BEGIN_MESSAGE_MAP(CMFCApplication1View, CView)
 	ON_WM_RBUTTONDOWN()
 	ON_COMMAND(ID_Delete, &CMFCApplication1View::OnDelete)
 	ON_COMMAND(ID_font, &CMFCApplication1View::OnFont)
-	ON_COMMAND(ID_Textcolor, &CMFCApplication1View::OnTextcolor)
 	ON_COMMAND(ID_pattern, &CMFCApplication1View::OnPattern)
 	ON_COMMAND(ID_Thick, &CMFCApplication1View::OnThick)
 END_MESSAGE_MAP()
@@ -90,13 +89,14 @@ BOOL CMFCApplication1View::PreCreateWindow(CREATESTRUCT& cs)
 
 // CMFCApplication1View 그리기
 
-void CMFCApplication1View::OnDraw(CDC* /*pDC*/)
+void CMFCApplication1View::OnDraw(CDC* pDC)
 {
 	CMFCApplication1Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
+	
 }
 
 
@@ -164,6 +164,7 @@ void CMFCApplication1View::OnPaint()
 	CPaintDC dc(this); // device context for painting
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
 	// 그리기 메시지에 대해서는 CView::OnPaint()을(를) 호출하지 마십시오.
+
 	dc.SelectStockObject(NULL_BRUSH);
 	//dc.SetROP2(R2_COPYPEN);
 
@@ -668,6 +669,7 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 	CClientDC dc(this);
 	CMFCApplication1Doc* pDoc = GetDocument();
 
+	if (move == true){
 	switch (mode)
 	{
 	case S:
@@ -678,43 +680,29 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	case DL:
 	{
-			   if (move == true){
 				   pDoc->Line_array[current_l].draw(&dc, point.x, point.y);
-			   }
 			   Invalidate();
 			   break;
 	}
 	case DR:
 	{
-			   if (move == true){
 				   ARect_array[current_r].draw(&dc, point.x, point.y);
-			   }
 			   Invalidate();
 			   break;
 	}
 	case DE:
 	{
-			   if (move == true){
 				   AEll_array[current_e].draw(&dc, point.x, point.y);
-			   }
 			   Invalidate();
 			   break;
 	}
 	case DP:
-	{
-			
-	}
 	case DT:
 	{
-			   if (move == true){
-
-			   }
 			   break;
 	}
 	case ML:
 	{
-		if (move == true)
-		{
 			pDoc->Line_array[select_num].move(move_select, point, prev);
 			if (move_select == 3)
 			{
@@ -728,12 +716,10 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 				Invalidate();
 				break;
 			}
+
 		}
-	}
 	case MR:
 	{
-		if (move == true)
-		{
 			ARect_array[select_num].move(move_select, point, prev);
 			if (move_select == 9)
 			{
@@ -747,12 +733,10 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 				Invalidate();
 				break;
 			}
-		}
+
 	}
 	case ME:
 	{
-		if (move == true)
-		{
 			AEll_array[select_num].move(move_select, point, prev);
 			if (move_select == 9)
 			{
@@ -767,26 +751,25 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 				break;
 			}
 		}
-	}
 	case MP:
 	{
-			   if (ispoint)
-			   {
-				   if (select_point == 0)
-				   {
-					   APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
-				   }
-				   if (select_point > 0)
-				   {
-					   if (select_point == APolyline_array[select_num].point_array.GetSize() - 1)
-					   {
-						   APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
-						   Invalidate();
-						   return;
-					   }
-					   APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
-					   APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
-				   }
+		if (ispoint)
+		{
+			if (select_point == 0)
+			{
+				APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
+			}
+			if (select_point > 0)
+			{
+				if (select_point == APolyline_array[select_num].point_array.GetSize() - 1)
+				{
+					APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
+					Invalidate();
+					return;
+				}
+				APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
+				APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
+			}
 
 				   Invalidate();
 				   return;
@@ -801,10 +784,10 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 
 					   APolyline_array[select_num].poly_array[i].move(move_select, point, prev);
 			
-				   }
-				   Invalidate();
-				   return;
-			   }
+		}
+			Invalidate();
+			return;
+		}
 	}
 	}
 	CView::OnMouseMove(nFlags, point);
@@ -1212,18 +1195,6 @@ void CMFCApplication1View::OnFont()
 	CFontDialog cdlg;
 	cdlg.DoModal();
 
-}
-
-
-void CMFCApplication1View::OnTextcolor()
-{
-	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	CColorDialog cdlg;
-	cdlg.DoModal();
-	color = cdlg.GetColor();
-	if (select_mode == DT){
-	
-	}
 }
 
 
