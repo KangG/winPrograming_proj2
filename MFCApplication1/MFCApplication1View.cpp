@@ -336,7 +336,6 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							move = true;
 							prev.x = point.x;
 							prev.y = point.y;
-							ispoint = true;
 							//뭐선택했는지 판단
 							if (((point.x >= x1 - 5) && (point.x <= x1 + 5)) && ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
 							{
@@ -347,9 +346,9 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							else if (((point.x >= x2 - 5) && (point.x <= x2 + 5)) && ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
 							{
 								move_select = 2;		//end점 옮기기
-						}
-						else
-						{
+							}
+							else
+							{
 								move_select = 3;		//선 전체 옮기기
 							}
 							return;
@@ -448,10 +447,10 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							}
 							else
 							{
-							select_mode = DE;
-							select_num = i;
-							return;
-						}
+								select_mode = DE;
+								select_num = i;
+								return;
+							}
 						}
 
 					}
@@ -532,12 +531,9 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 
 				}
 			}
-
-
-
 		}
 		select_mode = 0;
-			select_num = -1;
+		select_num = -1;
 	}
 	}
 }
@@ -555,21 +551,24 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 	case S:
 	{
-			  if (ispoint)
-			  {
-				  APolyline_array[select_num].point_array[select_point].setX(point.x);
-				  APolyline_array[select_num].point_array[select_point].setY(point.y);
-				  select_point = -1;
-				  //ispoint = false;
-			  }
-			  Invalidate();
-			  break;
+		if (ispoint)
+		{
+			APolyline_array[select_num].point_array[select_point].setX(point.x);
+			APolyline_array[select_num].point_array[select_point].setY(point.y);
+			select_point = -1;
+			//ispoint = false;
+		}
+		Invalidate();
+		break;
 	}
 	case DL:
 	case DR:
 	case DE:
+	case DP:
+	{
 		move = false;
 		break;
+	}
 	case DT:
 	{
 		pDoc->Text_array[current_t].setEnd_x(point.x);
@@ -577,9 +576,6 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 		Invalidate();
 			   move = false;
 			   break;
-	}
-	case DP:
-	{
 	}
 	case ML:
 	case MR:
@@ -606,37 +602,30 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 	{
 	case S:
 	{
-			 
-			  if (ispoint)
-			  {
-				  TRACE("MOUSE MOVE MOUSE MOVE MOUSE MOVE MOUSE MOVE MOUSE MOVE\n");
-				  
-				  if (select_point == 0)
-				  {
-					  APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
-				  }
-				  if (select_point > 0)
-				  {
-					  if (select_point == APolyline_array[select_num].point_array.GetSize() - 1)
-					  {
-						  APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
-						  Invalidate();
-						  return;
-					  }
-
-					  APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
-					  APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
-				  }
-			  }
-			  if (isall == true)
-			  {
-				  //APolyline_array[select_num].moveAll(point.x, point.y);
-			  }
-
-
-
-			  Invalidate();
-			  return;
+		if (ispoint)
+		{
+			if (select_point == 0)
+			{
+				APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
+			}
+			if (select_point > 0)
+			{
+				if (select_point == APolyline_array[select_num].point_array.GetSize() - 1)
+				{
+					APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
+					Invalidate();
+					return;
+				}
+				APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
+				APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
+			}
+		}
+		if (isall == true)
+		{
+			//APolyline_array[select_num].moveAll(point.x, point.y);
+		}
+		Invalidate();
+		return;
 
 	}
 	case DL:
@@ -691,8 +680,8 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 				pDoc->Line_array[select_num].draw(&dc, point.x, point.y);
 				Invalidate();
 				break;
-	}
-	}
+			}
+		}
 	}
 	}
 	CView::OnMouseMove(nFlags, point);
