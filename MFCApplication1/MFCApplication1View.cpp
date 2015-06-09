@@ -1010,9 +1010,9 @@ void CMFCApplication1View::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	CMFCApplication1Doc *pDoc = GetDocument();
-	if (mode == DT || select_mode==MT){
+	if (mode == DT || select_mode==DT){
 		if (nChar == _T('\b')){
-			if (select_mode==MT){
+			if (select_mode==DT){
 				if (pDoc->Text_array[select_num].m_str.GetSize() > 0)
 					pDoc->Text_array[select_num].m_str.RemoveAt(pDoc->Text_array[select_num].m_str.GetSize() - 1);
 				}
@@ -1022,8 +1022,13 @@ void CMFCApplication1View::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 			}
 			}
 		else{
+			if (select_mode == DT){
+				pDoc->Text_array[select_num].m_str.Add(nChar);
+			}
+			if (mode == DT){
 			pDoc->Text_array[current_t].m_str.Add(nChar);
 		}
+	}
 	}
 	pDoc->SetModifiedFlag();
 
