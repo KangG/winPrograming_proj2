@@ -12,6 +12,7 @@
 #include "MFCApplication1Doc.h"
 #include "MFCApplication1View.h"
 #include "ThickDialog.h"
+#include "PatternDialog.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -772,28 +773,28 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 					APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
 				}
 
-				   Invalidate();
-				   return;
-			   }
-			   else
-			   {
-
-				   //TRACE("%d\n", APolyline_array[select_num].poly_array.GetSize());
-				   for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize()-1; i++)
-				   {
-					   TRACE("%d\n", i);
-
-					   APolyline_array[select_num].poly_array[i].move(move_select, point, prev);
-			
+				Invalidate();
+				return;
 			}
-			Invalidate();
-			return;
-		}
-		}
-	}
-	CView::OnMouseMove(nFlags, point);
-}
+			else
+			{
 
+				//TRACE("%d\n", APolyline_array[select_num].poly_array.GetSize());
+				for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize() - 1; i++)
+				{
+					TRACE("%d\n", i);
+
+					APolyline_array[select_num].poly_array[i].move(move_select, point, prev);
+
+				}
+				Invalidate();
+				return;
+			}
+		}
+		}
+		CView::OnMouseMove(nFlags, point);
+	}
+}
 
 void CMFCApplication1View::OnDline()
 {
@@ -1202,6 +1203,8 @@ void CMFCApplication1View::OnFont()
 void CMFCApplication1View::OnPattern()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CMFCApplication1Doc* pDoc = GetDocument();
+	PatternDialog dlg;
 }
 
 

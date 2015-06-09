@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by MFCApplication1.rc
+// Microsoft Visual C++에서 생성한 포함 파일입니다.
+// MFCApplication1.rc에서 사용되고 있습니다.
 //
 #define IDOK2                           3
 #define IDD_ABOUTBOX                    100
@@ -32,7 +32,10 @@
 #define IDS_EDIT_MENU                   306
 #define IDR_TOOLBAR1                    310
 #define IDD_DIALOG1                     313
+#define IDD_DIALOG2                     314
 #define IDC_EDIT2                       1001
+#define IDC_COMBO1                      1003
+#define IDC_COMBO2                      1004
 #define ID_DL                           32771
 #define ID_DR                           32772
 #define ID_DE                           32773
@@ -61,9 +64,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        314
+#define _APS_NEXT_RESOURCE_VALUE        316
 #define _APS_NEXT_COMMAND_VALUE         32797
-#define _APS_NEXT_CONTROL_VALUE         1003
+#define _APS_NEXT_CONTROL_VALUE         1006
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif
