@@ -3,6 +3,9 @@
 
 Text::Text(){
 	isInsert = FALSE;
+	color_t = RGB(0,0,0);
+
+	color_b = RGB(255, 255,255);
 
 }Text::Text(const Text &t){
 	*this = t;
@@ -93,6 +96,8 @@ void Text::draw(CDC* dc, int x, int y){
 	rect.draw(dc, getEnd_x(), getEnd_y());
 	r.bottom = y;
 	r.right = x;
+	dc->SetTextColor(color_t);
+	dc->SetBkColor(color_b);
 	dc->DrawText(m_str.GetData(), m_str.GetCount(), &r, DT_LEFT);
 }
 
@@ -101,6 +106,13 @@ void Text::move(int move_select, CPoint point, CPoint &prev){
 }
 
 void Text::erase(){}
+
+void Text::setBkColor(COLORREF bg){
+	color_b = bg;
+}
+COLORREF Text::getBkColor(void){
+	return this->color_b;
+}
 
 void Text::DrawSelect(CDC *pDC)
 {

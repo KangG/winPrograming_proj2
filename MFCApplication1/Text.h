@@ -12,6 +12,9 @@ public:
 	void setRect(ARectangle rect);
 	ARectangle getRect(void);
 
+	void setBkColor(COLORREF bg);
+	COLORREF getBkColor(void);
+
 	void setStart_x(int x);
 	void setStart_y(int y);
 	void setEnd_x(int x);
@@ -44,6 +47,7 @@ private:
 	CRect r;
 	BOOL isInsert;
 	COLORREF color_t;
+	COLORREF color_b;
 	CFont font;
 	double thick;
 	int pattern;

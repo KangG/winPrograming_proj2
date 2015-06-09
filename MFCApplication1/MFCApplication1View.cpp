@@ -66,6 +66,7 @@ BEGIN_MESSAGE_MAP(CMFCApplication1View, CView)
 	ON_COMMAND(ID_pattern, &CMFCApplication1View::OnPattern)
 	ON_COMMAND(ID_Thick, &CMFCApplication1View::OnThick)
 	ON_COMMAND(ID_GROUP, &CMFCApplication1View::OnGroup)
+	ON_COMMAND(ID_Bgcolor12, &CMFCApplication1View::OnBgcolor)
 END_MESSAGE_MAP()
 
 // CMFCApplication1View 생성/소멸
@@ -186,26 +187,26 @@ void CMFCApplication1View::OnPaint()
 		}
 		pDoc->Line_array[i].draw(&dc, pDoc->Line_array[i].getEnd_x(), pDoc->Line_array[i].getEnd_y());
 	}
-	for (int i = 0; i < ARect_array.GetSize(); i++) {										//저장된 Rect 그리기
+	for (int i = 0; i < pDoc->ARect_array.GetSize(); i++) {										//저장된 Rect 그리기
 		if (select_mode == DR)
 		{
-			ARect_array[select_num].DrawSelect(&dc);
+			pDoc->ARect_array[select_num].DrawSelect(&dc);
 		}
-		ARect_array[i].draw(&dc, ARect_array[i].getEnd_x(), ARect_array[i].getEnd_y());
+		pDoc->ARect_array[i].draw(&dc, pDoc->ARect_array[i].getEnd_x(), pDoc->ARect_array[i].getEnd_y());
 	}
-	for (int i = 0; i < AEll_array.GetSize(); i++) {										//저장된 Ellipse 그리기
+	for (int i = 0; i < pDoc->AEll_array.GetSize(); i++) {										//저장된 Ellipse 그리기
 		if (select_mode == DE)
 		{
-			AEll_array[select_num].DrawSelect(&dc);
+			pDoc->AEll_array[select_num].DrawSelect(&dc);
 		}
-		AEll_array[i].draw(&dc, AEll_array[i].getEnd_x(), AEll_array[i].getEnd_y());
+		pDoc->AEll_array[i].draw(&dc, pDoc->AEll_array[i].getEnd_x(), pDoc->AEll_array[i].getEnd_y());
 	}
-	for (int i = 0; i < APolyline_array.GetCount(); i++) {
+	for (int i = 0; i < pDoc->APolyline_array.GetCount(); i++) {
 		if (select_mode == DP)
 		{
-			APolyline_array[select_num].DrawSelectLine(&dc);
+			pDoc->APolyline_array[select_num].DrawSelectLine(&dc);
 		}
-		APolyline_array[i].draw(&dc);
+		pDoc->APolyline_array[i].draw(&dc);
 	}
 	for (int i = 0; i < pDoc->Text_array.GetSize(); i++) {
 		if (select_mode == DT)
@@ -268,12 +269,12 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 	case DR:
 	{
 			   ARectangle* r = new ARectangle();
-			   ARect_array.Add(*r);
-			   current_r = ARect_array.GetCount() - 1;
-			   ARect_array[current_r].setStart_x(point.x);
-			   ARect_array[current_r].setStart_y(point.y);
-			   ARect_array[current_r].setEnd_x(point.x);
-			   ARect_array[current_r].setEnd_y(point.y);
+			   pDoc->ARect_array.Add(*r);
+			   current_r = pDoc->ARect_array.GetCount() - 1;
+			   pDoc->ARect_array[current_r].setStart_x(point.x);
+			   pDoc->ARect_array[current_r].setStart_y(point.y);
+			   pDoc->ARect_array[current_r].setEnd_x(point.x);
+			   pDoc->ARect_array[current_r].setEnd_y(point.y);
 
 			   move = true;
 			   break;
@@ -281,12 +282,12 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 	case DE:
 	{
 			   AEllipse* e = new AEllipse();
-			   AEll_array.Add(*e);
-			   current_e = AEll_array.GetCount() - 1;
-			   AEll_array[current_e].setStart_x(point.x);
-			   AEll_array[current_e].setStart_y(point.y);
-			   AEll_array[current_e].setEnd_x(point.x);
-			   AEll_array[current_e].setEnd_y(point.y);
+			   pDoc->AEll_array.Add(*e);
+			   current_e = pDoc->AEll_array.GetCount() - 1;
+			   pDoc->AEll_array[current_e].setStart_x(point.x);
+			   pDoc->AEll_array[current_e].setStart_y(point.y);
+			   pDoc->AEll_array[current_e].setEnd_x(point.x);
+			   pDoc->AEll_array[current_e].setEnd_y(point.y);
 
 			   move = true;
 			   break;
@@ -310,16 +311,16 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 			   if (!bpoly_new){
 				   APolyline* p = new APolyline();
-				   APolyline_array.Add(*p);
-				   current_p = APolyline_array.GetSize() - 1;
+				   pDoc->APolyline_array.Add(*p);
+				   current_p = pDoc->APolyline_array.GetSize() - 1;
 				   bpoly_new = true;
 			   }
 			   if (bpoly_new && bpoly_status)
 			   {
 				   p_point.setX(point.x);
 				   p_point.setY(point.y);
-				   APolyline_array[current_p].next(p_point);
-				   APolyline_array[current_p].draw(&dc);
+				   pDoc->APolyline_array[current_p].next(p_point);
+				   pDoc->APolyline_array[current_p].draw(&dc);
 				   move = true;
 				   break;
 			   }
@@ -381,15 +382,15 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 				}
 			}
 			//렉트 어레이에서 검사
-			if (ARect_array.GetCount() != 0)
+			if (pDoc->ARect_array.GetCount() != 0)
 			{
 				int x1, x2, y1, y2;
-				for (int i = 0; i < ARect_array.GetCount(); i++)
+				for (int i = 0; i < pDoc->ARect_array.GetCount(); i++)
 				{
-					x1 = ARect_array[i].getStart_x();
-					x2 = ARect_array[i].getEnd_x();
-					y1 = ARect_array[i].getStart_y();
-					y2 = ARect_array[i].getEnd_y();
+					x1 = pDoc->ARect_array[i].getStart_x();
+					x2 = pDoc->ARect_array[i].getEnd_x();
+					y1 = pDoc->ARect_array[i].getStart_y();
+					y2 = pDoc->ARect_array[i].getEnd_y();
 
 					// 하나라도 범위 안에 있으면 선택으로 인정
 					if ((point.x >= x1 - 5 && point.x <= x2 + 5)
@@ -411,14 +412,14 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 								&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
 							{
 								move_select = 1;		//1번점 옮기기
-								ARect_array[i].setStart_x(x2);
-								ARect_array[i].setStart_y(y2);
+								pDoc->ARect_array[i].setStart_x(x2);
+								pDoc->ARect_array[i].setStart_y(y2);
 							}
 							else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
 								&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
 							{
 								move_select = 2;		//2번점 옮기기
-								ARect_array[i].setStart_y(y2);
+								pDoc->ARect_array[i].setStart_y(y2);
 							}
 							else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
 								&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
@@ -429,7 +430,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 								&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
 							{
 								move_select = 4;		//4번점 옮기기
-								ARect_array[i].setStart_x(x2);
+								pDoc->ARect_array[i].setStart_x(x2);
 							}
 
 							else
@@ -449,15 +450,15 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 				}
 			}
 			//이립스 어레이에서 검사
-			if (AEll_array.GetCount() != 0)
+			if (pDoc->AEll_array.GetCount() != 0)
 			{
 					int x1, x2, y1, y2;
-					for (int i = 0; i < AEll_array.GetCount(); i++)
+					for (int i = 0; i < pDoc->AEll_array.GetCount(); i++)
 					{
-						x1 = AEll_array[i].getStart_x();
-						x2 = AEll_array[i].getEnd_x();
-						y1 = AEll_array[i].getStart_y();
-						y2 = AEll_array[i].getEnd_y();
+						x1 = pDoc->AEll_array[i].getStart_x();
+						x2 = pDoc->AEll_array[i].getEnd_x();
+						y1 = pDoc->AEll_array[i].getStart_y();
+						y2 = pDoc->AEll_array[i].getEnd_y();
 
 						// 하나라도 범위 안에 있으면 선택으로 인정
 						if ((point.x >= x1 - 5 && point.x <= x2 + 5)
@@ -480,14 +481,14 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 								&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
 							{
 								move_select = 1;		//1번점 옮기기
-								AEll_array[i].setStart_x(x2);
-								AEll_array[i].setStart_y(y2);
+								pDoc->AEll_array[i].setStart_x(x2);
+								pDoc->AEll_array[i].setStart_y(y2);
 							}
 							else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
 								&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
 							{
 								move_select = 2;		//2번점 옮기기
-								AEll_array[i].setStart_y(y2);
+								pDoc->AEll_array[i].setStart_y(y2);
 								}
 							else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
 								&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
@@ -498,7 +499,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 								&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
 							{
 								move_select = 4;		//4번점 옮기기
-								AEll_array[i].setStart_x(x2);
+								pDoc->AEll_array[i].setStart_x(x2);
 								}
 
 							//선옮기기
@@ -522,17 +523,17 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 				}
 
 			//폴리라인 어레이에서 검사
-			if (APolyline_array.GetCount() != 0)
+			if (pDoc->APolyline_array.GetCount() != 0)
 			{
-				for (int i = 0; i < APolyline_array.GetCount(); i++)
+				for (int i = 0; i <pDoc->APolyline_array.GetCount(); i++)
 				{
 					
-					for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
+					for (int j = 0; j < pDoc->APolyline_array[i].poly_array.GetCount(); j++)
 					{
 						int x3, y3;
 
-						x3 = APolyline_array[i].point_array[j].getX();
-						y3 = APolyline_array[i].point_array[j].getY();
+						x3 = pDoc->APolyline_array[i].point_array[j].getX();
+						y3 = pDoc->APolyline_array[i].point_array[j].getY();
 
 						if ((point.x >= x3 - 5 && point.x <= x3 + 5) && (point.y >= y3 - 5 && point.y <= y3 + 5))
 						{
@@ -549,15 +550,15 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 
 
 
-					for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
+					for (int j = 0; j < pDoc->APolyline_array[i].poly_array.GetCount(); j++)
 					{
 						double x1, x2, y1, y2;
 						double g;			//greadient 기울기
 
-						x1 = APolyline_array[i].poly_array[j].getStart_x();
-						x2 = APolyline_array[i].poly_array[j].getEnd_x();
-						y1 = APolyline_array[i].poly_array[j].getStart_y();
-						y2 = APolyline_array[i].poly_array[j].getEnd_y();
+						x1 = pDoc->APolyline_array[i].poly_array[j].getStart_x();
+						x2 = pDoc->APolyline_array[i].poly_array[j].getEnd_x();
+						y1 = pDoc->APolyline_array[i].poly_array[j].getStart_y();
+						y2 = pDoc->APolyline_array[i].poly_array[j].getEnd_y();
 						g = (y2 - y1) / (x2 - x1);
 
 						if (((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5))
@@ -700,8 +701,8 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 		if (ispoint)
 		{
-			APolyline_array[select_num].point_array[select_point].setX(point.x);
-			APolyline_array[select_num].point_array[select_point].setY(point.y);
+			pDoc->APolyline_array[select_num].point_array[select_point].setX(point.x);
+			pDoc->APolyline_array[select_num].point_array[select_point].setY(point.y);
 			select_point = -1;
 			ispoint = false;
 			mode = S;
@@ -712,11 +713,10 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 		else
 		{
 			CPoint temp = prev;
-			for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize(); i++)
+			for (int i = 0; i <pDoc->APolyline_array[select_num].poly_array.GetSize(); i++)
 			{
-				APolyline_array[select_num].move(point.x - prev.x, point.y - prev.y, i);
-				APolyline_array[select_num].poly_array[i].move(move_select, point, prev);
-				TRACE("%d	%d		%d\n", APolyline_array[select_num].point_array[i].getX(), APolyline_array[select_num].point_array[i].getY(), i);
+				pDoc->APolyline_array[select_num].move(point.x - prev.x, point.y - prev.y, i);
+				pDoc->APolyline_array[select_num].poly_array[i].move(move_select, point, prev);
 				prev = temp;
 
 	}
@@ -756,13 +756,13 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 		}
 		case DR:
 		{
-				   ARect_array[current_r].draw(&dc, point.x, point.y);
+			pDoc->ARect_array[current_r].draw(&dc, point.x, point.y);
 				   Invalidate();
 				   break;
 		}
 		case DE:
 		{
-				   AEll_array[current_e].draw(&dc, point.x, point.y);
+			pDoc->AEll_array[current_e].draw(&dc, point.x, point.y);
 				   Invalidate();
 				   break;
 		}
@@ -793,16 +793,16 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 		}
 		case MR:
 		{
-				   ARect_array[select_num].move(move_select, point, prev);
+			pDoc->ARect_array[select_num].move(move_select, point, prev);
 				   if (move_select == 9)
 				   {
-					   ARect_array[select_num].draw(&dc, ARect_array[select_num].getEnd_x(), ARect_array[select_num].getEnd_y());
+					   pDoc->ARect_array[select_num].draw(&dc, pDoc->ARect_array[select_num].getEnd_x(), pDoc->ARect_array[select_num].getEnd_y());
 					   Invalidate();
 					   break;
 				   }
 				   else
 				   {
-					   ARect_array[select_num].draw(&dc, point.x, point.y);
+					   pDoc->ARect_array[select_num].draw(&dc, point.x, point.y);
 					   Invalidate();
 					   break;
 				   }
@@ -810,16 +810,16 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 		}
 		case ME:
 		{
-				   AEll_array[select_num].move(move_select, point, prev);
+			pDoc->AEll_array[select_num].move(move_select, point, prev);
 				   if (move_select == 9)
 				   {
-					   AEll_array[select_num].draw(&dc, AEll_array[select_num].getEnd_x(), AEll_array[select_num].getEnd_y());
+					   pDoc->AEll_array[select_num].draw(&dc, pDoc->AEll_array[select_num].getEnd_x(), pDoc->AEll_array[select_num].getEnd_y());
 					   Invalidate();
 					   break;
 				   }
 				   else
 				   {
-					   AEll_array[select_num].draw(&dc, point.x, point.y);
+					   pDoc->AEll_array[select_num].draw(&dc, point.x, point.y);
 					   Invalidate();
 					   break;
 				   }
@@ -830,18 +830,18 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 				   {
 					   if (select_point == 0)
 					   {
-						   APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
+						   pDoc->APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
 					   }
 					   if (select_point > 0)
 					   {
-						   if (select_point == APolyline_array[select_num].point_array.GetSize() - 1)
+						   if (select_point == pDoc->APolyline_array[select_num].point_array.GetSize() - 1)
 						   {
-							   APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
+							   pDoc->APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
 							   Invalidate();
 							   return;
 						   }
-						   APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
-						   APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
+						   pDoc->APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
+						   pDoc->APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
 					   }
 
 					   Invalidate();
@@ -851,7 +851,7 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 				   {
 
 					   //TRACE("%d\n", APolyline_array[select_num].poly_array.GetSize());
-					   for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize() - 1; i++)
+					   for (int i = 0; i <pDoc->APolyline_array[select_num].poly_array.GetSize() - 1; i++)
 					   {
 						   TRACE("%d\n", i);
 
@@ -1039,13 +1039,13 @@ void CMFCApplication1View::OnOc()
 		}
 		case DR:
 		{
-				   ARect_array[select_num].setColor_l(color);
+			pDoc->ARect_array[select_num].setColor_l(color);
 				   Invalidate();
 				   break;
 		}
 		case DE:
 		{
-				   AEll_array[select_num].setColor_l(color);
+			pDoc->AEll_array[select_num].setColor_l(color);
 				   Invalidate();
 				   break;
 		}
@@ -1055,7 +1055,7 @@ void CMFCApplication1View::OnOc()
 		}
 		case DP:
 		{
-				   APolyline_array[select_num].setColor_l(color);
+			pDoc->APolyline_array[select_num].setColor_l(color);
 				   Invalidate();
 				   break;
 		}
@@ -1066,6 +1066,7 @@ void CMFCApplication1View::OnOc()
 
 void CMFCApplication1View::OnIc()
 {
+	CMFCApplication1Doc* pDoc = GetDocument();
 	CColorDialog dlg;
 	dlg.DoModal();
 	color = dlg.GetColor();
@@ -1089,13 +1090,13 @@ void CMFCApplication1View::OnIc()
 		}
 		case DR:
 		{
-			ARect_array[select_num].setColor_s(color);
+			pDoc->ARect_array[select_num].setColor_s(color);
 			Invalidate();
 			break;
 		}
 		case DE:
 		{
-			AEll_array[select_num].setColor_s(color);
+			pDoc->AEll_array[select_num].setColor_s(color);
 			Invalidate();
 			break;
 		}
@@ -1161,25 +1162,25 @@ void CMFCApplication1View::OnRButtonUp(UINT /* nFlags */, CPoint point)
 
 void CMFCApplication1View::OnRButtonDown(UINT nFlags, CPoint point)
 {
+	CMFCApplication1Doc* pDoc = GetDocument();
 	switch (mode)
 	{
 	case S:
 	{
-			  if (APolyline_array.GetCount() != 0)
+		if (pDoc->APolyline_array.GetCount() != 0)
 			  {
-				  for (int i = 0; i < APolyline_array.GetCount(); i++)
+				  for (int i = 0; i < pDoc->APolyline_array.GetCount(); i++)
 				  {
 
-					  for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
+					  for (int j = 0; j < pDoc->APolyline_array[i].poly_array.GetCount(); j++)
 					  {
 						  int x3, y3;
 
-						  x3 = APolyline_array[i].point_array[j].getX();
-						  y3 = APolyline_array[i].point_array[j].getY();
+						  x3 = pDoc->APolyline_array[i].point_array[j].getX();
+						  y3 = pDoc->APolyline_array[i].point_array[j].getY();
 
 						  if ((point.x >= x3 - 5 && point.x <= x3 + 5) && (point.y >= y3 - 5 && point.y <= y3 + 5))
 						  {
-							  TRACE("checking111111111\n");
 							  mode = S;
 							  ispoint = true;			//점이라는 것을 표시해줌.
 							  select_point = j;		//점의 순번을 표시해줌.
@@ -1191,15 +1192,15 @@ void CMFCApplication1View::OnRButtonDown(UINT nFlags, CPoint point)
 						  }
 					  }
 
-					  for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
+					  for (int j = 0; j <pDoc->APolyline_array[i].poly_array.GetCount(); j++)
 					  {
 						  double x1, x2, y1, y2;
 						  double g;			//greadient 기울기
 	
-						  x1 = APolyline_array[i].poly_array[j].getStart_x();
-						  x2 = APolyline_array[i].poly_array[j].getEnd_x();
-						  y1 = APolyline_array[i].poly_array[j].getStart_y();
-						  y2 = APolyline_array[i].poly_array[j].getEnd_y();
+						  x1 = pDoc->APolyline_array[i].poly_array[j].getStart_x();
+						  x2 = pDoc->APolyline_array[i].poly_array[j].getEnd_x();
+						  y1 = pDoc->APolyline_array[i].poly_array[j].getStart_y();
+						  y2 = pDoc->APolyline_array[i].poly_array[j].getEnd_y();
 						  g = (y2 - y1) / (x2 - x1);
 
 						  if (((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5))
@@ -1237,14 +1238,14 @@ void CMFCApplication1View::OnDelete()
 			break;
 
 		case DR:
-			befer_num = ARect_array.GetSize();
-			ARect_array.RemoveAt(select_num);
+			befer_num = pDoc->ARect_array.GetSize();
+			pDoc->ARect_array.RemoveAt(select_num);
 			select_mode = 100;
 			Invalidate();
 			break;
 		case DE:
-			befer_num = AEll_array.GetSize();
-			AEll_array.RemoveAt(select_num);
+			befer_num = pDoc->AEll_array.GetSize();
+			pDoc->AEll_array.RemoveAt(select_num);
 			select_mode = 100;
 			Invalidate();
 			break;
@@ -1257,15 +1258,15 @@ void CMFCApplication1View::OnDelete()
 		case DP:
 			if (ispoint)
 			{
-				APolyline_array[select_num].eraseAt(select_point);
+				pDoc->APolyline_array[select_num].eraseAt(select_point);
 				select_mode = 100;
 				ispoint = false;
 				Invalidate();
 				return;
 			}
 			TRACE("%d", select_num);
-			befer_num = APolyline_array.GetSize();
-			APolyline_array.RemoveAt(select_num);
+			befer_num = pDoc->APolyline_array.GetSize();
+			pDoc->APolyline_array.RemoveAt(select_num);
 			select_mode = 100;
 			Invalidate();
 			break;
@@ -1277,9 +1278,21 @@ void CMFCApplication1View::OnDelete()
 void CMFCApplication1View::OnFont()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	CFontDialog cdlg;
-	cdlg.DoModal();
+	CMFCApplication1Doc* pDoc = GetDocument();
+	CColorDialog dlg;
+	
+	if (dlg.DoModal() == IDOK){
+		if (select_mode == DT){
+			COLORREF color = dlg.GetColor();
+			pDoc->Text_array[select_num].setColor(color);
+		}
+		if (mode == DT){
+			COLORREF color = dlg.GetColor();
+			pDoc->Text_array[current_t].setColor(color);
+		}
+	}
 
+	Invalidate();
 }
 
 
@@ -1314,13 +1327,13 @@ void CMFCApplication1View::OnThick()
 	if (select_mode == DL)
 		dlg.l_size = pDoc->Line_array[select_num].getThick();
 	else if (select_mode == DR)
-		ARect_array[select_num].getThick();
+		pDoc->ARect_array[select_num].getThick();
 	else if (select_mode == DE)
-		AEll_array[select_num].getThick();
+		pDoc->AEll_array[select_num].getThick();
 	else if (select_mode == DT)
 		pDoc->Text_array[select_num].getThick();
 	else if (select_mode == DP)
-		APolyline_array[select_num].getThick();
+		pDoc->APolyline_array[select_num].getThick();
 	
 	int result = dlg.DoModal();
 	if (result == IDOK)
@@ -1333,11 +1346,11 @@ void CMFCApplication1View::OnThick()
 		}
 		else if (select_mode == DR)
 		{
-			ARect_array[select_num].setThick(l_size);
+			pDoc->ARect_array[select_num].setThick(l_size);
 		}
 		else if (select_mode == DE)
 		{
-			AEll_array[select_num].setThick(l_size);
+			pDoc->AEll_array[select_num].setThick(l_size);
 		}
 		else if (select_mode == DT)
 		{
@@ -1345,7 +1358,7 @@ void CMFCApplication1View::OnThick()
 		}
 		else if (select_mode == DP)
 		{
-			APolyline_array[select_num].setThick(l_size);
+			pDoc->APolyline_array[select_num].setThick(l_size);
 		}
 		Invalidate();
 	}
@@ -1358,4 +1371,24 @@ void CMFCApplication1View::OnGroup()
 	group_status = true;
 	mode = GG;
 
+}
+
+
+void CMFCApplication1View::OnBgcolor()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CMFCApplication1Doc* pDoc = GetDocument();
+	CColorDialog dlg;
+	if (dlg.DoModal() == IDOK){
+		if (select_mode == DT){
+			COLORREF color = dlg.GetColor();
+			pDoc->Text_array[select_num].setBkColor(color);
+		}
+		if (mode == DT){
+			COLORREF color = dlg.GetColor();
+			pDoc->Text_array[current_t].setBkColor(color);
+		}
+	}
+
+	Invalidate();
 }

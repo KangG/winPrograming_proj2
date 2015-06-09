@@ -130,6 +130,7 @@ BEGIN
     SEPARATOR
     BUTTON      ID_font
     BUTTON      ID_DT
+    BUTTON      ID_Bgcolor12
     SEPARATOR
     BUTTON      ID_Thick
     BUTTON      ID_pattern

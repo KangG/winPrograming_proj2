@@ -3,7 +3,9 @@
 //
 #include "Text.h"
 #include "Line.h"
-
+#include "AEllipse.h"
+#include "APolyline.h"
+#include "ARectangle.h"
 #pragma once
 
 
@@ -19,6 +21,9 @@ public:
 	CArray<TCHAR, TCHAR> m_str;
 	CArray<Text, Text&> Text_array;		//Text 객체를 저장할배열
 	CArray<Line, Line&> Line_array;						//Line 객체를 저장할배열
+	CArray<ARectangle, ARectangle&> ARect_array;		//Rect 객체를 저장할배열
+	CArray<AEllipse, AEllipse&> AEll_array;				//Ellipse 객체를 저장할배열
+	CArray<APolyline, APolyline&> APolyline_array;		//PolyLine 객체를 저장할배열
 // 작업입니다.
 public:
 

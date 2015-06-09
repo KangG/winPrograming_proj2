@@ -3,12 +3,7 @@
 //
 
 #pragma once
-#include "Point.h"
-#include "Line.h"
-#include "AEllipse.h"
-#include "ARectangle.h"
-#include "APolyline.h"
-#include "Text.h"
+#include"MFCApplication1Doc.h"
 
 class CMFCApplication1View : public CView
 {
@@ -50,9 +45,6 @@ public:
 	APolyline poly;
 
 	CArray<Line, Line&> figure;							//모든 객체를 저장할 배열 
-	CArray<ARectangle, ARectangle&> ARect_array;		//Rect 객체를 저장할배열
-	CArray<AEllipse, AEllipse&> AEll_array;				//Ellipse 객체를 저장할배열
-	CArray<APolyline, APolyline&> APolyline_array;		//PolyLine 객체를 저장할배열
 
 	int select_mode;
 	int select_num;
@@ -116,6 +108,7 @@ public:
 	afx_msg void OnPattern();
 	afx_msg void OnThick();
 	afx_msg void OnGroup();
+	afx_msg void OnBgcolor();
 };
 
 #ifndef _DEBUG  // MFCApplication1View.cpp의 디버그 버전
