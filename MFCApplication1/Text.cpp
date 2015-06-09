@@ -23,7 +23,7 @@ void Text::setStart_y(int y){
 	r.top = y + 3;
 }
 void Text::setEnd_x(int x){
-	this->end_x = x-5;
+	this->end_x = x - 5;
 	rect.setEnd_x(x);
 	r.right = x;
 }
@@ -55,10 +55,9 @@ CString Text::getString(){
 }
 
 void Text::makeRect(CDC* dc){
-	this->rect.draw(dc, getEnd_x(), getEnd_y());
-	CFont f;
+	//this->rect.draw(dc, getEnd_x(), getEnd_y());
+	//	CFont f;
 	//	f.CreateFontW();
-	dc->DrawText(m_str.GetData(),m_str.GetCount(), &r, DT_LEFT);
 }
 
 void Text::setRect(ARectangle rect){
@@ -90,16 +89,20 @@ int Text::getPattern(){
 	return this->pattern;
 }
 
-void Text::draw(CDC* dc){
+void Text::draw(CDC* dc, int x, int y){
+	rect.draw(dc, getEnd_x(), getEnd_y());
+	r.bottom = y;
+	r.right = x;
+	dc->DrawText(m_str.GetData(), m_str.GetCount(), &r, DT_LEFT);
 }
 
-void Text::move(){
-
+void Text::move(int move_select, CPoint point, CPoint &prev){
+	rect.move(move_select, point, prev);
 }
 
-void Text::erase(){
+void Text::erase(){}
 
-}void Text::DrawSelect(CDC *pDC)
+void Text::DrawSelect(CDC *pDC)
 {
 	//그리기 속성 설정
 	pDC->SelectStockObject(NULL_BRUSH);
@@ -117,7 +120,6 @@ void Text::erase(){
 	pDC->Ellipse(end_x - 5, end_y - 5, end_x + 5, end_y + 5);
 	pDC->Ellipse(start_x - 5, end_y - 5, start_x + 5, end_y + 5);
 	pDC->Ellipse(end_x - 5, start_y - 5, end_x + 5, start_y + 5);
-
 
 	//이전 펜과 브러쉬 속성으로 되돌림
 	pDC->SelectObject(oldPen);

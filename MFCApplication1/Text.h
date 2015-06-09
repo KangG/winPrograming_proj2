@@ -31,15 +31,15 @@ public:
 
 	void setPattern(int pattern);
 	int getPattern();
-	void draw(CDC* dc);
-	void move();
+	void move(int move_select, CPoint point, CPoint &prev);
+	void draw(CDC* dc, int x, int y);
 	void erase();
 
 	ARectangle rect;
 
 	CArray<TCHAR, TCHAR> m_str;
 private:
-	
+
 	CString s;
 	CRect r;
 	BOOL isInsert;

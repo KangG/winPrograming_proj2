@@ -206,9 +206,9 @@ void CMFCApplication1View::OnPaint()
 	for (int i = 0; i < pDoc->Text_array.GetSize(); i++) {
 		if (select_mode == DT)
 		{
-		//	Text_array[select_num].DrawSelectLine(&dc);
+			pDoc->Text_array[select_num].DrawSelect(&dc);
 }
-		pDoc->Text_array[i].makeRect(&dc);
+		pDoc->Text_array[i].draw(&dc, pDoc->Text_array[i].getEnd_x(), pDoc->Text_array[i].getEnd_y());
 	}
 }
 
@@ -567,27 +567,69 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 			}
 
 			//텍스트 어레이에서 검사
-			if (pDoc->Text_array.GetCount() != 0)
+			if (pDoc->Text_array.GetSize() != 0)
 			{
+				int x1, x2, y1, y2;
 				for (int i = 0; i < pDoc->Text_array.GetCount(); i++)
 				{
-					int x1, x2, y1, y2;
-					for (int i = 0; i < pDoc->Text_array.GetCount(); i++)
-					{
-						x1 = pDoc->Text_array[i].getStart_x();
-						x2 = pDoc->Text_array[i].getEnd_x();
-						y1 = pDoc->Text_array[i].getStart_y();
-						y2 = pDoc->Text_array[i].getEnd_y();
+					x1 = pDoc->Text_array[i].getStart_x();
+					x2 = pDoc->Text_array[i].getEnd_x();
+					y1 = pDoc->Text_array[i].getStart_y();
+					y2 = pDoc->Text_array[i].getEnd_y();
 
-						// 하나라도 범위 안에 있으면 선택으로 인정
-						if ((point.x >= x1 - 5 && point.x <= x2 + 5)
-							&& (point.y >= y1 - 5 && point.y <= y2 + 5))
+					// 하나라도 범위 안에 있으면 선택으로 인정
+					if ((point.x >= x1 - 5 && point.x <= x2 + 5)
+						&& (point.y >= y1 - 5 && point.y <= y2 + 5))
+					{
+						if (select_mode == DT && select_num == i)
+						{
+							mode = MT;
+							move = true;
+							prev.x = point.x;
+							prev.y = point.y;
+							//뭐선택했는지 판단
+							//	1 ----- 5 ----- 2
+							//	l				l
+							//	8		9		6
+							//	l				l
+							//	4 ----- 7 ----- 3
+							if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
+								&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
+							{
+								move_select = 1;		//1번점 옮기기
+								pDoc->Text_array[i].setStart_x(x2);
+								pDoc->Text_array[i].setStart_y(y2);
+							}
+							else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
+								&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
+							{
+								move_select = 2;		//2번점 옮기기
+								pDoc->Text_array[i].setStart_y(y2);
+							}
+							else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
+								&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
+							{
+								move_select = 3;		//3번점 옮기기
+							}
+							else if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
+								&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
+							{
+								move_select = 4;		//4번점 옮기기
+								pDoc->Text_array[i].setStart_x(x2);
+							}
+
+							else
+							{
+								move_select = 9;		//선 전체 옮기기
+							}
+							return;
+						}
+						else
 						{
 							select_mode = DT;
 							select_num = i;
 							return;
 						}
-
 					}
 
 				}
@@ -714,9 +756,12 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 				   break;
 		}
 		case DP:
+			break;
 		case DT:
 		{
-				   break;
+			pDoc->Text_array[current_t].draw(&dc, point.x, point.y);
+			Invalidate(); 
+			break;
 		}
 		case ML:
 		{
@@ -803,9 +848,26 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 					   }
 					   return;
 				   }
+			}
+
+		case MT:{
+			pDoc->Text_array[select_num].move(move_select, point, prev);
+			if (move_select == 9)
+			{
+				pDoc->Text_array[select_num].draw(&dc, pDoc->Text_array[select_num].getEnd_x(), pDoc->Text_array[select_num].getEnd_y());
+				Invalidate();
+				break;
+			}
+			else
+			{
+				pDoc->Text_array[select_num].draw(&dc, point.x, point.y);
+				Invalidate();
+				break;
+			}
 		}
-			CView::OnMouseMove(nFlags, point);
+
 		}
+		CView::OnMouseMove(nFlags, point);
 	}
 }
 
