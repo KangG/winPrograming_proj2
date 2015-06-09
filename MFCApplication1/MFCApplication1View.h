@@ -53,6 +53,7 @@ public:
 	int select_num;
 	int select_point;									//점선택때 사용
 	int move_select;
+	CPoint prev;
 
 // 작업입니다.
 public:

@@ -334,13 +334,33 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						if (select_mode == DL && select_num == i)
 						{
 							mode = ML;
+							move = true;
+							prev.x = point.x;
+							prev.y = point.y;
+							ispoint = true;
 							//뭐선택했는지 판단
+							if (((point.x >= x1 - 5) && (point.x <= x1 + 5)) && ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
+							{
+								move_select = 1;		//start점 옮기기
+								pDoc->Line_array[i].setStart_x(x2);
+								pDoc->Line_array[i].setStart_y(y2);
+							}
+							else if (((point.x >= x2 - 5) && (point.x <= x2 + 5)) && ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
+							{
+								move_select = 2;		//end점 옮기기
+							}
+							else
+							{
+								move_select = 3;		//선 전체 옮기기
+							}
+							return;
 						}
 						else
 						{
 							select_mode = DL;
 							select_num = i;
 							return;
+							
 						}
 					}
 				}
@@ -360,9 +380,32 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 					if ((point.x >= x1 - 5 && point.x <= x2 + 5)
 						&& (point.y >= y1 - 5 && point.y <= y2 + 5))
 					{
-						select_mode = DR;
-						select_num = i;
-						return;
+						if (select_mode == DR && select_num == i)
+						{
+							mode = MR;
+							//뭐선택했는지 판단
+							if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
+								&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
+							{
+								move_select = 1;		//start점 옮기기
+							}
+							else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
+								&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
+							{
+								move_select = 2;		//end점 옮기기
+							}
+							else
+							{
+								move_select = 3;		//선 전체 옮기기
+							}
+							return;
+						}
+						else
+						{
+							select_mode = DR;
+							select_num = i;
+							return;
+						}
 					}
 
 				}
@@ -384,9 +427,32 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						if ((point.x >= x1 - 5 && point.x <= x2 + 5)
 							&& (point.y >= y1 - 5 && point.y <= y2 + 5) )
 						{
-							select_mode = DE;
-							select_num = i;
-							return;
+							if (select_mode == DE && select_num == i)
+							{
+								mode = ME;
+								//뭐선택했는지 판단
+								if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
+									&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
+								{
+									move_select = 1;		//start점 옮기기
+								}
+								else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
+									&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
+								{
+									move_select = 2;		//end점 옮기기
+								}
+								else
+								{
+									move_select = 3;		//선 전체 옮기기
+								}
+								return;
+							}
+							else
+							{
+								select_mode = DE;
+								select_num = i;
+								return;
+							}
 						}
 
 					}
@@ -409,7 +475,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							TRACE("%d\n", j);
 							ispoint = true;
 							select_point = j;
-							move == true;
+							move = true;
 						}
 					}
 
@@ -516,6 +582,16 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 	case DP:
 	{
 	}
+	case ML:
+	case MR:
+	case ME:
+	case MT:
+	case MP:
+	{
+		mode = S;
+		move = false;
+		break;
+	}
 	}
 	CView::OnLButtonUp(nFlags, point);
 }
@@ -590,6 +666,25 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 			   }
 			//   Invalidate();
 			   break;
+	}
+	case ML:
+	{
+		if (move == true)
+		{
+			pDoc->Line_array[select_num].move(move_select, point, prev);
+			if (move_select == 3)
+			{
+				pDoc->Line_array[select_num].draw(&dc, pDoc->Line_array[select_num].getEnd_x(), pDoc->Line_array[select_num].getEnd_y());
+				Invalidate();
+				break;
+			}
+			else
+			{
+				pDoc->Line_array[select_num].draw(&dc, point.x, point.y);
+				Invalidate();
+				break;
+			}
+		}
 	}
 	}
 	CView::OnMouseMove(nFlags, point);
