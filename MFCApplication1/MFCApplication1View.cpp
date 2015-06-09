@@ -292,20 +292,22 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 	case DP:
 	{
 			   if (!bpoly_new){
+				   TRACE("fdakhslkf;adlkasjdf;lkfkj\n");
 				   APolyline* p = new APolyline();
 				   APolyline_array.Add(*p);
 				   current_p = APolyline_array.GetSize() - 1;
 				   bpoly_new = true;
 			   }
-			   if (bpoly_status)
+			   if (bpoly_new && bpoly_status)
 			   {
+				   TRACE("fdakhslkf;adlkasjdf;lkfkj\n");
 				   p_point.setX(point.x);
 				   p_point.setY(point.y);
 				   APolyline_array[current_p].next(p_point);
 				   APolyline_array[current_p].draw(&dc);
+				   move = true;
 				   break;
 			   }
-			   move = true;
 	}
 	case S:
 	{
@@ -560,7 +562,7 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 				  APolyline_array[select_num].point_array[select_point].setX(point.x);
 				  APolyline_array[select_num].point_array[select_point].setY(point.y);
 				  select_point = -1;
-				  //ispoint = false;
+				  ispoint = false;
 			  }
 			  Invalidate();
 			  break;
