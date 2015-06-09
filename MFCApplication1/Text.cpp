@@ -23,12 +23,12 @@ void Text::setStart_y(int y){
 	r.top = y + 3;
 }
 void Text::setEnd_x(int x){
-	this->end_x = x-3;
+	this->end_x = x-5;
 	rect.setEnd_x(x);
 	r.right = x;
 }
 void Text::setEnd_y(int y){
-	this->end_y = y - 3;
+	this->end_y = y - 5;
 	rect.setEnd_y(y);
 	r.bottom = y;
 }
@@ -54,8 +54,7 @@ CString Text::getString(){
 	return this->s;
 }
 
-void Text::makeRect(CDC* dc, CArray<TCHAR, TCHAR>* str){
-	m_str.Copy(*str);
+void Text::makeRect(CDC* dc){
 	this->rect.draw(dc, getEnd_x(), getEnd_y());
 	CFont f;
 	//	f.CreateFontW();

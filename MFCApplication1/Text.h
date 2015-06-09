@@ -7,7 +7,7 @@ public:
 	Text(const Text &t);
 	Text& operator=(const Text &t);
 
-	void makeRect(CDC* dc,CArray<TCHAR, TCHAR>* str);
+	void makeRect(CDC* dc);
 	void DrawSelect(CDC *pDC);
 	void setRect(ARectangle rect);
 	ARectangle getRect(void);
@@ -37,8 +37,9 @@ public:
 
 	ARectangle rect;
 
-private:
 	CArray<TCHAR, TCHAR> m_str;
+private:
+	
 	CString s;
 	CRect r;
 	BOOL isInsert;
