@@ -297,15 +297,15 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 				   current_p = APolyline_array.GetSize() - 1;
 				   bpoly_new = true;
 			   }
-			   if (bpoly_status)
+			   if (bpoly_new && bpoly_status)
 			   {
 				   p_point.setX(point.x);
 				   p_point.setY(point.y);
 				   APolyline_array[current_p].next(p_point);
 				   APolyline_array[current_p].draw(&dc);
+				   move = true;
 				   break;
 			   }
-			   move = true;
 	}
 	case S:
 	{
@@ -434,33 +434,33 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 			//이립스 어레이에서 검사
 			if (AEll_array.GetCount() != 0)
 			{
-				int x1, x2, y1, y2;
-				for (int i = 0; i < AEll_array.GetCount(); i++)
-				{
-					x1 = AEll_array[i].getStart_x();
-					x2 = AEll_array[i].getEnd_x();
-					y1 = AEll_array[i].getStart_y();
-					y2 = AEll_array[i].getEnd_y();
-
-					// 하나라도 범위 안에 있으면 선택으로 인정
-					if ((point.x >= x1 - 5 && point.x <= x2 + 5)
-						&& (point.y >= y1 - 5 && point.y <= y2 + 5) )
+					int x1, x2, y1, y2;
+					for (int i = 0; i < AEll_array.GetCount(); i++)
 					{
-						if (select_mode == DE && select_num == i)
+						x1 = AEll_array[i].getStart_x();
+						x2 = AEll_array[i].getEnd_x();
+						y1 = AEll_array[i].getStart_y();
+						y2 = AEll_array[i].getEnd_y();
+
+						// 하나라도 범위 안에 있으면 선택으로 인정
+						if ((point.x >= x1 - 5 && point.x <= x2 + 5)
+							&& (point.y >= y1 - 5 && point.y <= y2 + 5) )
 						{
-							mode = ME;
+							if (select_mode == DE && select_num == i)
+							{
+								mode = ME;
 							move = true;
 							prev.x = point.x;
 							prev.y = point.y;
-							//뭐선택했는지 판단
+								//뭐선택했는지 판단
 							//	1 ----- 5 ----- 2
 							//	l				l
 							//	8		9		6
 							//	l				l
 							//	4 ----- 7 ----- 3
-							if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
-								&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
-							{
+								if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
+									&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
+								{
 								move_select = 1;		//1번점 옮기기
 								AEll_array[i].setStart_x(x2);
 								AEll_array[i].setStart_y(y2);
@@ -470,10 +470,10 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							{
 								move_select = 2;		//2번점 옮기기
 								AEll_array[i].setStart_y(y2);
-							}
-							else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
-								&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
-							{
+								}
+								else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
+									&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
+								{
 								move_select = 3;		//3번점 옮기기
 							}
 							else if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
@@ -481,23 +481,23 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							{
 								move_select = 4;		//4번점 옮기기
 								AEll_array[i].setStart_x(x2);
-							}
+								}
 
+								else
+								{
+								move_select = 9;		//선 전체 옮기기
+								}
+								return;
+							}
 							else
 							{
-								move_select = 9;		//선 전체 옮기기
+								select_mode = DE;
+								select_num = i;
+								return;
 							}
-							return;
-						}
-						else
-						{
-							select_mode = DE;
-							select_num = i;
-							return;
 						}
 					}
 				}
-			}
 			if (APolyline_array.GetCount() != 0)
 			{
 				for (int i = 0; i < APolyline_array.GetCount(); i++)
@@ -597,7 +597,7 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 			APolyline_array[select_num].point_array[select_point].setX(point.x);
 			APolyline_array[select_num].point_array[select_point].setY(point.y);
 			select_point = -1;
-			//ispoint = false;
+				  ispoint = false;
 		}
 		Invalidate();
 		break;
