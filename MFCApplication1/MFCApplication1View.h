@@ -28,6 +28,8 @@ public:
 	
 	BOOL isDel = false;
 	BOOL ispoint = false;
+	BOOL isall = false;	//전체 선택때 사용
+
 
 	int current_l;		//Line 현재 배열번호
 	int current_r;		//Rect 현재 배열번호
