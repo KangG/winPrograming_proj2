@@ -12,6 +12,7 @@ ARectangle::ARectangle()
 	this->color_s = *(new COLORREF(RGB(255,255,255)));
 	this->thick = 1.5;
 	this->pattern = PS_SOLID;
+	this->pattern2 = -1;
 }
 
 void ARectangle::setColor_l(COLORREF rgb)
@@ -50,6 +51,12 @@ void ARectangle::setPattern(int pattern){
 int ARectangle::getPattern(){
 	return this->pattern;
 }
+void ARectangle::setPattern2(int pattern2){
+	this->pattern2 = pattern2;
+}
+int ARectangle::getPattern2(){
+	return this->pattern2;
+}
 
 void ARectangle::move(int move_select, CPoint point, CPoint &prev){
 	if (move_select >=1 && move_select <=4 )			//start_x, start_y¸¦ Å¬¸¯
@@ -83,7 +90,14 @@ void ARectangle::draw(CDC* dc, int x, int y)
 	pen.CreatePen(pattern, thick, color_l);
 	CPen* oldPen = dc->SelectObject(&pen);
 	CBrush brush;
-	brush.CreateSolidBrush(color_s);
+	if (pattern2 != -1)
+	{
+		brush.CreateHatchBrush(pattern2, color_s);
+	}
+	else
+	{
+		brush.CreateSolidBrush(color_s);
+	}
 	CBrush* oldBrush = dc->SelectObject(&brush);
 
 	dc->Rectangle(getStart_x(), getStart_y(), getEnd_x(), getEnd_y());

@@ -13,6 +13,7 @@ AEllipse::AEllipse()
 
 	this->thick = 1.5;
 	this->pattern = PS_SOLID;
+	this->pattern2 = -1;
 }
 
 void AEllipse::setColor_l(COLORREF rgb)
@@ -51,6 +52,12 @@ void AEllipse::setPattern(int pattern){
 int AEllipse::getPattern(){
 	return this->pattern;
 }
+void AEllipse::setPattern2(int pattern2){
+	this->pattern2 = pattern2;
+}
+int AEllipse::getPattern2(){
+	return this->pattern2;
+}
 
 void AEllipse::move(int move_select, CPoint point, CPoint &prev){
 	if (move_select >= 1 && move_select <= 4)			//Á¡ Å¬¸¯
@@ -84,7 +91,14 @@ void AEllipse::draw(CDC* dc, int x, int y)
 	pen.CreatePen(pattern, thick, color_l);
 	CPen* oldPen = dc->SelectObject(&pen);
 	CBrush brush;
-	brush.CreateSolidBrush(color_s);
+	if (pattern2 != -1)
+	{
+		brush.CreateHatchBrush(pattern2, color_s);
+	}
+	else
+	{
+		brush.CreateSolidBrush(color_s);
+	}
 	CBrush* oldBrush = dc->SelectObject(&brush);
 
 	dc->Ellipse(getStart_x(), getStart_y(), getEnd_x(), getEnd_y());

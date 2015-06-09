@@ -16,6 +16,8 @@ public:
 
 	void setPattern(int pattern);
 	int getPattern();
+	void setPattern2(int pattern2);
+	int getPattern2();
 
 	void move(int move_select, CPoint point, CPoint &prev);
 
@@ -48,5 +50,6 @@ public:
 	COLORREF color_s;
 	double thick;
 	int pattern;
+	int pattern2;
 };
 

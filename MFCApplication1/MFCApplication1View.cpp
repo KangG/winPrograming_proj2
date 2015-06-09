@@ -1302,7 +1302,7 @@ void CMFCApplication1View::OnPattern()
 	CMFCApplication1Doc* pDoc = GetDocument();
 	PatternDialog dlg;
 
-	//원래의 패턴을 가져옴
+	//원래의 선패턴을 가져옴
 	if (select_mode == DL)
 		dlg.pattern1 = pDoc->Line_array[select_num].getPattern();
 	else if (select_mode == DR)
@@ -1313,11 +1313,22 @@ void CMFCApplication1View::OnPattern()
 		dlg.pattern1 = pDoc->Text_array[select_num].getPattern();
 	else if (select_mode == DP)
 		dlg.pattern1 = pDoc->APolyline_array[select_num].getPattern();
+
+	//원래의 채우기 패턴을 가져옴
+	if (select_mode == DR)
+		dlg.pattern2 = pDoc->ARect_array[select_num].getPattern2();
+	else if (select_mode == DE)
+		dlg.pattern2 = pDoc->AEll_array[select_num].getPattern2();
+	else if (select_mode == DT)
+		dlg.pattern2 = pDoc->Text_array[select_num].getPattern2();
+	else
+		dlg.pattern2 = -1;
 		
 	int result = dlg.DoModal();
 	if (result == IDOK)
 	{
 		pattern1 = dlg.pattern1;
+		pattern2 = dlg.pattern2;
 		//선택한 객체의 패턴 변수를 가져와서 pattern1으로 바꿔준다.
 		if (select_mode == DL)
 		{
@@ -1326,14 +1337,17 @@ void CMFCApplication1View::OnPattern()
 		else if (select_mode == DR)
 		{
 			pDoc->ARect_array[select_num].setPattern(pattern1);
+			pDoc->ARect_array[select_num].setPattern2(pattern2);
 		}
 		else if (select_mode == DE)
 		{
 			pDoc->AEll_array[select_num].setPattern(pattern1);
+			pDoc->AEll_array[select_num].setPattern2(pattern2);
 		}
 		else if (select_mode == DT)
 		{
 			pDoc->Text_array[select_num].setPattern(pattern1);
+			pDoc->Text_array[select_num].setPattern2(pattern2);
 		}
 		else if (select_mode == DP)
 		{
