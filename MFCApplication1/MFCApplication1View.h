@@ -25,6 +25,9 @@ public:
 	BOOL btext_status = false;
 	BOOL bpoly_status = false;
 	BOOL bpoly_new = false;
+	
+	BOOL isDel = false;
+
 
 	int current_l;		//Line 현재 배열번호
 	int current_r;		//Rect 현재 배열번호
@@ -96,6 +99,7 @@ public:
 	afx_msg void OnIc();
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnDelete();
 };
 
 #ifndef _DEBUG  // MFCApplication1View.cpp의 디버그 버전

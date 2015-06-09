@@ -56,6 +56,7 @@ BEGIN_MESSAGE_MAP(CMFCApplication1View, CView)
 	ON_COMMAND(ID_IC, &CMFCApplication1View::OnIc)
 	ON_WM_CHAR()
 	ON_WM_RBUTTONDOWN()
+	ON_COMMAND(ID_Delete, &CMFCApplication1View::OnDelete)
 END_MESSAGE_MAP()
 
 // CMFCApplication1View 생성/소멸
@@ -774,6 +775,14 @@ void CMFCApplication1View::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CMFCApplication1View::OnRButtonDown(UINT nFlags, CPoint point)
 {
+	
+	CView::OnRButtonDown(nFlags, point);
+}
+
+
+void CMFCApplication1View::OnDelete()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	int befer_num;
 	CMFCApplication1Doc* pDoc = GetDocument();
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
@@ -812,5 +821,4 @@ void CMFCApplication1View::OnRButtonDown(UINT nFlags, CPoint point)
 			break;
 		}
 	}
-	CView::OnRButtonDown(nFlags, point);
 }
