@@ -103,6 +103,7 @@
     <ClInclude Include="APolyline.h" />
     <ClInclude Include="ARectangle.h" />
     <ClInclude Include="ChildFrm.h" />
+    <ClInclude Include="Group.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MFCApplication1.h" />
@@ -121,6 +122,7 @@
     <ClCompile Include="APolyline.cpp" />
     <ClCompile Include="ARectangle.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
+    <ClCompile Include="Group.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MFCApplication1.cpp" />

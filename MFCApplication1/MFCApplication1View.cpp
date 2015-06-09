@@ -100,6 +100,8 @@ void CMFCApplication1View::OnDraw(CDC* pDC)
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
+
+	
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 	
 }
@@ -689,121 +691,122 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 		{
 		case S:
 		{
-			Invalidate();
-			return;
+				  Invalidate();
+				  return;
 
 		}
 		case DL:
 		{
-			pDoc->Line_array[current_l].draw(&dc, point.x, point.y);
-			Invalidate();
-			break;
+				   pDoc->Line_array[current_l].draw(&dc, point.x, point.y);
+				   Invalidate();
+				   break;
 		}
 		case DR:
 		{
-			ARect_array[current_r].draw(&dc, point.x, point.y);
-			Invalidate();
-			break;
+				   ARect_array[current_r].draw(&dc, point.x, point.y);
+				   Invalidate();
+				   break;
 		}
 		case DE:
 		{
-			AEll_array[current_e].draw(&dc, point.x, point.y);
-			Invalidate();
-			break;
+				   AEll_array[current_e].draw(&dc, point.x, point.y);
+				   Invalidate();
+				   break;
 		}
 		case DP:
 		case DT:
 		{
-			break;
+				   break;
 		}
 		case ML:
 		{
-			pDoc->Line_array[select_num].move(move_select, point, prev);
-			if (move_select == 3)
-			{
-				pDoc->Line_array[select_num].draw(&dc, pDoc->Line_array[select_num].getEnd_x(), pDoc->Line_array[select_num].getEnd_y());
-				Invalidate();
-				break;
-			}
-			else
-			{
-				pDoc->Line_array[select_num].draw(&dc, point.x, point.y);
-				Invalidate();
-				break;
-			}
+				   pDoc->Line_array[select_num].move(move_select, point, prev);
+				   if (move_select == 3)
+				   {
+					   pDoc->Line_array[select_num].draw(&dc, pDoc->Line_array[select_num].getEnd_x(), pDoc->Line_array[select_num].getEnd_y());
+					   Invalidate();
+					   break;
+				   }
+				   else
+				   {
+					   pDoc->Line_array[select_num].draw(&dc, point.x, point.y);
+					   Invalidate();
+					   break;
+				   }
 
 		}
 		case MR:
 		{
-			ARect_array[select_num].move(move_select, point, prev);
-			if (move_select == 9)
-			{
-				ARect_array[select_num].draw(&dc, ARect_array[select_num].getEnd_x(), ARect_array[select_num].getEnd_y());
-				Invalidate();
-				break;
-			}
-			else
-			{
-				ARect_array[select_num].draw(&dc, point.x, point.y);
-				Invalidate();
-				break;
-			}
+				   ARect_array[select_num].move(move_select, point, prev);
+				   if (move_select == 9)
+				   {
+					   ARect_array[select_num].draw(&dc, ARect_array[select_num].getEnd_x(), ARect_array[select_num].getEnd_y());
+					   Invalidate();
+					   break;
+				   }
+				   else
+				   {
+					   ARect_array[select_num].draw(&dc, point.x, point.y);
+					   Invalidate();
+					   break;
+				   }
 
 		}
 		case ME:
 		{
-			AEll_array[select_num].move(move_select, point, prev);
-			if (move_select == 9)
-			{
-				AEll_array[select_num].draw(&dc, AEll_array[select_num].getEnd_x(), AEll_array[select_num].getEnd_y());
-				Invalidate();
-				break;
-			}
-			else
-			{
-				AEll_array[select_num].draw(&dc, point.x, point.y);
-				Invalidate();
-				break;
-			}
+				   AEll_array[select_num].move(move_select, point, prev);
+				   if (move_select == 9)
+				   {
+					   AEll_array[select_num].draw(&dc, AEll_array[select_num].getEnd_x(), AEll_array[select_num].getEnd_y());
+					   Invalidate();
+					   break;
+				   }
+				   else
+				   {
+					   AEll_array[select_num].draw(&dc, point.x, point.y);
+					   Invalidate();
+					   break;
+				   }
 		}
 		case MP:
 		{
-			if (ispoint)
-			{
-				if (select_point == 0)
-				{
-					APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
-				}
-				if (select_point > 0)
-				{
-					if (select_point == APolyline_array[select_num].point_array.GetSize() - 1)
-					{
-						APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
-						Invalidate();
-						return;
-					}
-					APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
-					APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
-				}
+				   if (ispoint)
+				   {
+					   if (select_point == 0)
+					   {
+						   APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
+					   }
+					   if (select_point > 0)
+					   {
+						   if (select_point == APolyline_array[select_num].point_array.GetSize() - 1)
+						   {
+							   APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
+							   Invalidate();
+							   return;
+						   }
+						   APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
+						   APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
+					   }
 
-				   Invalidate();
-				   return;
-			   }
-			   else
-			   {
+					   Invalidate();
+					   return;
+				   }
+				   else
+				   {
 
-				//TRACE("%d\n", APolyline_array[select_num].poly_array.GetSize());
-				for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize() - 1; i++)
-				{
-					TRACE("%d\n", i);
+					   //TRACE("%d\n", APolyline_array[select_num].poly_array.GetSize());
+					   for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize() - 1; i++)
+					   {
+						   TRACE("%d\n", i);
 
-			
-			}
-			return;
+
+					   }
+					   return;
+				   }
 		}
+			CView::OnMouseMove(nFlags, point);
 		}
-	CView::OnMouseMove(nFlags, point);
-}
+	}
 }
 
 void CMFCApplication1View::OnDline()
@@ -1212,6 +1215,19 @@ void CMFCApplication1View::OnPattern()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CMFCApplication1Doc* pDoc = GetDocument();
 	PatternDialog dlg;
+	dlg.DoModal();
+	/*if (select_mode == DL)
+		dlg.l_size = pDoc->Line_array[select_num].getPattern();
+	else if (select_mode == DR)
+		ARect_array[select_num].getPattern();
+	else if (select_mode == DE)
+		AEll_array[select_num].getPattern();
+	else if (select_mode == DT)
+		pDoc->Text_array[select_num].getPattern();
+	else if (select_mode == DP)
+		APolyline_array[select_num].getPattern();
+		*/
+
 }
 
 
@@ -1220,6 +1236,7 @@ void CMFCApplication1View::OnThick()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CMFCApplication1Doc* pDoc = GetDocument();
 	CThickDialog dlg;
+
 	//선택한 객체의 원래 선굵기를 가져옴
 	if (select_mode == DL)
 		dlg.l_size = pDoc->Line_array[select_num].getThick();
