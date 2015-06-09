@@ -33,7 +33,7 @@ int Line::getPattern(){
 	return this->pattern;
 }
 
-void Line::move(int move_select, CPoint point, CPoint prev){
+void Line::move(int move_select, CPoint point, CPoint &prev){
 	if (move_select == 1 || move_select == 2)			//start_x, start_y를 클릭
 	{								//end_x, end_y를 클릭
 		end_x = point.x;

@@ -381,20 +381,43 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						if (select_mode == DR && select_num == i)
 						{
 							mode = MR;
+							move = true;
+							prev.x = point.x;
+							prev.y = point.y;
 							//뭐선택했는지 판단
+							//	1 ----- 5 ----- 2
+							//	l				l
+							//	8		9		6
+							//	l				l
+							//	4 ----- 7 ----- 3
 							if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
 								&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
 							{
-								move_select = 1;		//start점 옮기기
+								move_select = 1;		//1번점 옮기기
+								ARect_array[i].setStart_x(x2);
+								ARect_array[i].setStart_y(y2);
+							}
+							else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
+								&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
+							{
+								move_select = 2;		//2번점 옮기기
+								ARect_array[i].setStart_y(y2);
 							}
 							else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
 								&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
 							{
-								move_select = 2;		//end점 옮기기
+								move_select = 3;		//3번점 옮기기
 							}
+							else if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
+								&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
+							{
+								move_select = 4;		//4번점 옮기기
+								ARect_array[i].setStart_x(x2);
+							}
+
 							else
 							{
-								move_select = 3;		//선 전체 옮기기
+								move_select = 9;		//선 전체 옮기기
 							}
 							return;
 						}
@@ -411,8 +434,6 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 			//이립스 어레이에서 검사
 			if (AEll_array.GetCount() != 0)
 			{
-				for (int i = 0; i < AEll_array.GetCount(); i++)
-				{
 					int x1, x2, y1, y2;
 					for (int i = 0; i < AEll_array.GetCount(); i++)
 					{
@@ -428,20 +449,43 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							if (select_mode == DE && select_num == i)
 							{
 								mode = ME;
+							move = true;
+							prev.x = point.x;
+							prev.y = point.y;
 								//뭐선택했는지 판단
+							//	1 ----- 5 ----- 2
+							//	l				l
+							//	8		9		6
+							//	l				l
+							//	4 ----- 7 ----- 3
 								if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
 									&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
 								{
-									move_select = 1;		//start점 옮기기
+								move_select = 1;		//1번점 옮기기
+								AEll_array[i].setStart_x(x2);
+								AEll_array[i].setStart_y(y2);
+							}
+							else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
+								&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
+							{
+								move_select = 2;		//2번점 옮기기
+								AEll_array[i].setStart_y(y2);
 								}
 								else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
 									&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
 								{
-									move_select = 2;		//end점 옮기기
+								move_select = 3;		//3번점 옮기기
 								}
+							else if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
+								&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
+							{
+								move_select = 4;		//4번점 옮기기
+								AEll_array[i].setStart_x(x2);
+								}
+
 								else
 								{
-									move_select = 3;		//선 전체 옮기기
+								move_select = 9;		//선 전체 옮기기
 								}
 								return;
 							}
@@ -452,11 +496,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							return;
 						}
 						}
-
 					}
-
 				}
-			}
 			if (APolyline_array.GetCount() != 0)
 			{
 				for (int i = 0; i < APolyline_array.GetCount(); i++)
@@ -688,6 +729,44 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 				break;
 	}
 	}
+	}
+	case MR:
+	{
+		if (move == true)
+		{
+			ARect_array[select_num].move(move_select, point, prev);
+			if (move_select == 9)
+			{
+				ARect_array[select_num].draw(&dc, ARect_array[select_num].getEnd_x(), ARect_array[select_num].getEnd_y());
+				Invalidate();
+				break;
+			}
+			else
+			{
+				ARect_array[select_num].draw(&dc, point.x, point.y);
+				Invalidate();
+				break;
+			}
+		}
+	}
+	case ME:
+	{
+		if (move == true)
+		{
+			AEll_array[select_num].move(move_select, point, prev);
+			if (move_select == 9)
+			{
+				AEll_array[select_num].draw(&dc, AEll_array[select_num].getEnd_x(), AEll_array[select_num].getEnd_y());
+				Invalidate();
+				break;
+			}
+			else
+			{
+				AEll_array[select_num].draw(&dc, point.x, point.y);
+				Invalidate();
+				break;
+			}
+		}
 	}
 	}
 	CView::OnMouseMove(nFlags, point);
