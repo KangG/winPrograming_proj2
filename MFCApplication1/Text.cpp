@@ -100,4 +100,27 @@ void Text::move(){
 
 void Text::erase(){
 
+}void Text::DrawSelect(CDC *pDC)
+{
+	//그리기 속성 설정
+	pDC->SelectStockObject(NULL_BRUSH);
+	CPen pen;
+	pen.CreatePen(PS_DOT, 3, color_l);
+	CPen* oldPen = pDC->SelectObject(&pen);
+
+	//그리기 속성 설정
+	CBrush brush(RGB(51, 94, 168)); //브러쉬 생성
+	CBrush* oldBrush = pDC->SelectObject(&brush); //브러쉬 지정
+	pDC->SelectStockObject(NULL_PEN);
+
+	//각 꼭지점마다 점을 그림
+	pDC->Ellipse(start_x - 5, start_y - 5, start_x + 5, start_y + 5);
+	pDC->Ellipse(end_x - 5, end_y - 5, end_x + 5, end_y + 5);
+	pDC->Ellipse(start_x - 5, end_y - 5, start_x + 5, end_y + 5);
+	pDC->Ellipse(end_x - 5, start_y - 5, end_x + 5, start_y + 5);
+
+
+	//이전 펜과 브러쉬 속성으로 되돌림
+	pDC->SelectObject(oldPen);
+	pDC->SelectObject(oldBrush);
 }

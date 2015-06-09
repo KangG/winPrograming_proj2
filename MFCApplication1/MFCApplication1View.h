@@ -25,6 +25,9 @@ public:
 	BOOL btext_status = false;
 	BOOL bpoly_status = false;
 	BOOL bpoly_new = false;
+	
+	BOOL isDel = false;
+
 
 	int current_l;		//Line 현재 배열번호
 	int current_r;		//Rect 현재 배열번호
@@ -42,16 +45,14 @@ public:
 	APolyline poly;
 
 	CArray<Line, Line&> figure;							//모든 객체를 저장할 배열 
-	CArray<Line, Line&> Line_array;						//Line 객체를 저장할배열
 	CArray<ARectangle, ARectangle&> ARect_array;		//Rect 객체를 저장할배열
 	CArray<AEllipse, AEllipse&> AEll_array;				//Ellipse 객체를 저장할배열
 	CArray<APolyline, APolyline&> APolyline_array;		//PolyLine 객체를 저장할배열
-	CArray<Text, Text&> Text_array;		//Text 객체를 저장할배열
 
 	int select_mode;
 	int select_num;
 	int move_select;
-	CPoint prev;
+
 // 작업입니다.
 public:
 	int mode;
@@ -97,6 +98,8 @@ public:
 	afx_msg void OnOc();
 	afx_msg void OnIc();
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnDelete();
 };
 
 #ifndef _DEBUG  // MFCApplication1View.cpp의 디버그 버전

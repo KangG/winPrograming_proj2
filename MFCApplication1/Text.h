@@ -8,7 +8,7 @@ public:
 	Text& operator=(const Text &t);
 
 	void makeRect(CDC* dc,CArray<TCHAR, TCHAR>* str);
-
+	void DrawSelect(CDC *pDC);
 	void setRect(ARectangle rect);
 	ARectangle getRect(void);
 
