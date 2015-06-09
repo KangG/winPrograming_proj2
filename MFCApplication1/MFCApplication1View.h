@@ -51,7 +51,7 @@ public:
 	int select_mode;
 	int select_num;
 	int move_select;
-
+	CPoint prev;
 // 작업입니다.
 public:
 	int mode;

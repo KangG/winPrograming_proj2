@@ -199,7 +199,7 @@ void CMFCApplication1View::OnPaint()
 		if (select_mode == DT)
 		{
 		//	Text_array[select_num].DrawSelectLine(&dc);
-}
+		}
 		Text_array[i].makeRect(&dc,&(pDoc->m_str));
 	}
 }
@@ -325,13 +325,32 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 					y2 = (double)Line_array[i].getEnd_y();
 					g = (y2 - y1) / (x2 - x1);
 					// 하나라도 범위 안에 있으면 선택으로 인정
-					if ((((double)point.x >= x1 - 5 && (double)point.x <= x2 + 5) || ((double)point.x >= x2 - 5 && (double)point.x <= x1 + 5))
+					if ( (((double)point.x >= x1 - 5 && (double)point.x <= x2 + 5) || ((double)point.x >= x2 - 5 && (double)point.x <= x1 + 5))
 						&& (((double)point.y >= g*((double)point.x - x1) + y1 - 5) && ((double)point.y <= g*((double)point.x - x1) + y1 + 5)))
 					{
 						if (select_mode == DL && select_num == i)
 						{
 							mode = ML;
+							move = true;
+							prev.x = point.x;
+							prev.y = point.y;
 							//뭐선택했는지 판단
+							if (((point.x >= Line_array[i].getStart_x() - 5) && (point.x <= Line_array[i].getStart_x() + 5))
+								&& ((point.y >= Line_array[i].getStart_y() - 5) && (point.y <= Line_array[i].getStart_y() + 5)))
+							{
+								move_select = 1;		//start점 옮기기
+								Line_array[i].setStart_x(x2);
+								Line_array[i].setStart_y(y2);
+							}
+							else if (((point.x >= Line_array[i].getEnd_x() - 5) && (point.x <= Line_array[i].getEnd_x() + 5))
+								&& ((point.y >= Line_array[i].getEnd_y() - 5) && (point.y <= Line_array[i].getEnd_y() + 5)))
+							{
+								move_select = 2;		//end점 옮기기
+							}
+							else
+							{
+								move_select = 3;	//선 전체 옮기기
+							}
 						}
 						else
 						{
@@ -357,9 +376,19 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 					if ((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5)
 						&& (point.y >= y1 - 5 && point.y <= y2 + 5) || (point.y >= y2 - 5 && point.y <= y1 + 5))
 					{
-						select_mode = DR;
-						select_num = i;
-						return;
+						if (select_mode == DR && select_num == i)
+						{
+							mode = MR;
+							prev.x = point.x;
+							prev.y = point.y;
+							//뭐선택했는지 판단
+						}
+						else
+						{
+							select_mode = DR;
+							select_num = i;
+							return;
+						}
 					}
 
 				}
@@ -381,9 +410,19 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						if ((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5)
 							&& (point.y >= y1 - 5 && point.y <= y2 + 5) || (point.y >= y2 - 5 && point.y <= y1 + 5))
 						{
-							select_mode = DE;
-							select_num = i;
-							return;
+							if (select_mode == DE && select_num == i)
+							{
+								mode = ME;
+								prev.x = point.x;
+								prev.y = point.y;
+								//뭐선택했는지 판단
+							}
+							else
+							{
+								select_mode = DE;
+								select_num = i;
+								return;
+							}
 						}
 
 					}
@@ -450,6 +489,16 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 	case DP:
 	{
 	}
+	case ML:
+	case MR:
+	case ME:
+	case MT:
+	case MP:
+	{
+		mode = S;
+		move = false;
+		break;
+	}
 	}
 	CView::OnLButtonUp(nFlags, point);
 }
@@ -497,6 +546,18 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 			   }
 			//   Invalidate();
 			   break;
+	}
+	case ML:
+	{
+		Line_array[select_num].move(move_select, point, prev);
+		if (move == true){
+			if (move_select == 3)
+				Line_array[select_num].draw(&dc, Line_array[select_num].getEnd_x(), Line_array[select_num].getEnd_y());
+			else
+				Line_array[select_num].draw(&dc, point.x, point.y);
+		}
+		Invalidate();
+		break;
 	}
 	}
 	CView::OnMouseMove(nFlags, point);
