@@ -84,6 +84,22 @@ void Line::draw_start(CDC* dc, int x, int y){
 	dc->SelectObject(oldPen);
 }
 
+void Line::draw_both(CDC* dc, int x, int y) {
+
+	CPen pen;
+	pen.CreatePen(PS_DOT, 3, color_l);
+	CPen* oldPen = dc->SelectObject(&pen);
+	start_x += x;
+	start_y += y;
+
+	dc->MoveTo(start_x, start_y);
+	end_x += x;
+	end_y += y;
+	dc->LineTo(end_x, end_y);
+
+	dc->SelectObject(oldPen);
+}
+
 
 void Line::erase(){
 	Line::~Line();

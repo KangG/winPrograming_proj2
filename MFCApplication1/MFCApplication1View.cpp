@@ -534,8 +534,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						}
 					}
 
-					prev.x = point.x;
-					prev.y = point.y;
+
 
 					for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
 					{
@@ -551,6 +550,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						if (((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5))
 							&& ((point.y >= g*(point.x - x1) + y1 - 5) && (point.y <= g*(point.x - x1) + y1 + 5)))
 						{
+							prev.x = point.x;
+							prev.y = point.y;
 							mode = MP;
 							isall = true;
 							select_mode = DP;
@@ -649,13 +650,25 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 			select_point = -1;
 			ispoint = false;
 			mode = S;
+
+			Invalidate();
 			break;
 		}
-		else if (!ispoint && isall)
+		else
 		{
+			CPoint temp = prev;
 			for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize(); i++)
+			{
+				APolyline_array[select_num].move(point.x - prev.x, point.y - prev.y, i);
 				APolyline_array[select_num].poly_array[i].move(move_select, point, prev);
+				TRACE("%d	%d		%d\n", APolyline_array[select_num].point_array[i].getX(), APolyline_array[select_num].point_array[i].getY(), i);
+				prev = temp;
+
 	}
+
+			isall = false;
+			Invalidate();
+		}
 		mode = S;
 		break;
 
@@ -773,27 +786,24 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 					APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
 				}
 
-				Invalidate();
-				return;
-			}
-			else
-			{
+				   Invalidate();
+				   return;
+			   }
+			   else
+			   {
 
 				//TRACE("%d\n", APolyline_array[select_num].poly_array.GetSize());
 				for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize() - 1; i++)
 				{
 					TRACE("%d\n", i);
 
-					APolyline_array[select_num].poly_array[i].move(move_select, point, prev);
-
-				}
-				Invalidate();
-				return;
+			
 			}
+			return;
 		}
 		}
-		CView::OnMouseMove(nFlags, point);
-	}
+	CView::OnMouseMove(nFlags, point);
+}
 }
 
 void CMFCApplication1View::OnDline()
@@ -1169,20 +1179,17 @@ void CMFCApplication1View::OnDelete()
 			Invalidate();
 			break;
 		case DP:
-			TRACE("fadfhkasd;klfjf;lasaskjdf\n");
-			TRACE("%d", select_point);
 			if (ispoint)
 			{
-				TRACE("fadfhkasd;klfjf;lasaskjdf\n");
 				APolyline_array[select_num].eraseAt(select_point);
 				select_mode = 100;
+				ispoint = false;
 				Invalidate();
 				return;
 			}
 			TRACE("%d", select_num);
 			befer_num = APolyline_array.GetSize();
 			APolyline_array.RemoveAt(select_num);
-			ispoint = false;
 			select_mode = 100;
 			Invalidate();
 			break;

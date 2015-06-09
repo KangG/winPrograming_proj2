@@ -20,6 +20,9 @@ public:
 
 	virtual void draw(CDC* dc, int x, int y);
 	virtual void draw_start(CDC* dc, int x, int y); // 폴리 점이동에서 써먹음
+	virtual void draw_both(CDC* dc, int x, int y);
+
+
 	void erase();
 
 	int getStart_x();
