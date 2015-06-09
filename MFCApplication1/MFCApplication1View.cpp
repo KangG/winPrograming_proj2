@@ -30,6 +30,7 @@
 #define MT 9		//text 옮기기
 #define MP 10		//polyline 옮기기
 
+
 // CMFCApplication1View
 
 IMPLEMENT_DYNCREATE(CMFCApplication1View, CView)
@@ -305,8 +306,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 				   APolyline_array[current_p].draw(&dc);
 				   break;
 			   }
-			   if (select_mode>0)
-				APolyline_array[select_mode].moveAll(point.x, point.y);
+			   move = true;
 	}
 	case S:
 	{
@@ -399,6 +399,23 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 				{
 					for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
 					{
+						int x3, y3;
+
+						x3 = APolyline_array[i].point_array[j].getX();
+						y3 = APolyline_array[i].point_array[j].getY();
+
+						if ((point.x >= x3 - 5 && point.x <= x3 + 5) && (point.y >= y3 - 5 && point.y <= y3 + 5))
+						{
+							TRACE("%d\n", j);
+							ispoint = true;
+							select_point = j;
+							move == true;
+						}
+					}
+
+					for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
+					{
+						int x3, y3;
 						double x1, x2, y1, y2;
 						double g;			//greadient 기울기
 
@@ -408,9 +425,13 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						y2 = APolyline_array[i].poly_array[j].getEnd_y();
 						g = (y2 - y1) / (x2 - x1);
 
+						x3 = APolyline_array[i].point_array[j].getX();
+						y3 = APolyline_array[i].point_array[j].getY();
+
 						if (((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5))
 							&& ((point.y >= g*(point.x - x1) + y1 - 5) && (point.y <= g*(point.x - x1) + y1 + 5)))
 						{
+			
 							select_mode = DP;
 							select_num = i;
 							return;
@@ -467,6 +488,15 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 	case S:
 	{
+			  if (ispoint)
+			  {
+				  APolyline_array[select_num].point_array[select_point].setX(point.x);
+				  APolyline_array[select_num].point_array[select_point].setY(point.y);
+				  select_num = -1;
+				  select_point = -1;
+				  select_mode = 100;
+				  ispoint = false;
+			  }
 			  Invalidate();
 			  break;
 	}
@@ -495,12 +525,34 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	CClientDC dc(this);
-
 	CMFCApplication1Doc* pDoc = GetDocument();
+
 	switch (mode)
 	{
 	case S:
 	{
+			 
+			  if (ispoint == true)
+			  {
+				  TRACE("MOUSE MOVE MOUSE MOVE MOUSE MOVE MOUSE MOVE MOUSE MOVE\n");
+				  if (select_point == 0)
+				  {
+					  APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
+				  }
+				  if (select_point > 0)
+				  {
+					  if (select_point == APolyline_array[select_num].point_array.GetSize() - 1)
+					  {
+						  APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
+						  Invalidate();
+						  return;
+					  }
+
+					  APolyline_array[select_num].poly_array[select_point - 1].draw(&dc, point.x, point.y);
+					  APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
+				  }
+			  }
+			  Invalidate();
 			  break;
 	}
 	case DL:
@@ -529,12 +581,7 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	case DP:
 	{
-			   if (move == true){
-				   APolyline_array[select_num].moveAll(point.x - pDoc->temp.x, point.y-pDoc->temp.y);
-				   APolyline_array[select_num].draw(&dc);
-			   }
-			   Invalidate();
-			   return;
+			
 	}
 	case DT:
 	{

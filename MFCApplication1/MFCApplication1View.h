@@ -27,7 +27,7 @@ public:
 	BOOL bpoly_new = false;
 	
 	BOOL isDel = false;
-
+	BOOL ispoint = false;
 
 	int current_l;		//Line 현재 배열번호
 	int current_r;		//Rect 현재 배열번호
@@ -51,6 +51,7 @@ public:
 
 	int select_mode;
 	int select_num;
+	int select_point;									//점선택때 사용
 	int move_select;
 
 // 작업입니다.

@@ -80,6 +80,15 @@ void APolyline::next(Point point)
 	}
 }
 
+void APolyline::move(int x, int y, int index)
+{
+	point_array[index].setX(point_array[index].getX() + x);
+	point_array[index].setY(point_array[index].getY() + y);
+}
+
+
+
+
 void APolyline::moveAll(int x, int y)
 {
 		int nArraySize = poly_array.GetSize(); //좌표 시퀀스의 크기를 구함
