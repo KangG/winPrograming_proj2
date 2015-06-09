@@ -47,6 +47,13 @@ double ARectangle::getThick()
 	return this->thick;
 }
 
+void ARectangle::setPattern(int pattern){
+	this->pattern = pattern;
+}
+int ARectangle::getPattern(){
+	return this->pattern;
+}
+
 void ARectangle::move(int move_select, CPoint point, CPoint &prev){
 	if (move_select >=1 && move_select <=4 )			//start_x, start_y¸¦ Å¬¸¯
 	{

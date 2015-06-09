@@ -331,17 +331,17 @@ BEGIN
     LTEXT           "선 굵기를 입력하세요 (1~30)",IDC_STATIC,23,18,102,13
 END
 
-IDD_DIALOG2 DIALOGEX 0, 0, 173, 97
+IDD_DIALOG2 DIALOGEX 0, 0, 177, 116
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "패턴"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "확인",IDOK,25,68,50,14
-    PUSHBUTTON      "취소",IDCANCEL,93,68,50,14
-    COMBOBOX        IDC_COMBO1,87,26,61,16,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO2,88,49,62,16,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "선 패턴",IDC_STATIC,23,28,43,13
-    LTEXT           "면 패턴",IDC_STATIC,23,50,47,13
+    DEFPUSHBUTTON   "확인",IDOK,26,87,50,14
+    PUSHBUTTON      "취소",IDCANCEL,101,87,50,14
+    COMBOBOX        IDC_COMBO1,86,15,61,90,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO2,86,47,62,81,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "선 패턴",IDC_STATIC,23,17,43,13
+    LTEXT           "면 패턴",IDC_STATIC,22,50,47,13
 END
 
 
@@ -411,9 +411,9 @@ BEGIN
     IDD_DIALOG2, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 166
+        RIGHTMARGIN, 170
         TOPMARGIN, 7
-        BOTTOMMARGIN, 90
+        BOTTOMMARGIN, 109
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -426,14 +426,30 @@ END
 
 IDD_DIALOG2 DLGINIT
 BEGIN
-    IDC_COMBO1, 0x403, 41, 0
-0xc7bd, 0xb1bc, 0x202c, 0xc4c6, 0xb1bc, 0x202c, 0xa1c1, 0xb1bc, 0x202c, 
-0xc131, 0xbca1, 0xbce2, 0x2cb1, 0x3220, 0xa1c1, 0xe2bc, 0xb1bc, 0x202c, 
-0xf5c5, 0xedb8, "\000" 
-    IDC_COMBO2, 0x403, 52, 0
-0xe2b1, 0xbbba, 0x202c, 0xcfc7, 0xe2c7, 0xd8c7, 0xa1c4, 0x202c, 0xf3bb, 
-0xe2c7, 0xd8c7, 0xa1c4, 0x202c, 0xb3b1, 0xf7c2, 0x202c, 0xf6bc, 0xf2c6, 
-0xd8c7, 0xa1c4, 0x2c20, 0xbc20, 0xc1f6, 0xc7f7, 0xc4d8, 0x00a1, 
+    IDC_COMBO1, 0x403, 5, 0
+0xc7bd, 0xb1bc, "\000" 
+    IDC_COMBO1, 0x403, 6, 0
+0xc620, 0xbcc4, 0x00b1, 
+    IDC_COMBO1, 0x403, 6, 0
+0xc120, 0xbca1, 0x00b1, 
+    IDC_COMBO1, 0x403, 9, 0
+0x3120, 0xa1c1, 0xe2bc, 0xb1bc, "\000" 
+    IDC_COMBO1, 0x403, 9, 0
+0x3220, 0xa1c1, 0xe2bc, 0xb1bc, "\000" 
+    IDC_COMBO1, 0x403, 6, 0
+0xc520, 0xb8f5, 0x00ed, 
+    IDC_COMBO2, 0x403, 5, 0
+0xe2b1, 0xbbba, "\000" 
+    IDC_COMBO2, 0x403, 10, 0
+0xc720, 0xc7cf, 0xc7e2, 0xc4d8, 0x00a1, 
+    IDC_COMBO2, 0x403, 10, 0
+0xbb20, 0xc7f3, 0xc7e2, 0xc4d8, 0x00a1, 
+    IDC_COMBO2, 0x403, 6, 0
+0xb120, 0xc2b3, 0x00f7, 
+    IDC_COMBO2, 0x403, 10, 0
+0xbc20, 0xc6f6, 0xc7f2, 0xc4d8, 0x00a1, 
+    IDC_COMBO2, 0x403, 10, 0
+0xbc20, 0xc1f6, 0xc7f7, 0xc4d8, 0x00a1, 
     0
 END
 

@@ -59,6 +59,9 @@ public:
 	
 	//Thick 다이얼로그 변수
 	double l_size;
+	//Pattern 다이얼로그 변수
+	int pattern1;
+	int pattern2;
 	
 
 // 재정의입니다.

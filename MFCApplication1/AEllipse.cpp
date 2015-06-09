@@ -48,6 +48,13 @@ double AEllipse::getThick()
 	return this->thick;
 }
 
+void AEllipse::setPattern(int pattern){
+	this->pattern = pattern;
+}
+int AEllipse::getPattern(){
+	return this->pattern;
+}
+
 void AEllipse::move(int move_select, CPoint point, CPoint &prev){
 	if (move_select >= 1 && move_select <= 4)			//Á¡ Å¬¸¯
 	{

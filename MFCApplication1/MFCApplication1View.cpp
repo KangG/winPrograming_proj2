@@ -1301,19 +1301,46 @@ void CMFCApplication1View::OnPattern()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CMFCApplication1Doc* pDoc = GetDocument();
 	PatternDialog dlg;
-	dlg.DoModal();
-	/*if (select_mode == DL)
-		dlg.l_size = pDoc->Line_array[select_num].getPattern();
-	else if (select_mode == DR)
-		ARect_array[select_num].getPattern();
-	else if (select_mode == DE)
-		AEll_array[select_num].getPattern();
-	else if (select_mode == DT)
-		pDoc->Text_array[select_num].getPattern();
-	else if (select_mode == DP)
-		APolyline_array[select_num].getPattern();
-		*/
 
+	//원래의 패턴을 가져옴
+	if (select_mode == DL)
+		dlg.pattern1 = pDoc->Line_array[select_num].getPattern();
+	else if (select_mode == DR)
+		dlg.pattern1 = pDoc->ARect_array[select_num].getPattern();
+	else if (select_mode == DE)
+		dlg.pattern1 = pDoc->AEll_array[select_num].getPattern();
+	else if (select_mode == DT)
+		dlg.pattern1 = pDoc->Text_array[select_num].getPattern();
+	else if (select_mode == DP)
+		dlg.pattern1 = pDoc->APolyline_array[select_num].getPattern();
+		
+	int result = dlg.DoModal();
+	if (result == IDOK)
+	{
+		pattern1 = dlg.pattern1;
+		//선택한 객체의 패턴 변수를 가져와서 pattern1으로 바꿔준다.
+		if (select_mode == DL)
+		{
+			pDoc->Line_array[select_num].setPattern(pattern1);
+		}
+		else if (select_mode == DR)
+		{
+			pDoc->ARect_array[select_num].setPattern(pattern1);
+		}
+		else if (select_mode == DE)
+		{
+			pDoc->AEll_array[select_num].setPattern(pattern1);
+		}
+		else if (select_mode == DT)
+		{
+			pDoc->Text_array[select_num].setPattern(pattern1);
+		}
+		else if (select_mode == DP)
+		{
+			pDoc->APolyline_array[select_num].setPattern(pattern1);
+		}
+		Invalidate();
+	}
 }
 
 

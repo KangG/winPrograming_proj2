@@ -13,6 +13,7 @@ IMPLEMENT_DYNAMIC(PatternDialog, CDialogEx)
 
 PatternDialog::PatternDialog(CWnd* pParent /*=NULL*/)
 	: CDialogEx(PatternDialog::IDD, pParent)
+	, pattern1(0), pattern2(0)
 {
 
 }
@@ -43,10 +44,9 @@ BOOL PatternDialog::OnInitDialog()
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 	
-	
-	
-	m_combo1.SetCurSel(0);
-	return TRUE;  // return TRUE unless you set the focus to a control
+	m_combo1.SetCurSel(pattern1);
+	m_combo2.SetCurSel(pattern2);
+	return FALSE;  // return TRUE unless you set the focus to a control
 	// 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
 
@@ -57,6 +57,8 @@ void PatternDialog::OnBnClickedOk()
 	UpdateData(TRUE);
 
 
+	pattern1 = m_combo1.GetCurSel();
+	pattern2 = m_combo2.GetCurSel();
 
 	CDialogEx::OnOK();
 }

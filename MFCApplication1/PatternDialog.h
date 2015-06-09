@@ -22,6 +22,10 @@ protected:
 public:
 	CComboBox m_combo1;
 	CComboBox m_combo2;
+	int pattern1;
+	int pattern2;
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedOk();
+	afx_msg void OnCbnSelchangeCombo1();
+	afx_msg void OnCbnSelchangeCombo2();
 };
