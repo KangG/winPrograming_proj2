@@ -13,8 +13,8 @@ ARectangle::ARectangle()
 
 	this->color_l = *(new COLORREF(RGB(0, 0, 0)));
 	this->color_s = *(new COLORREF(RGB(255,255,255)));
-	this->thick = 0.5;
-	this->pattern = 0;
+	this->thick = 1.5;
+	this->pattern = PS_SOLID;
 }
 
 void ARectangle::setColor_l(COLORREF rgb)
@@ -76,7 +76,7 @@ void ARectangle::draw(CDC* dc, int x, int y)
 	setEnd_y(y);
 
 	CPen pen;
-	pen.CreatePen(PS_DOT, 3, color_l);
+	pen.CreatePen(pattern, thick, color_l);
 	CPen* oldPen = dc->SelectObject(&pen);
 	CBrush brush;
 	brush.CreateSolidBrush(color_s);

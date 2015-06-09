@@ -14,8 +14,8 @@ AEllipse::AEllipse()
 	this->color_l = *(new COLORREF(RGB(0, 0, 0)));
 	this->color_s = *(new COLORREF(RGB(255,255,255)));
 
-	this->thick = 0.5;
-	this->pattern = 0;
+	this->thick = 1.5;
+	this->pattern = PS_SOLID;
 }
 
 void AEllipse::setColor_l(COLORREF rgb)
@@ -49,12 +49,12 @@ double AEllipse::getThick()
 }
 
 void AEllipse::move(int move_select, CPoint point, CPoint &prev){
-	if (move_select >= 1 && move_select <= 4)			//start_x, start_y를 클릭
+	if (move_select >= 1 && move_select <= 4)			//점 클릭
 	{
 		end_x = point.x;
 		end_y;  point.y;
 	}
-	else if (move_select >= 5 && move_select <= 8)			//end_x, end_y를 클릭
+	else if (move_select >= 5 && move_select <= 8)			//선 클릭
 	{
 		end_x = point.x;
 		end_y = point.y;
@@ -77,7 +77,7 @@ void AEllipse::draw(CDC* dc, int x, int y)
 	setEnd_y(y);
 
 	CPen pen;
-	pen.CreatePen(PS_DOT, 3, color_l);
+	pen.CreatePen(pattern, thick, color_l);
 	CPen* oldPen = dc->SelectObject(&pen);
 	CBrush brush;
 	brush.CreateSolidBrush(color_s);
