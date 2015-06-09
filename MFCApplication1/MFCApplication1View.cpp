@@ -292,7 +292,6 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 	case DP:
 	{
 			   if (!bpoly_new){
-				   TRACE("fdakhslkf;adlkasjdf;lkfkj\n");
 				   APolyline* p = new APolyline();
 				   APolyline_array.Add(*p);
 				   current_p = APolyline_array.GetSize() - 1;
@@ -300,7 +299,6 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 			   }
 			   if (bpoly_new && bpoly_status)
 			   {
-				   TRACE("fdakhslkf;adlkasjdf;lkfkj\n");
 				   p_point.setX(point.x);
 				   p_point.setY(point.y);
 				   APolyline_array[current_p].next(p_point);
@@ -501,6 +499,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							isall = true;
 							select_mode = DP;
 							select_num = i;
+							move_select = 3;
 							TRACE("%d\n", select_num);
 							return;
 						}
@@ -622,9 +621,14 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 					  APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
 				  }
 			  }
-			  if (isall == true)
+			  else if (!ispoint && isall)
 			  {
-				  //APolyline_array[select_num].moveAll(point.x, point.y);
+				  TRACE("%d\n", select_num);
+				  for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize(); i++)
+					  APolyline_array[select_num].poly_array[i].move(move_select, point.x, point.y);
+
+				  Invalidate();
+				  
 			  }
 			  Invalidate();
 			  return;

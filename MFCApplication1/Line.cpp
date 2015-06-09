@@ -41,13 +41,11 @@ void Line::move(int move_select, CPoint point, CPoint prev){
 	}
 	if (move_select == 3)			//선 위의점 클릭
 	{
-		start_x += point.x - prev.x;
-		start_y += point.y - prev.y;
-		end_x += point.x - prev.x;
-		end_y += point.y - prev.y;
+		start_x += point.x;
+		start_y += point.y;
+		end_x += point.x;
+		end_y += point.y;
 
-		prev.x = point.x;
-		prev.y = point.y;
 	}
 }
 
