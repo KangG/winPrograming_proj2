@@ -168,21 +168,21 @@ void CMFCApplication1View::OnPaint()
 	dc.SelectStockObject(NULL_BRUSH);
 	//dc.SetROP2(R2_COPYPEN);
 
-	for (int i = 0; i < pDoc->Line_array.GetCount(); i++) {										//历厘等 Line 弊府扁
+	for (int i = 0; i < pDoc->Line_array.GetSize(); i++) {										//历厘等 Line 弊府扁
 		if (select_mode == DL)
 		{
 			pDoc->Line_array[select_num].DrawSelect(&dc);
 		}
 		pDoc->Line_array[i].draw(&dc, pDoc->Line_array[i].getEnd_x(), pDoc->Line_array[i].getEnd_y());
 	}
-	for (int i = 0; i < ARect_array.GetCount(); i++) {										//历厘等 Rect 弊府扁
+	for (int i = 0; i < ARect_array.GetSize(); i++) {										//历厘等 Rect 弊府扁
 		if (select_mode == DR)
 		{
 			ARect_array[select_num].DrawSelect(&dc);
 		}
 		ARect_array[i].draw(&dc, ARect_array[i].getEnd_x(), ARect_array[i].getEnd_y());
 	}
-	for (int i = 0; i < AEll_array.GetCount(); i++) {										//历厘等 Ellipse 弊府扁
+	for (int i = 0; i < AEll_array.GetSize(); i++) {										//历厘等 Ellipse 弊府扁
 		if (select_mode == DE)
 		{
 			AEll_array[select_num].DrawSelect(&dc);
@@ -196,7 +196,7 @@ void CMFCApplication1View::OnPaint()
 		}
 		APolyline_array[i].draw(&dc);
 	}
-	for (int i = 0; i < pDoc->Text_array.GetCount(); i++) {
+	for (int i = 0; i < pDoc->Text_array.GetSize(); i++) {
 		if (select_mode == DT)
 		{
 		//	Text_array[select_num].DrawSelectLine(&dc);
@@ -782,28 +782,32 @@ void CMFCApplication1View::OnRButtonDown(UINT nFlags, CPoint point)
 		case DL:
 			befer_num = pDoc->Line_array.GetSize();
 			pDoc->Line_array.RemoveAt(select_num);
-			current_l = current_l - 1;
+			select_mode = 100;
 			Invalidate();
 			break;
 
 		case DR:
 			befer_num = ARect_array.GetSize();
 			ARect_array.RemoveAt(select_num);
+			select_mode = 100;
 			Invalidate();
 			break;
 		case DE:
 			befer_num = AEll_array.GetSize();
 			AEll_array.RemoveAt(select_num);
+			select_mode = 100;
 			Invalidate();
 			break;
 		case DT:
 			befer_num = pDoc->Text_array.GetSize();
 			pDoc->Text_array.RemoveAt(select_num);
+			select_mode = 100;
 			Invalidate();
 			break;
 		case DP:
 			befer_num = APolyline_array.GetSize();
 			APolyline_array.RemoveAt(select_num);
+			select_mode = 100;
 			Invalidate();
 			break;
 		}
