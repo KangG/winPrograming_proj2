@@ -105,14 +105,25 @@ void APolyline::moveAll(int x, int y)
 		//FindStartEndPt();
 }
 
-void APolyline::eraseAt(int index, Point point)
+void APolyline::eraseAt(int index)
 {
+	Point temp = point_array.GetAt(index);
 
-}
+	for (int i = 0; i < poly_array.GetSize(); i++)
+	{
+		if ((temp.getX() == poly_array[i].getStart_x()) &&
+			(temp.getY() == poly_array[i].getStart_y()))
+			poly_array.RemoveAt(0);
+		if (i != 0)
+		{
+			poly_array[i - 1].setEnd_x(poly_array[i].getStart_x());
+			poly_array[i - 1].setEnd_y(poly_array[i].getStart_y());
+		}
+	}
+	
+	
+	point_array.RemoveAt(index);
 
-void APolyline::eraseAll()
-{
-	this->~APolyline();
 }
 
 APolyline::~APolyline()

@@ -30,7 +30,6 @@
 #define MT 9		//text 옮기기
 #define MP 10		//polyline 옮기기
 
-
 // CMFCApplication1View
 
 IMPLEMENT_DYNCREATE(CMFCApplication1View, CView)
@@ -397,6 +396,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 			{
 				for (int i = 0; i < APolyline_array.GetCount(); i++)
 				{
+					
 					for (int j = 0; j < APolyline_array[i].poly_array.GetCount(); j++)
 					{
 						int x3, y3;
@@ -406,10 +406,9 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 
 						if ((point.x >= x3 - 5 && point.x <= x3 + 5) && (point.y >= y3 - 5 && point.y <= y3 + 5))
 						{
-							TRACE("%d\n", j);
+							
 							ispoint = true;
 							select_point = j;
-							move == true;
 						}
 					}
 
@@ -431,9 +430,10 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						if (((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5))
 							&& ((point.y >= g*(point.x - x1) + y1 - 5) && (point.y <= g*(point.x - x1) + y1 + 5)))
 						{
-			
+							isall = true;
 							select_mode = DP;
 							select_num = i;
+							TRACE("%d\n", select_num);
 							return;
 						}
 					}
@@ -470,7 +470,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 
 		}
 		select_mode = 0;
-			select_num = -1;
+		select_num = -1;
 	}
 	}
 }
@@ -492,10 +492,8 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 			  {
 				  APolyline_array[select_num].point_array[select_point].setX(point.x);
 				  APolyline_array[select_num].point_array[select_point].setY(point.y);
-				  select_num = -1;
 				  select_point = -1;
-				  select_mode = 100;
-				  ispoint = false;
+				  //ispoint = false;
 			  }
 			  Invalidate();
 			  break;
@@ -531,10 +529,11 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 	{
 	case S:
 	{
-			 
-			  if (ispoint == true)
+
+			  if (ispoint)
 			  {
 				  TRACE("MOUSE MOVE MOUSE MOVE MOUSE MOVE MOUSE MOVE MOUSE MOVE\n");
+				  
 				  if (select_point == 0)
 				  {
 					  APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
@@ -552,8 +551,16 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 					  APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
 				  }
 			  }
+			  if (isall == true)
+			  {
+				  //APolyline_array[select_num].moveAll(point.x, point.y);
+			  }
+
+
+
 			  Invalidate();
-			  break;
+			  return;
+
 	}
 	case DL:
 	{
@@ -686,6 +693,8 @@ void CMFCApplication1View::OnDpoly()
 	else
 	{
 		//나중에 툴바 눌러진 모양으로 바꿀꺼면 여기에 코드 추가
+		mode = S;
+		bpoly_new = false;
 		bpoly_status = false;
 		mode = 100;
 	}
@@ -878,8 +887,20 @@ void CMFCApplication1View::OnDelete()
 			Invalidate();
 			break;
 		case DP:
+			TRACE("fadfhkasd;klfjf;lasaskjdf\n");
+			TRACE("%d", select_point);
+			if (ispoint)
+			{
+				TRACE("fadfhkasd;klfjf;lasaskjdf\n");
+				APolyline_array[select_num].eraseAt(select_point);
+				select_mode = 100;
+				Invalidate();
+				return;
+			}
+			TRACE("%d", select_num);
 			befer_num = APolyline_array.GetSize();
 			APolyline_array.RemoveAt(select_num);
+			ispoint = false;
 			select_mode = 100;
 			Invalidate();
 			break;

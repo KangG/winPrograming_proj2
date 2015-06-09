@@ -21,8 +21,7 @@ public:
 	void next(Point point);
 	void move(int x, int y, int index);
 	void moveAll(int x, int y);
-	void eraseAt(int index, Point point);
-	void eraseAll();
+	void eraseAt(int index);
 	void draw(CDC* dc);
 	void APolyline::DrawSelectLine(CDC *pDC);
 
