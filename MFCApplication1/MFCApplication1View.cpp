@@ -32,6 +32,9 @@
 #define MT 9		//text 옮기기
 #define MP 10		//polyline 옮기기
 
+#define GG 11		//그룹화
+
+
 // CMFCApplication1View
 
 IMPLEMENT_DYNCREATE(CMFCApplication1View, CView)
@@ -62,6 +65,7 @@ BEGIN_MESSAGE_MAP(CMFCApplication1View, CView)
 	ON_COMMAND(ID_font, &CMFCApplication1View::OnFont)
 	ON_COMMAND(ID_pattern, &CMFCApplication1View::OnPattern)
 	ON_COMMAND(ID_Thick, &CMFCApplication1View::OnThick)
+	ON_COMMAND(ID_GROUP, &CMFCApplication1View::OnGroup)
 END_MESSAGE_MAP()
 
 // CMFCApplication1View 생성/소멸
@@ -240,6 +244,13 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	switch (mode)
 	{
+	case GG:
+	{
+			   ARectangle* temp_r = new ARectangle();
+			   //temp_r->setStart_x()
+
+
+	}
 	case DL:
 	{
 			   Line* l = new Line();
@@ -1276,4 +1287,13 @@ void CMFCApplication1View::OnThick()
 		}
 		Invalidate();
 	}
+}
+
+
+void CMFCApplication1View::OnGroup()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	group_status = true;
+	mode = GG;
+
 }
