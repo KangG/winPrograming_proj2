@@ -15,6 +15,7 @@ protected: // serialization에서만 만들어집니다.
 
 // 특성입니다.
 public:
+	CPoint temp;
 	CArray<TCHAR, TCHAR> m_str;
 	CArray<Text, Text&> Text_array;		//Text 객체를 저장할배열
 	CArray<Line, Line&> Line_array;						//Line 객체를 저장할배열

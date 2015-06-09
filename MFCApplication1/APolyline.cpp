@@ -87,11 +87,11 @@ void APolyline::moveAll(int x, int y)
 		{
 			for (int i = 0; i<nArraySize; i++) //모든 좌표를 dX, dY만큼 이동
 			{
-				poly_array[i].setStart_x(poly_array[i].getStart_x() + x);
-				poly_array[i].setStart_y(poly_array[i].getStart_y() + y);//dx, dy만큼 이동한 좌표를 다시 배열에 지정
+				this->poly_array[i].setStart_x(this->poly_array[i].getStart_x() + x);
+				this->poly_array[i].setStart_y(this->poly_array[i].getStart_y() + y);//dx, dy만큼 이동한 좌표를 다시 배열에 지정
 			}
-			poly_array[nArraySize].setEnd_x(poly_array[nArraySize].getEnd_x() + x);
-			poly_array[nArraySize].setEnd_y(poly_array[nArraySize].getEnd_y() + y);
+			this->poly_array[nArraySize].setEnd_x(this->poly_array[nArraySize].getEnd_x() + x);
+			this->poly_array[nArraySize].setEnd_y(this->poly_array[nArraySize].getEnd_y() + y);
 		}
 		//FindStartEndPt();
 }
@@ -139,13 +139,13 @@ void APolyline::DrawSelectLine(CDC *pDC)
 	CPen* oldPen = pDC->SelectObject(&pen);
 
 	//점선으로 라인 모양대로 테두리를 그림
-	for (int i = 0; i<poly_array.GetSize(); i += 4 /* 점 4개씩 사용하므로 */) //라인 하나마다 점선 테두리를 그림
+	for (int i = 0; i<poly_array.GetSize()-1; i ++) //라인 하나마다 점선 테두리를 그림
 	{
 		CPoint sPt[4]; //라인하나 당 테두리를 그리려면 4개의 점이 필요
-		for (int j = 0; j < 4; j++)
-		{
-			sPt[j].SetPoint(point_array[i].getX(), point_array[i].getY()); //점 하나씩 sPt에 지정
-		}
+		sPt[0].SetPoint(poly_array[i].getStart_x() - 2, poly_array[i].getStart_y() - 2); //점 하나씩 sPt에 지정
+		sPt[1].SetPoint(poly_array[i].getStart_x() + 2, poly_array[i].getStart_y() + 2);
+		sPt[2].SetPoint(poly_array[i].getEnd_x() - 2, poly_array[i].getEnd_y() - 2);
+		sPt[3].SetPoint(poly_array[i].getEnd_x() - 2, poly_array[i].getEnd_y() - 2);
 		pDC->Polygon(sPt, 4); //테두리 그리기
 	}
 
