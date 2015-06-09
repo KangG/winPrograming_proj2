@@ -458,6 +458,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							//	8		9		6
 							//	l				l
 							//	4 ----- 7 ----- 3
+							//점옮기기
 							if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
 								&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
 							{
@@ -483,6 +484,10 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 								AEll_array[i].setStart_x(x2);
 								}
 
+							//선옮기기
+
+
+							//전체 옮기기
 							else
 							{
 								move_select = 9;		//선 전체 옮기기

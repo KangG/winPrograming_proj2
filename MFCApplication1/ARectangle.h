@@ -17,7 +17,7 @@ public:
 	void setPattern(int pattern);
 	int getPattern();
 
-	void move(int move_select, CPoint point, CPoint prev);
+	void move(int move_select, CPoint point, CPoint &prev);
 
 	void draw(CDC* dc, int x, int y);
 
