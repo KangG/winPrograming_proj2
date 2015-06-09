@@ -454,9 +454,9 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							prev.y = point.y;
 								//뭐선택했는지 판단
 							//	1 ----- 5 ----- 2
-							//	l				l
+							//	ㅣ				ㅣ
 							//	8		9		6
-							//	l				l
+							//	ㅣ				ㅣ
 							//	4 ----- 7 ----- 3
 							//점옮기기
 							if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
@@ -547,7 +547,7 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							mode = MP;
 							isall = true;
 							select_mode = DP;
-							select_num = j;
+							select_num = i;
 							move_select = 3;
 							return;
 						}

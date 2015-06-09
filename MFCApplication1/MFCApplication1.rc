@@ -17,7 +17,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 한국어(대한민국) resources
+// Korean (Korea) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
 LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
@@ -130,6 +130,7 @@ BEGIN
     SEPARATOR
     BUTTON      ID_DT
     BUTTON      ID_BUTTON32781
+    BUTTON      ID_BUTTON32792
     SEPARATOR
     BUTTON      ID_BUTTON32782
     BUTTON      ID_BUTTON32783
@@ -534,7 +535,7 @@ BEGIN
     ID_Delete               "도형을 삭제합니다."
 END
 
-#endif    // 한국어(대한민국) resources
+#endif    // Korean (Korea) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
