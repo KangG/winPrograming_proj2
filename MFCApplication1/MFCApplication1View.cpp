@@ -447,6 +447,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 
 
 		}
+		select_mode = 0;
+			select_num = -1;
 	}
 	}
 }
@@ -540,6 +542,7 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 void CMFCApplication1View::OnDline()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	Invalidate();
 	mode = DL;
 	select_mode = 0;
 	select_num = -1;
@@ -563,6 +566,7 @@ void CMFCApplication1View::OnDline()
 void CMFCApplication1View::OnDrect()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	Invalidate();
 	mode = DR;
 	select_mode = 0;
 	select_num = -1;
@@ -586,6 +590,7 @@ void CMFCApplication1View::OnDrect()
 void CMFCApplication1View::OnDell()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	Invalidate();
 	mode = DE;
 	select_mode = 0;
 	select_num = -1;
@@ -609,6 +614,7 @@ void CMFCApplication1View::OnDell()
 void CMFCApplication1View::OnDpoly()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	Invalidate();
 	mode = DP;
 	select_mode = 0;
 	select_num = -1;
@@ -632,6 +638,7 @@ void CMFCApplication1View::OnDpoly()
 void CMFCApplication1View::OnDtext()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	Invalidate();
 	mode = DT;
 	select_mode = 0;
 	select_num = -1;
