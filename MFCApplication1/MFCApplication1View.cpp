@@ -190,7 +190,6 @@ void CMFCApplication1View::OnPaint()
 		
 		if (select_mode == DP)
 		{
-			TRACE("checking22222222222\n");
 			APolyline_array[select_num].DrawSelectLine(&dc);
 		}
 		APolyline_array[i].draw(&dc);
@@ -452,9 +451,9 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							prev.y = point.y;
 								//뭐선택했는지 판단
 							//	1 ----- 5 ----- 2
-							//	l				l
+							//	ㅣ				ㅣ
 							//	8		9		6
-							//	l				l
+							//	ㅣ				ㅣ
 							//	4 ----- 7 ----- 3
 							//점옮기기
 							if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
@@ -542,10 +541,9 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						if (((point.x >= x1 - 5 && point.x <= x2 + 5) || (point.x >= x2 - 5 && point.x <= x1 + 5))
 							&& ((point.y >= g*(point.x - x1) + y1 - 5) && (point.y <= g*(point.x - x1) + y1 + 5)))
 						{
-							TRACE("checking111111111\n");
 							mode = MP;
-							isall = true;			
-							select_mode = DP;			
+							isall = true;
+							select_mode = DP;
 							select_num = i;				//선택된 폴리라인의 순번채크용
 							//move_select = 3;			//전체이동의 모드이기때문에
 							Invalidate();
@@ -647,7 +645,7 @@ void CMFCApplication1View::OnLButtonUp(UINT nFlags, CPoint point)
 		{
 			for (int i = 0; i < APolyline_array[select_num].poly_array.GetSize(); i++)
 				APolyline_array[select_num].poly_array[i].move(move_select, point, prev);
-		}
+	}
 		mode = S;
 		break;
 
@@ -767,7 +765,6 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 	{
 		if (ispoint)
 		{
-			TRACE("ispoint!!!!!!!!!!\n");
 			if (select_point == 0)
 			{
 				APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
@@ -784,9 +781,9 @@ void CMFCApplication1View::OnMouseMove(UINT nFlags, CPoint point)
 				APolyline_array[select_num].poly_array[select_point].draw_start(&dc, point.x, point.y);
 			}
 		}
-		Invalidate();
-		return;
-	}
+			Invalidate();
+			return;
+		}
 	}
 	CView::OnMouseMove(nFlags, point);
 }
@@ -1105,7 +1102,7 @@ void CMFCApplication1View::OnRButtonDown(UINT nFlags, CPoint point)
 					  {
 						  double x1, x2, y1, y2;
 						  double g;			//greadient 기울기
-
+	
 						  x1 = APolyline_array[i].poly_array[j].getStart_x();
 						  x2 = APolyline_array[i].poly_array[j].getEnd_x();
 						  y1 = APolyline_array[i].poly_array[j].getStart_y();
@@ -1165,16 +1162,17 @@ void CMFCApplication1View::OnDelete()
 			Invalidate();
 			break;
 		case DP:
-			TRACE("%d\n", select_point);
+			TRACE("fadfhkasd;klfjf;lasaskjdf\n");
+			TRACE("%d", select_point);
 			if (ispoint)
 			{
-				TRACE("isisisisisisisis\n");
+				TRACE("fadfhkasd;klfjf;lasaskjdf\n");
 				APolyline_array[select_num].eraseAt(select_point);
 				select_mode = 100;
 				Invalidate();
 				return;
 			}
-			TRACE("next\n");
+			TRACE("%d", select_num);
 			befer_num = APolyline_array.GetSize();
 			APolyline_array.RemoveAt(select_num);
 			ispoint = false;
