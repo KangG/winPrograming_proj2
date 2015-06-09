@@ -458,9 +458,9 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							//	8		9		6
 							//	l				l
 							//	4 ----- 7 ----- 3
-								if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
-									&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
-								{
+							if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
+								&& ((point.y >= y1 - 5) && (point.y <= y1 + 5)))
+							{
 								move_select = 1;		//1번점 옮기기
 								AEll_array[i].setStart_x(x2);
 								AEll_array[i].setStart_y(y2);
@@ -471,9 +471,9 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 								move_select = 2;		//2번점 옮기기
 								AEll_array[i].setStart_y(y2);
 								}
-								else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
-									&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
-								{
+							else if (((point.x >= x2 - 5) && (point.x <= x2 + 5))
+								&& ((point.y >= y2 - 5) && (point.y <= y2 + 5)))
+							{
 								move_select = 3;		//3번점 옮기기
 							}
 							else if (((point.x >= x1 - 5) && (point.x <= x1 + 5))
@@ -483,11 +483,11 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 								AEll_array[i].setStart_x(x2);
 								}
 
-								else
-								{
+							else
+							{
 								move_select = 9;		//선 전체 옮기기
-								}
-								return;
+							}
+							return;
 							}
 							else
 							{
