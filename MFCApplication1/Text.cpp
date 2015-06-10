@@ -18,20 +18,20 @@ Text& Text::operator=(const Text &t){
 void Text::setStart_x(int x){
 	this->start_x = x;
 	rect.setStart_x(x);
-	r.left = x + 3;
+	r.left =x;
 }
 void Text::setStart_y(int y){
 	this->start_y = y;
 	rect.setStart_y(y);
-	r.top = y + 3;
+	r.top = y;
 }
 void Text::setEnd_x(int x){
-	this->end_x = x - 5;
+	this->end_x = x;
 	rect.setEnd_x(x);
 	r.right = x;
 }
 void Text::setEnd_y(int y){
-	this->end_y = y - 5;
+	this->end_y = y;
 	rect.setEnd_y(y);
 	r.bottom = y;
 }
@@ -77,32 +77,36 @@ COLORREF Text::getColor(){
 	return this->color_t;
 }
 
-void Text::setThick(double thick){
-	this->thick = thick;
-}
-double Text::getThick(){
-	return this->thick;
-}
-
-void Text::setPattern(int pattern){
-	this->pattern = pattern;
-}
-
-int Text::getPattern(){
-	return this->pattern;
-}
-
 void Text::draw(CDC* dc, int x, int y){
+	setEnd_x(x);
+	setEnd_y(y);
 	rect.draw(dc, getEnd_x(), getEnd_y());
-	r.bottom = y;
-	r.right = x;
 	dc->SetTextColor(color_t);
 	dc->SetBkColor(color_b);
 	dc->DrawText(m_str.GetData(), m_str.GetCount(), &r, DT_LEFT);
 }
 
 void Text::move(int move_select, CPoint point, CPoint &prev){
-	rect.move(move_select, point, prev);
+	if (move_select >= 1 && move_select <= 4)			//start_x, start_y를 클릭
+	{
+		setEnd_x( point.x);
+		end_y;  point.y;
+	}
+	else if (move_select >= 5 && move_select <= 8)			//end_x, end_y를 클릭
+	{
+		setEnd_x(point.x); 
+		setEnd_y(point.y);
+	}
+	else if(move_select==9)			//사각형 안의 점 클릭
+	{
+		setStart_x(getStart_x()+( point.x - prev.x));
+		setStart_y(getStart_y()+(point.y - prev.y));
+		setEnd_x(getEnd_x()+(point.x - prev.x));
+		setEnd_y(getEnd_y()+ (point.y - prev.y));
+
+		prev.x = point.x;
+		prev.y = point.y;
+	}
 }
 
 void Text::erase(){}
@@ -114,6 +118,48 @@ COLORREF Text::getBkColor(void){
 	return this->color_b;
 }
 
+void Text::setThick(double thick)
+{
+	rect.setThick(thick);
+}
+
+double Text::getThick()
+{
+	return rect.getThick();
+}
+
+void Text::setPattern(int pattern){
+	rect.setPattern(pattern);
+}
+int Text::getPattern(){
+	return rect.getPattern();
+}
+void Text::setPattern2(int pattern2){
+	rect.setPattern2(pattern2);
+}
+int Text::getPattern2(){
+	return rect.getPattern2();
+}
+
+void Text::setColor_l(COLORREF rgb)
+{
+	rect.setColor_l(rgb);
+}
+
+COLORREF Text::getColor_l()
+{
+	return rect.getColor_l();
+}
+
+void Text::setColor_s(COLORREF rgb)
+{
+	rect.setColor_s(rgb);
+}
+
+COLORREF Text::getColor_s()
+{
+	return rect.getColor_s();
+}
 void Text::DrawSelect(CDC *pDC)
 {
 	//그리기 속성 설정
@@ -132,6 +178,12 @@ void Text::DrawSelect(CDC *pDC)
 	pDC->Ellipse(end_x - 5, end_y - 5, end_x + 5, end_y + 5);
 	pDC->Ellipse(start_x - 5, end_y - 5, start_x + 5, end_y + 5);
 	pDC->Ellipse(end_x - 5, start_y - 5, end_x + 5, start_y + 5);
+
+	//선 중앙에 점을 그림
+	pDC->Ellipse((start_x + end_x) / 2 - 5, start_y - 5, (start_x + end_x) / 2 + 5, start_y + 5);
+	pDC->Ellipse((start_x + end_x) / 2 - 5, end_y - 5, (start_x + end_x) / 2 + 5, end_y + 5);
+	pDC->Ellipse(start_x - 5, (start_y + end_y) / 2 - 5, start_x + 5, (start_y + end_y) / 2 + 5);
+	pDC->Ellipse(end_x - 5, (start_y + end_y) / 2 - 5, end_x + 5, (start_y + end_y) / 2 + 5);
 
 	//이전 펜과 브러쉬 속성으로 되돌림
 	pDC->SelectObject(oldPen);
