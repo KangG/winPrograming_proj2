@@ -107,31 +107,37 @@ void APolyline::moveAll(int x, int y)
 void APolyline::eraseAt(int index)
 {
 	Point temp = point_array.GetAt(index);
-
+	if (index == point_array.GetSize()-1)
+	{
+		TRACE("yes\n");
+		poly_array.RemoveAt(poly_array.GetSize() - 1);
+		point_array.RemoveAt(poly_array.GetSize());
+		return;
+	}
 	for (int i = 0; i < poly_array.GetSize(); i++)
 	{
 		if ((temp.getX() == poly_array[i].getStart_x()) &&
 			(temp.getY() == poly_array[i].getStart_y()))
 		{
+			TRACE("NO\n");
 			if (i == 0)
 			{
 				poly_array.RemoveAt(i);
 				point_array.RemoveAt(i);
 				return;
 			}
+			
 			poly_array.RemoveAt(i);
 			point_array.RemoveAt(i);
 			poly_array[i - 1].setEnd_x(poly_array[i].getStart_x());
 			poly_array[i - 1].setEnd_y(poly_array[i].getStart_y());
 			return;
 		}
-		else
-		{
-			poly_array.RemoveAt(poly_array.GetSize()-1);
-			point_array.RemoveAt(poly_array.GetSize());
-			return;
-		}
+
 	}
+	
+	
+	
 }
 
 APolyline::~APolyline()
