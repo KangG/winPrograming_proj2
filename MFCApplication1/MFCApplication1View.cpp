@@ -240,7 +240,7 @@ void CMFCApplication1View::OnPaint()
 		if (select_mode == DT && !group_status)
 		{
 			pDoc->Text_array[select_num].DrawSelect(&dc);
-		}
+}
 		pDoc->Text_array[i].draw(&dc, pDoc->Text_array[i].getEnd_x(), pDoc->Text_array[i].getEnd_y());
 	}
 }
@@ -1413,7 +1413,7 @@ void CMFCApplication1View::OnPattern()
 		dlg.pattern1 = 0;
 		dlg.pattern2 = -1;
 	}
-
+		
 	int result = dlg.DoModal();
 	if (result == IDOK)
 	{
@@ -1445,29 +1445,29 @@ void CMFCApplication1View::OnPattern()
 		}
 		else
 		{
-			if (select_mode == DL)
-			{
-				pDoc->Line_array[select_num].setPattern(pattern1);
-			}
-			else if (select_mode == DR)
-			{
-				pDoc->ARect_array[select_num].setPattern(pattern1);
-				pDoc->ARect_array[select_num].setPattern2(pattern2);
-			}
-			else if (select_mode == DE)
-			{
-				pDoc->AEll_array[select_num].setPattern(pattern1);
-				pDoc->AEll_array[select_num].setPattern2(pattern2);
-			}
-			else if (select_mode == DT)
-			{
-				pDoc->Text_array[select_num].setPattern(pattern1);
-				pDoc->Text_array[select_num].setPattern2(pattern2);
-			}
-			else if (select_mode == DP)
-			{
-				pDoc->APolyline_array[select_num].setPattern(pattern1);
-			}
+		if (select_mode == DL)
+		{
+			pDoc->Line_array[select_num].setPattern(pattern1);
+		}
+		else if (select_mode == DR)
+		{
+			pDoc->ARect_array[select_num].setPattern(pattern1);
+			pDoc->ARect_array[select_num].setPattern2(pattern2);
+		}
+		else if (select_mode == DE)
+		{
+			pDoc->AEll_array[select_num].setPattern(pattern1);
+			pDoc->AEll_array[select_num].setPattern2(pattern2);
+		}
+		else if (select_mode == DT)
+		{
+			pDoc->Text_array[select_num].setPattern(pattern1);
+			pDoc->Text_array[select_num].setPattern2(pattern2);
+		}
+		else if (select_mode == DP)
+		{
+			pDoc->APolyline_array[select_num].setPattern(pattern1);
+		}
 		}
 		Invalidate();
 	}
@@ -1491,7 +1491,7 @@ void CMFCApplication1View::OnThick()
 		pDoc->Text_array[select_num].getThick();
 	else if (select_mode == DP)
 		pDoc->APolyline_array[select_num].getThick();
-
+	
 	if (group_status)
 		dlg.l_size = -1;
 	
@@ -1522,26 +1522,26 @@ void CMFCApplication1View::OnThick()
 		}
 		else
 		{
-			if (select_mode == DL)
-			{
-				pDoc->Line_array[select_num].setThick(l_size);
-			}
-			else if (select_mode == DR)
-			{
-				pDoc->ARect_array[select_num].setThick(l_size);
-			}
-			else if (select_mode == DE)
-			{
-				pDoc->AEll_array[select_num].setThick(l_size);
-			}
-			else if (select_mode == DT)
-			{
-				pDoc->Text_array[select_num].setThick(l_size);
-			}
-			else if (select_mode == DP)
-			{
-				pDoc->APolyline_array[select_num].setThick(l_size);
-			}
+		if (select_mode == DL)
+		{
+			pDoc->Line_array[select_num].setThick(l_size);
+		}
+		else if (select_mode == DR)
+		{
+			pDoc->ARect_array[select_num].setThick(l_size);
+		}
+		else if (select_mode == DE)
+		{
+			pDoc->AEll_array[select_num].setThick(l_size);
+		}
+		else if (select_mode == DT)
+		{
+			pDoc->Text_array[select_num].setThick(l_size);
+		}
+		else if (select_mode == DP)
+		{
+			pDoc->APolyline_array[select_num].setThick(l_size);
+		}
 		}
 		Invalidate();
 	}
@@ -1555,7 +1555,7 @@ void CMFCApplication1View::OnGroup()
 
 	if (group_status == false)
 	{
-		group_status = true;
+	group_status = true;
 		CGroup* gr = new CGroup();
 		pDoc->group_array.Add(*gr);
 		current_g = pDoc->group_array.GetCount() - 1;
@@ -1585,3 +1585,18 @@ void CMFCApplication1View::OnBgcolor()
 
 	Invalidate();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
