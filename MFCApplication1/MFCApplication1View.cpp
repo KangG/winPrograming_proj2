@@ -1440,3 +1440,18 @@ void CMFCApplication1View::OnBgcolor()
 
 	Invalidate();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
