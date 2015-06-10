@@ -79,6 +79,7 @@ CMFCApplication1View::CMFCApplication1View()
 	current_r = -1;
 	current_e = -1;
 	current_p = -1;
+	current_g = -1;
 	move = false;
 
 	//Thick 다이얼로그 변수
@@ -180,39 +181,66 @@ void CMFCApplication1View::OnPaint()
 	dc.SelectStockObject(NULL_BRUSH);
 	//dc.SetROP2(R2_COPYPEN);
 
+	if (group_status)
+	{
+		for (int j = 0; j < pDoc->group_array.GetSize(); j++)
+		{
+			for (int i = 0; i < pDoc->group_array[j].line.GetSize(); i++) {
+					pDoc->group_array[j].line[i].DrawSelect(&dc);
+					pDoc->group_array[j].line[i].draw(&dc, pDoc->group_array[j].line[i].getEnd_x(), pDoc->group_array[j].line[i].getEnd_y());
+			}
+			for (int i = 0; i < pDoc->group_array[j].rect.GetSize(); i++) {
+					pDoc->group_array[j].rect[i].DrawSelect(&dc);
+					pDoc->group_array[j].rect[i].draw(&dc, pDoc->group_array[j].rect[i].getEnd_x(), pDoc->group_array[j].rect[i].getEnd_y());
+			}
+			for (int i = 0; i < pDoc->group_array[j].ell.GetSize(); i++) {	
+					pDoc->group_array[j].ell[i].DrawSelect(&dc);
+					pDoc->group_array[j].ell[i].draw(&dc, pDoc->group_array[j].ell[i].getEnd_x(), pDoc->group_array[j].ell[i].getEnd_y());
+			}
+			for (int i = 0; i < pDoc->group_array[j].poly.GetCount(); i++) {
+					pDoc->group_array[j].poly[i].DrawSelectLine(&dc);
+					pDoc->group_array[j].poly[i].draw(&dc);
+			}
+			for (int i = 0; i < pDoc->group_array[j].text.GetSize(); i++) {
+					pDoc->group_array[j].text[i].DrawSelect(&dc);
+					pDoc->group_array[j].text[i].draw(&dc, pDoc->group_array[j].text[i].getEnd_x(), pDoc->group_array[j].text[i].getEnd_y());
+			}
+		}
+	}
+
 	for (int i = 0; i < pDoc->Line_array.GetSize(); i++) {										//저장된 Line 그리기
-		if (select_mode == DL)
+		if (select_mode == DL && !group_status)
 		{
 			pDoc->Line_array[select_num].DrawSelect(&dc);
 		}
 		pDoc->Line_array[i].draw(&dc, pDoc->Line_array[i].getEnd_x(), pDoc->Line_array[i].getEnd_y());
 	}
 	for (int i = 0; i < pDoc->ARect_array.GetSize(); i++) {										//저장된 Rect 그리기
-		if (select_mode == DR)
+		if (select_mode == DR && !group_status)
 		{
 			pDoc->ARect_array[select_num].DrawSelect(&dc);
 		}
 		pDoc->ARect_array[i].draw(&dc, pDoc->ARect_array[i].getEnd_x(), pDoc->ARect_array[i].getEnd_y());
 	}
 	for (int i = 0; i < pDoc->AEll_array.GetSize(); i++) {										//저장된 Ellipse 그리기
-		if (select_mode == DE)
+		if (select_mode == DE && !group_status)
 		{
 			pDoc->AEll_array[select_num].DrawSelect(&dc);
 		}
 		pDoc->AEll_array[i].draw(&dc, pDoc->AEll_array[i].getEnd_x(), pDoc->AEll_array[i].getEnd_y());
 	}
 	for (int i = 0; i < pDoc->APolyline_array.GetCount(); i++) {
-		if (select_mode == DP)
+		if (select_mode == DP && !group_status)
 		{
 			pDoc->APolyline_array[select_num].DrawSelectLine(&dc);
 		}
 		pDoc->APolyline_array[i].draw(&dc);
 	}
 	for (int i = 0; i < pDoc->Text_array.GetSize(); i++) {
-		if (select_mode == DT)
+		if (select_mode == DT && !group_status)
 		{
 			pDoc->Text_array[select_num].DrawSelect(&dc);
-}
+		}
 		pDoc->Text_array[i].draw(&dc, pDoc->Text_array[i].getEnd_x(), pDoc->Text_array[i].getEnd_y());
 	}
 }
@@ -245,13 +273,6 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	switch (mode)
 	{
-	case GG:
-	{
-			   ARectangle* temp_r = new ARectangle();
-			   //temp_r->setStart_x()
-
-
-	}
 	case DL:
 	{
 			   Line* l = new Line();
@@ -375,6 +396,12 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						{
 							select_mode = DL;
 							select_num = i;
+							if (group_status)
+							{
+								pDoc->group_array[current_g].add_line(pDoc->Line_array[i]);
+								pDoc->Line_array.RemoveAt(select_num);
+								select_num--;
+							}
 							return;
 							
 						}
@@ -443,6 +470,12 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						{
 						select_mode = DR;
 						select_num = i;
+						if (group_status)
+						{
+							pDoc->group_array[current_g].add_rect(pDoc->ARect_array[i]);
+							pDoc->ARect_array.RemoveAt(select_num);
+							select_num--;
+						}
 						return;
 					}
 					}
@@ -516,6 +549,12 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							{
 								select_mode = DE;
 								select_num = i;
+								if (group_status)
+								{
+									pDoc->group_array[current_g].add_ell(pDoc->AEll_array[i]);
+									pDoc->AEll_array.RemoveAt(select_num);
+									select_num--;
+								}
 								return;
 							}
 						}
@@ -572,6 +611,12 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							select_num = i;				//선택된 폴리라인의 순번채크용
 							move_select = 3;			//전체이동의 모드이기때문에
 							Invalidate();
+
+							if (group_status)
+							{
+								pDoc->group_array[current_g].add_poly(pDoc->APolyline_array[i]);
+								select_num--;
+							}
 							return;
 						}
 					}
@@ -640,6 +685,11 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						{
 							select_mode = DT;
 							select_num = i;
+							if (group_status) {
+								pDoc->group_array[current_g].add_text(pDoc->Text_array[i]);
+								pDoc->Text_array.RemoveAt(select_num);
+								select_num--;
+							}
 							return;
 						}
 					}
@@ -1029,6 +1079,26 @@ void CMFCApplication1View::OnOc()
 		#define DT 4		//text 선택
 		#define DP 5		//polyline 선택
 		*/
+		if (group_status)
+		{
+			for (int i = 0; i < pDoc->group_array[0].line.GetSize(); i++) {
+				pDoc->group_array[0].line[i].setColor_l(color);
+			}
+			for (int i = 0; i < pDoc->group_array[0].rect.GetSize(); i++) {
+				pDoc->group_array[0].rect[i].setColor_l(color);
+			}
+			for (int i = 0; i < pDoc->group_array[0].ell.GetSize(); i++) {
+				pDoc->group_array[0].ell[i].setColor_l(color);
+			}
+			for (int i = 0; i < pDoc->group_array[0].poly.GetCount(); i++) {
+				pDoc->group_array[0].poly[i].setColor_l(color);
+			}
+			for (int i = 0; i < pDoc->group_array[0].text.GetSize(); i++) {
+				pDoc->group_array[0].text[i].setColor_l(color);
+			}
+			Invalidate();
+			return;
+		}
 		switch (select_mode)
 		{
 		case DL:
@@ -1080,6 +1150,20 @@ void CMFCApplication1View::OnIc()
 		#define DT 4		//text 선택
 		#define DP 5		//polyline 선택
 		*/
+		if (group_status)
+		{
+			for (int i = 0; i < pDoc->group_array[0].rect.GetSize(); i++) {
+				pDoc->group_array[0].rect[i].setColor_s(color);
+			}
+			for (int i = 0; i < pDoc->group_array[0].ell.GetSize(); i++) {
+				pDoc->group_array[0].ell[i].setColor_s(color);
+			}
+			for (int i = 0; i < pDoc->group_array[0].text.GetSize(); i++) {
+				pDoc->group_array[0].text[i].setColor_s(color);
+			}
+			Invalidate();
+			return;
+		}
 		switch (select_mode)
 		{
 		case DL:
@@ -1324,34 +1408,66 @@ void CMFCApplication1View::OnPattern()
 	else
 		dlg.pattern2 = -1;
 		
+	if (group_status)
+	{
+		dlg.pattern1 = 0;
+		dlg.pattern2 = -1;
+	}
+
 	int result = dlg.DoModal();
 	if (result == IDOK)
 	{
 		pattern1 = dlg.pattern1;
 		pattern2 = dlg.pattern2-1;
 		//선택한 객체의 패턴 변수를 가져와서 pattern1으로 바꿔준다.
-		if (select_mode == DL)
+		if (group_status)
 		{
-			pDoc->Line_array[select_num].setPattern(pattern1);
+			for (int i = 0; i < pDoc->group_array[0].line.GetSize(); i++) {
+				pDoc->group_array[0].line[i].setPattern(pattern1);
+			}
+			for (int i = 0; i < pDoc->group_array[0].rect.GetSize(); i++) {
+				pDoc->group_array[0].rect[i].setPattern(pattern1);
+				pDoc->group_array[0].rect[i].setPattern2(pattern2);
+			}
+			for (int i = 0; i < pDoc->group_array[0].ell.GetSize(); i++) {
+				pDoc->group_array[0].ell[i].setPattern(pattern1);
+				pDoc->group_array[0].ell[i].setPattern2(pattern2);
+			}
+			for (int i = 0; i < pDoc->group_array[0].poly.GetCount(); i++) {
+				pDoc->group_array[0].poly[i].setPattern(pattern1);
+			}
+			for (int i = 0; i < pDoc->group_array[0].text.GetSize(); i++) {
+				pDoc->group_array[0].text[i].setPattern(pattern1);
+				pDoc->group_array[0].text[i].setPattern2(pattern2);
+			}
+			Invalidate();
+			return;
 		}
-		else if (select_mode == DR)
+		else
 		{
-			pDoc->ARect_array[select_num].setPattern(pattern1);
-			pDoc->ARect_array[select_num].setPattern2(pattern2);
-		}
-		else if (select_mode == DE)
-		{
-			pDoc->AEll_array[select_num].setPattern(pattern1);
-			pDoc->AEll_array[select_num].setPattern2(pattern2);
-		}
-		else if (select_mode == DT)
-		{
-			pDoc->Text_array[select_num].setPattern(pattern1);
-			pDoc->Text_array[select_num].setPattern2(pattern2);
-		}
-		else if (select_mode == DP)
-		{
-			pDoc->APolyline_array[select_num].setPattern(pattern1);
+			if (select_mode == DL)
+			{
+				pDoc->Line_array[select_num].setPattern(pattern1);
+			}
+			else if (select_mode == DR)
+			{
+				pDoc->ARect_array[select_num].setPattern(pattern1);
+				pDoc->ARect_array[select_num].setPattern2(pattern2);
+			}
+			else if (select_mode == DE)
+			{
+				pDoc->AEll_array[select_num].setPattern(pattern1);
+				pDoc->AEll_array[select_num].setPattern2(pattern2);
+			}
+			else if (select_mode == DT)
+			{
+				pDoc->Text_array[select_num].setPattern(pattern1);
+				pDoc->Text_array[select_num].setPattern2(pattern2);
+			}
+			else if (select_mode == DP)
+			{
+				pDoc->APolyline_array[select_num].setPattern(pattern1);
+			}
 		}
 		Invalidate();
 	}
@@ -1375,31 +1491,57 @@ void CMFCApplication1View::OnThick()
 		pDoc->Text_array[select_num].getThick();
 	else if (select_mode == DP)
 		pDoc->APolyline_array[select_num].getThick();
+
+	if (group_status)
+		dlg.l_size = -1;
 	
 	int result = dlg.DoModal();
 	if (result == IDOK)
 	{
 		l_size = dlg.l_size;
 		//선택한 객체의 선굵기 변수를 가져와서 m_str으로 바꿔준다.
-		if (select_mode == DL)
+		if (group_status)
 		{
-			pDoc->Line_array[select_num].setThick(l_size);
+			for (int i = 0; i < pDoc->group_array[0].line.GetSize(); i++) {
+				pDoc->group_array[0].line[i].setThick(l_size);
+			}
+			for (int i = 0; i < pDoc->group_array[0].rect.GetSize(); i++) {
+				pDoc->group_array[0].rect[i].setThick(l_size);
+			}
+			for (int i = 0; i < pDoc->group_array[0].ell.GetSize(); i++) {
+				pDoc->group_array[0].ell[i].setThick(l_size);
+			}
+			for (int i = 0; i < pDoc->group_array[0].poly.GetCount(); i++) {
+				pDoc->group_array[0].poly[i].setThick(l_size);
+			}
+			for (int i = 0; i < pDoc->group_array[0].text.GetSize(); i++) {
+				pDoc->group_array[0].text[i].setThick(l_size);
+			}
+			Invalidate();
+			return;
 		}
-		else if (select_mode == DR)
+		else
 		{
-			pDoc->ARect_array[select_num].setThick(l_size);
-		}
-		else if (select_mode == DE)
-		{
-			pDoc->AEll_array[select_num].setThick(l_size);
-		}
-		else if (select_mode == DT)
-		{
-			pDoc->Text_array[select_num].setThick(l_size);
-		}
-		else if (select_mode == DP)
-		{
-			pDoc->APolyline_array[select_num].setThick(l_size);
+			if (select_mode == DL)
+			{
+				pDoc->Line_array[select_num].setThick(l_size);
+			}
+			else if (select_mode == DR)
+			{
+				pDoc->ARect_array[select_num].setThick(l_size);
+			}
+			else if (select_mode == DE)
+			{
+				pDoc->AEll_array[select_num].setThick(l_size);
+			}
+			else if (select_mode == DT)
+			{
+				pDoc->Text_array[select_num].setThick(l_size);
+			}
+			else if (select_mode == DP)
+			{
+				pDoc->APolyline_array[select_num].setThick(l_size);
+			}
 		}
 		Invalidate();
 	}
@@ -1409,9 +1551,19 @@ void CMFCApplication1View::OnThick()
 void CMFCApplication1View::OnGroup()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	group_status = true;
-	mode = GG;
+	CMFCApplication1Doc* pDoc = GetDocument();
 
+	if (group_status == false)
+	{
+		group_status = true;
+		CGroup* gr = new CGroup();
+		pDoc->group_array.Add(*gr);
+		current_g = pDoc->group_array.GetCount() - 1;
+	}
+	else
+	{
+		group_status = false;
+	}
 }
 
 

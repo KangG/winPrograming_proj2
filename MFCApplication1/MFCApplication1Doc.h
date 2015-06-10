@@ -1,11 +1,7 @@
 
 // MFCApplication1Doc.h : CMFCApplication1Doc 클래스의 인터페이스
 //
-#include "Text.h"
-#include "Line.h"
-#include "AEllipse.h"
-#include "APolyline.h"
-#include "ARectangle.h"
+#include "Group.h"
 #pragma once
 
 
@@ -24,6 +20,7 @@ public:
 	CArray<ARectangle, ARectangle&> ARect_array;		//Rect 객체를 저장할배열
 	CArray<AEllipse, AEllipse&> AEll_array;				//Ellipse 객체를 저장할배열
 	CArray<APolyline, APolyline&> APolyline_array;		//PolyLine 객체를 저장할배열
+	CArray<CGroup, CGroup&> group_array;
 // 작업입니다.
 public:
 

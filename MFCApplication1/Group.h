@@ -7,8 +7,6 @@
 #include "Text.h"
 
 
-
-
 class CGroup
 {
 public:

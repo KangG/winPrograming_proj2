@@ -34,6 +34,7 @@ public:
 	int current_e;		//Ellipse 현재 배열번호
 	int current_p;		//poly 현재 배열번호
 	int current_t;		//Text 현재 배열번호
+	int current_g;
 	bool move;
 
 
