@@ -32,11 +32,22 @@ public:
 	void setThick(double thick);
 	double getThick();
 
-	void setPattern(int pattern);
-	int getPattern();
 	void move(int move_select, CPoint point, CPoint &prev);
 	void draw(CDC* dc, int x, int y);
 	void erase();
+
+
+
+	void setPattern(int pattern);
+	int getPattern();
+	void setPattern2(int pattern2);
+	int getPattern2();
+
+
+	void setColor_l(COLORREF rgb);
+	COLORREF getColor_l();
+	void setColor_s(COLORREF rgb);
+	COLORREF getColor_s();
 
 	ARectangle rect;
 
@@ -55,6 +66,5 @@ private:
 	int start_y;
 	int end_x;
 	int end_y;
-
 
 };
