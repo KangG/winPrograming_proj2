@@ -400,7 +400,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							{
 								pDoc->group_array[current_g].add_line(pDoc->Line_array[i]);
 								pDoc->Line_array.RemoveAt(select_num);
-								select_num--;
+								select_mode = GG;
+								select_num == current_g;
 							}
 							return;
 							
@@ -474,7 +475,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 						{
 							pDoc->group_array[current_g].add_rect(pDoc->ARect_array[i]);
 							pDoc->ARect_array.RemoveAt(select_num);
-							select_num--;
+							select_mode = GG;
+							select_num == current_g;
 						}
 						return;
 					}
@@ -553,7 +555,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 								{
 									pDoc->group_array[current_g].add_ell(pDoc->AEll_array[i]);
 									pDoc->AEll_array.RemoveAt(select_num);
-									select_num--;
+									select_mode = GG;
+									select_num == current_g;
 								}
 								return;
 							}
@@ -615,7 +618,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							if (group_status)
 							{
 								pDoc->group_array[current_g].add_poly(pDoc->APolyline_array[i]);
-								select_num--;
+								select_mode = GG;
+								select_num == current_g;
 							}
 							return;
 						}
@@ -688,7 +692,8 @@ void CMFCApplication1View::OnLButtonDown(UINT nFlags, CPoint point)
 							if (group_status) {
 								pDoc->group_array[current_g].add_text(pDoc->Text_array[i]);
 								pDoc->Text_array.RemoveAt(select_num);
-								select_num--;
+								select_mode = GG;
+								select_num == current_g;
 							}
 							return;
 						}
@@ -1313,7 +1318,8 @@ void CMFCApplication1View::OnDelete()
 	CMFCApplication1Doc* pDoc = GetDocument();
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	if (mode == S){
-		if (group_status == 1){
+		switch (select_mode){
+		case GG:
 			for (int i = 0; i < pDoc->group_array[0].line.GetSize(); i++) {
 				pDoc->group_array[0].line.RemoveAt(i);
 			}
@@ -1331,13 +1337,14 @@ void CMFCApplication1View::OnDelete()
 			}
 			group_status = false;
 			Invalidate();
+			select_mode = 100;
+			select_num = -1;
 			return;
-		}
-		switch (select_mode){
 		case DL:
 			befer_num = pDoc->Line_array.GetSize();
 			pDoc->Line_array.RemoveAt(select_num);
 			select_mode = 100;
+			select_num = -1;
 			Invalidate();
 			break;
 
@@ -1345,18 +1352,21 @@ void CMFCApplication1View::OnDelete()
 			befer_num = pDoc->ARect_array.GetSize();
 			pDoc->ARect_array.RemoveAt(select_num);
 			select_mode = 100;
+			select_num = -1;
 			Invalidate();
 			break;
 		case DE:
 			befer_num = pDoc->AEll_array.GetSize();
 			pDoc->AEll_array.RemoveAt(select_num);
 			select_mode = 100;
+			select_num = -1;
 			Invalidate();
 			break;
 		case DT:
 			befer_num = pDoc->Text_array.GetSize();
 			pDoc->Text_array.RemoveAt(select_num);
 			select_mode = 100;
+			select_num = -1;
 			Invalidate();
 			break;
 		case DP:
@@ -1372,6 +1382,7 @@ void CMFCApplication1View::OnDelete()
 			befer_num = pDoc->APolyline_array.GetSize();
 			pDoc->APolyline_array.RemoveAt(select_num);
 			select_mode = 100;
+			select_num = -1;
 			Invalidate();
 			break;
 		}
